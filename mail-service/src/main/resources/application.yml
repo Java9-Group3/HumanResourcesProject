@@ -1,0 +1,32 @@
+server:
+  port: 9095
+
+spring:
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: hrm
+    password: hrm
+
+  zipkin:
+    enabled: false
+    base-url: http://localhost:9411
+    service:
+      name: mail-service
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${HRM-Mail}
+    password: ${HRM-Mail-Password}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+rabbitmq:
+  auth-exchange: authExchange
+  mail-binding-key: mailKey
+  mail-queue: mailQueue
