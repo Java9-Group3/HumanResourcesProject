@@ -5,4 +5,5 @@ include 'company-service'
 include 'mail-service'
 include 'website-management-service'
 include 'api-gateway-service'
+include 'user-profile-service'
 
