@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import com.hrmG3.repository.enums.EStatus;
+import com.hrmG3.repository.entity.EStatus;
 
 @Data
 @NoArgsConstructor
