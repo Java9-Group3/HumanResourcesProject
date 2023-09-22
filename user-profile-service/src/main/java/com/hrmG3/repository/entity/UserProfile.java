@@ -1,11 +1,12 @@
 package com.hrmG3.repository.entity;
 
+import com.hrmG3.repository.entity.enums.ERole;
+import com.hrmG3.repository.entity.enums.EStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-import com.hrmG3.repository.entity.enums.EStatus;
 
 import java.util.ArrayList;
 import java.util.List;
