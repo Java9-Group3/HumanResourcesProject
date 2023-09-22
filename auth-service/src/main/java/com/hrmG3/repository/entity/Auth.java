@@ -1,10 +1,9 @@
 package com.hrmG3.repository.entity;
 
-import com.hrmG3.repository.enums.EUserType;
 import lombok.*;
-import com.hrmG3.repository.enums.EStatus;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Builder
 @Data
@@ -16,25 +15,20 @@ import javax.persistence.*;
 public class Auth extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String username;
-    private String password;
+    private Long authId;
     @Column(unique = true)
     private String email;
+    private String name;
+    private String middleName;
+    private String surname;
+    private String password;
     private String activationCode;
 
-
+    @ElementCollection(targetClass = ERole.class)
+    @JoinTable(name = "tblRoleTypes", joinColumns = @JoinColumn(name = "authId"))
+    @Column(name = "roleType", nullable = false)
+    private List<ERole> roles;
     @Builder.Default
-    @Enumerated(EnumType.STRING)
-    EUserType userType = EUserType.USER;
-
-
-    @Enumerated(EnumType.STRING)
-    @Builder.Default
-    EStatus status = EStatus.PENDING;
-
-    String taxNo;
-    String companyName;
-
+    private EStatus status = EStatus.PENDING;
 
 }

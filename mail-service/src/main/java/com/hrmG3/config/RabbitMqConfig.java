@@ -8,15 +8,22 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitMqConfig {
 
-    //Mail
-    @Value("${rabbitmq.mail-queue}")
-    private String mailQueueName;
-    @Value("${rabbitmq.mail-binding-key}")
-    private String mailBindingKey;
+    //register mail
+    @Value("${rabbitmq.registerMailQueue}")
+    private String registerMailQueue;
 
     @Bean
-    Queue mailQueue(){
-        return  new Queue(mailQueueName);
+    Queue registerMailQueue(){
+        return new Queue(registerMailQueue);
+    }
+
+    //Visitor hello mail
+    @Value("${rabbitmq.registerMailHelloQueue}")
+    private String registerMailHelloQueue;
+
+    @Bean
+    Queue registerMailHelloQueue(){
+        return new Queue(registerMailHelloQueue);
     }
 
 }

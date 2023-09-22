@@ -5,7 +5,7 @@ import com.hrmG3.repository.entity.UserProfile;
 import com.hrmG3.dto.response.NewCreateVisitorUserResponseDto;
 import com.hrmG3.mapper.IUserProfileMapper;
 import com.hrmG3.repository.IUserProfileRepository;
-import com.hrmG3.repository.entity.enums.ERole;
+import com.hrmG3.repository.entity.ERole;
 import com.hrmG3.utility.ServiceManager;
 import org.springframework.stereotype.Service;
 
