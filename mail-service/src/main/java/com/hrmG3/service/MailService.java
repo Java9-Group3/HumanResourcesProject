@@ -1,7 +1,7 @@
 package com.hrmG3.service;
 
-import com.hrmG3.rabbitmq.model.*;
-import com.hrmG3.utility.JwtTokenProvider;
+import com.hrmG3.rabbitmq.model.RegisterMailHelloModel;
+import com.hrmG3.rabbitmq.model.RegisterMailModel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -11,16 +11,15 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class MailService {
     private final JavaMailSender javaMailSender;
-    private final JwtTokenProvider jwtTokenProvider;
 
     public void sendMail(RegisterMailModel registerMailModel){
         SimpleMailMessage mailMessage = new SimpleMailMessage();
-        mailMessage.setFrom("${spring.mail.username}");
+       mailMessage.setFrom("${spring.mail.username}");
+
         mailMessage.setTo(registerMailModel.getEmail());
         mailMessage.setSubject("KAYDI TAMAMLAYIN LÜTFEN");
         mailMessage.setText(
-                registerMailModel.getName()+" " + registerMailModel.getSurname() + " To confirm your account, please click here :\n"  +
-                        "http://localhost:9090/api/v1/auth/confirm-account?token="+jwtTokenProvider.createMailToken(registerMailModel.getAuthId(), registerMailModel.getStatus()).get()
+                "sa"
         );
         javaMailSender.send(mailMessage);
     }

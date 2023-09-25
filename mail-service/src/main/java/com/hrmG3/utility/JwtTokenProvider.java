@@ -11,11 +11,11 @@ import java.util.Optional;
 
 @Service
 public class JwtTokenProvider {
-    @Value("${secretkey}")
+    @Value("123")
     String secretKey;
-    @Value("${audience}")
+    @Value("asd")
     String audience;
-    @Value("${issuer}")
+    @Value("qwe")
     String issuer;
 
     public Optional<String> createMailToken(Long id, EStatus status){
