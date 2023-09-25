@@ -30,13 +30,3 @@ public class AuthController {
     public ResponseEntity<Boolean> registerManager(@RequestBody @Valid RegisterManagerRequestDto dto){
         return ResponseEntity.ok(authService.registerManager(dto));
     }
-
-    @PostMapping(FINDALL)
-    public ResponseEntity<List<Auth>> findAll(){
-        return ResponseEntity.ok(authService.findAll());
-    }
-
-
-
-
-}
