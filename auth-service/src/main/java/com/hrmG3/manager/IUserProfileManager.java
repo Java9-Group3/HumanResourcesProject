@@ -7,9 +7,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
-@FeignClient(url = "http://localhost:9091/api/v1/user-profile", name = "auth-userprofile")
+@FeignClient(url = "http://localhost:9092/api/v1/user-profile", name = "auth-userprofile",decode404 = true)
 public interface IUserProfileManager {
     @PostMapping("/create-visitor")
-    public ResponseEntity<Boolean> createVisitorUser(@RequestBody NewCreateVisitorUserRequestDto dto);
+    ResponseEntity<Boolean> createVisitorUser(@RequestBody NewCreateVisitorUserRequestDto dto);
 
 }
