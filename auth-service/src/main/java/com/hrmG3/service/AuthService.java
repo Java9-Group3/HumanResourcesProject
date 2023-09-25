@@ -38,6 +38,11 @@ public class AuthService extends ServiceManager<Auth,Long> {
         this.registerMailProducer = registerMailProducer;
     }
 
+    /**
+     * Yeni bir ziyaretçi kullanıcısını kaydeder.
+     * @param dto Yeni kullanıcı bilgilerini içeren DTO (Data Transfer Object).
+     * @return Başarılı bir şekilde kullanıcı kaydedilirse true, aksi takdirde false döner.
+     */
     public Boolean registerVisitor(RegisterVisitorRequestDto dto){
         Optional<Auth> optionalAuth = authRepository.findOptionalByEmail(dto.getEmail());
         if(!optionalAuth.isEmpty())
@@ -63,7 +68,12 @@ Bu, kullanıcının parolasının güvende tutulmasına yardımcı olur.
 sistem içerisindeki yetkisiz erişimlerin kullanıcı parolalarını görmesini veya çözmesini zorlaştırır.
 * */
 
-    public boolean registerManager(RegisterManagerRequestDto dto){
+    /**
+     * Yeni bir yönetici kullanıcısını kaydeder.
+     * @param dto Yeni kullanıcı bilgilerini içeren DTO (Data Transfer Object).
+     * @return Başarılı bir şekilde kullanıcı kaydedilirse true, aksi takdirde false döner.
+     */
+    public Boolean registerManager(RegisterManagerRequestDto dto){
         Auth auth = IAuthMapper.INSTANCE.fromManagerRequestDtoToAuth(dto);
         auth.setRoles(List.of(ERole.MANAGER,ERole.PERSONEL, ERole.FOUNDER));
         if (dto.getPassword().equals(dto.getRepassword())){

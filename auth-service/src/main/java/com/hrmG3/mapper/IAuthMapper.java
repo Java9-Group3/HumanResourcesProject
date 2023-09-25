@@ -14,10 +14,31 @@ public interface IAuthMapper {
 
     IAuthMapper INSTANCE = Mappers.getMapper(IAuthMapper.class);
 
+    /**
+     * Ziyaretçi kullanıcı kaydı isteğini Auth nesnesine dönüştürür.
+     * @param dto Ziyaretçi kullanıcı kaydı isteği DTO'su.
+     * @return Auth nesnesi.
+     */
     Auth fromVisitorsRequestDtoToAuth(final RegisterVisitorRequestDto dto);
 
+    /**
+     * Auth nesnesini RegisterMailHelloModel'e dönüştürür.
+     * @param auth Auth nesnesi.
+     * @return RegisterMailHelloModel nesnesi.
+     */
     RegisterMailHelloModel fromAuthToRegisterMailHelloModel(final Auth auth);
 
+    /**
+     * Yönetici kaydı isteğini Auth nesnesine dönüştürür.
+     * @param dto Yönetici kaydı isteği DTO'su.
+     * @return Auth nesnesi.
+     */
     Auth fromManagerRequestDtoToAuth(final RegisterManagerRequestDto dto);
+
+    /**
+     * Auth nesnesini NewCreateVisitorUserRequestDto'ya dönüştürür.
+     * @param auth Auth nesnesi.
+     * @return NewCreateVisitorUserRequestDto nesnesi.
+     */
     NewCreateVisitorUserRequestDto fromAuthNewCreateVisitorUserRequestDto(final Auth auth);
 }

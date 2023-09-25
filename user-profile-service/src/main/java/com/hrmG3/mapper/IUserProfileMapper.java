@@ -1,5 +1,6 @@
 package com.hrmG3.mapper;
 
+import com.hrmG3.dto.response.NewCreateManagerUserResponseDto;
 import com.hrmG3.dto.response.NewCreateVisitorUserResponseDto;
 import com.hrmG3.repository.entity.UserProfile;
 import org.mapstruct.Mapper;
@@ -14,5 +15,6 @@ public interface IUserProfileMapper {
 
     UserProfile fromNewCreateVisitorUserResponseDtoToUserProfile(final NewCreateVisitorUserResponseDto dto);
 
+    UserProfile fromNewCreateManagerUserResponseDtoToUserProfile(final NewCreateManagerUserResponseDto dto);
 
 }

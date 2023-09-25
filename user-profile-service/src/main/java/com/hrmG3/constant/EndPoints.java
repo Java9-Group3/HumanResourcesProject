@@ -7,6 +7,7 @@ public class EndPoints {
 
 
     public static final String SAVEVISITOR = "/savevisitor";
+    public static final String SAVEMANAGER = "/create-manager";
     public static final String UPDATE = "/update";
     public static final String DELETE = "/delete";
     public static final String FINDALL = "/findall";

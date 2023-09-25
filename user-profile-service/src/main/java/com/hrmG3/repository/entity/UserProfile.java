@@ -8,20 +8,26 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@SuperBuilder
-@Builder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@SuperBuilder
+@Entity
 public class UserProfile extends BaseEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id; // Anahtar alanı
     private String userId;
     private Long authId;
     private String password;
     private String email;
     private EStatus status;
+    @ElementCollection(targetClass = ERole.class)
+    @Enumerated(EnumType.STRING)
     @Builder.Default    //rollerin listesini tuttum
     private List<ERole> role = new ArrayList<>();
 
