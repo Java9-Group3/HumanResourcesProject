@@ -15,13 +15,18 @@ import java.util.Optional;
 @Service
 public class JwtTokenManager {
 
-    @Value("${jwt.secretKey}")
+    @Value("${jwt-secretkey}")
     String secretKey;
-    @Value("${jwt.issuer}")
+    @Value("${jwt-issuer}")
     String issuer;
-    @Value("${jwt.audience}")
+    @Value("${jwt-audience}")
     String audience;
 
+    /**
+     * Belirtilen kullanıcı kimliği (id) ile bir JWT oluşturur.
+     * @param id Kullanıcı kimliği.
+     * @return Oluşturulan JWT.
+     */
     public Optional<String> createToken(Long id) {
         String token = null;
         Date date = new Date(System.currentTimeMillis()+(1000*60*5));
@@ -58,6 +63,7 @@ public class JwtTokenManager {
 //        }
 //        return Optional.ofNullable(token);
 //    }
+
     public Optional<String> createToken(Long id,String activationCode) {
         String token = null;
         Date date = new Date(System.currentTimeMillis()+(1000*60*5));
@@ -77,7 +83,12 @@ public class JwtTokenManager {
         return Optional.ofNullable(token);
     }
 
-
+    /**
+     * JWT'den kullanıcı kimliğini (id) çıkarır.
+     * @param token JWT.
+     * @return Kullanıcı kimliği (id).
+     * @throws UserProfileManagerException Eğer JWT doğrulanamazsa veya geçerli değilse.
+     */
     public Optional<Long> getIdFromToken(String token) {
 
         try {
@@ -95,6 +106,12 @@ public class JwtTokenManager {
         }
     }
 
+    /**
+     * JWT'den kullanıcı rolünü çıkarır.
+     * @param token JWT.
+     * @return Kullanıcı rolü.
+     * @throws UserProfileManagerException Eğer JWT doğrulanamazsa veya geçerli değilse.
+     */
     public Optional<String> getRoleFromToken(String token) {
 
         try {
@@ -113,6 +130,12 @@ public class JwtTokenManager {
     }
 
 
+    /**
+     * JWT'den aktivasyon kodunu çıkarır.
+     * @param token JWT.
+     * @return Aktivasyon kodu.
+     * @throws UserProfileManagerException Eğer JWT doğrulanamazsa veya geçerli değilse.
+     */
     public Optional<String> getActivationCodeFromToken(String token) {
 
         try {

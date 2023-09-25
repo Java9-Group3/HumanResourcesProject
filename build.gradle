@@ -42,13 +42,12 @@ allprojects {
         implementation libs.springBootValidation
         implementation libs.lombok
         annotationProcessor libs.lombok
+        implementation libs.openApi
         implementation libs.mapStruct
         annotationProcessor libs.mapStructProcessor
-        implementation libs.openApi
-        implementation libs.javaJwt
-        implementation libs.springCloudOpenFeign
-        implementation libs.springBootRabbitMq
-
+        implementation libs.springOpenFeign
+        implementation libs.javaJWT
+        implementation libs.springBootRabbitMQ
     }
 
 }

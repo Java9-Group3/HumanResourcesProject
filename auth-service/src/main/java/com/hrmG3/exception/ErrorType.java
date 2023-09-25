@@ -4,9 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
-@AllArgsConstructor
 @Getter
+@AllArgsConstructor
 public enum ErrorType {
+
     INTERNAL_ERROR(5100, "Sunucu Hatası", HttpStatus.INTERNAL_SERVER_ERROR),
     BAD_REQUEST(4000, "Parametre Hatası", HttpStatus.BAD_REQUEST),
     LOGIN_ERROR(4100, "Kullancı adı veya şifre hatalı", HttpStatus.BAD_REQUEST),
@@ -28,5 +29,5 @@ public enum ErrorType {
 
     private int code;
     private String message;
-    HttpStatus status;
+    HttpStatus httpStatus;
 }

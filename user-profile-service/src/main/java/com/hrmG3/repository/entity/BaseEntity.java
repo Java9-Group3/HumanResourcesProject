@@ -5,13 +5,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
-import javax.persistence.MappedSuperclass;
-
-@SuperBuilder
-@Data
-@NoArgsConstructor
 @AllArgsConstructor
-@MappedSuperclass
+@NoArgsConstructor
+@Data
+@SuperBuilder
 public class BaseEntity {
     private Long createDate;
     private Long updateDate;
