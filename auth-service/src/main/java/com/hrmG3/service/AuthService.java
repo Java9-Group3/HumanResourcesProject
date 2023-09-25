@@ -53,7 +53,7 @@ public class AuthService extends ServiceManager<Auth,Long> {
             auth.setPassword(dto.getPassword());
             auth.setStatus(EStatus.ACTIVE);
             save(auth);
-            userManager.createVisitorUser(IAuthMapper.INSTANCE.fromAuthNewCreateVisitorUserRequestDto(auth));
+            //userManager.createVisitorUser(IAuthMapper.INSTANCE.fromAuthNewCreateVisitorUserRequestDto(auth));
             registerMailHelloProducer.sendHello(IAuthMapper.INSTANCE.fromAuthToRegisterMailHelloModel(auth));
             return true;
         }

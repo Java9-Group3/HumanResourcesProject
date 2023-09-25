@@ -1,4 +1,4 @@
-package com.hrmG3.config;
+package com.hrmG3.config.rabbitmq;
 
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
