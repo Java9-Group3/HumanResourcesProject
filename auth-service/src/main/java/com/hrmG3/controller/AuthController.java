@@ -2,6 +2,7 @@ package com.hrmG3.controller;
 
 import com.hrmG3.dto.request.RegisterManagerRequestDto;
 import com.hrmG3.dto.request.RegisterVisitorRequestDto;
+import com.hrmG3.repository.entity.Auth;
 import com.hrmG3.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.List;
 
 import static com.hrmG3.constant.EndPoints.*;
 
@@ -29,6 +31,11 @@ public class AuthController {
     @PostMapping(SAVE_MANAGER)
     public ResponseEntity<Boolean> registerManager(@RequestBody @Valid RegisterManagerRequestDto dto){
         return ResponseEntity.ok(authService.registerManager(dto));
+    }
+
+    @PostMapping(FINDALL)
+    public ResponseEntity<List<Auth>> findAll(){
+        return ResponseEntity.ok(authService.findAll());
     }
 
 

@@ -12,9 +12,7 @@ import com.hrmG3.repository.IAuthRepository;
 import com.hrmG3.repository.entity.Auth;
 import com.hrmG3.repository.entity.ERole;
 import com.hrmG3.repository.entity.EStatus;
-import com.hrmG3.utility.JwtTokenProvider;
 import com.hrmG3.utility.ServiceManager;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,19 +23,17 @@ import static com.hrmG3.utility.CodeGenerator.generateCode;
 @Service
 public class AuthService extends ServiceManager<Auth,Long> {
     private final IAuthRepository authRepository;
-    private final PasswordEncoder passwordEncoder;
+
+
     private final IUserProfileManager userManager;
-    private final JwtTokenProvider jwtTokenProvider;
     private final RegisterMailHelloProducer registerMailHelloProducer;
 
     private final RegisterMailProducer registerMailProducer;
 
-    public AuthService(IAuthRepository repository, PasswordEncoder passwordEncoder, IUserProfileManager userManager, JwtTokenProvider jwtTokenProvider, RegisterMailHelloProducer registerMailHelloProducer, RegisterMailProducer registerMailProducer) {
+    public AuthService(IAuthRepository repository,  IUserProfileManager userManager, RegisterMailHelloProducer registerMailHelloProducer, RegisterMailProducer registerMailProducer) {
         super(repository);
         this.authRepository = repository;
-        this.passwordEncoder = passwordEncoder;
         this.userManager = userManager;
-        this.jwtTokenProvider = jwtTokenProvider;
         this.registerMailHelloProducer = registerMailHelloProducer;
         this.registerMailProducer = registerMailProducer;
     }
@@ -49,7 +45,7 @@ public class AuthService extends ServiceManager<Auth,Long> {
         Auth auth = IAuthMapper.INSTANCE.fromVisitorsRequestDtoToAuth(dto);
         auth.setRoles(List.of(ERole.VISITOR));
         if (dto.getPassword().equals(dto.getRepassword())){
-            auth.setPassword(passwordEncoder.encode(dto.getPassword()));
+            auth.setPassword(dto.getPassword());
             auth.setStatus(EStatus.ACTIVE);
             save(auth);
             userManager.createVisitorUser(IAuthMapper.INSTANCE.fromAuthNewCreateVisitorUserRequestDto(auth));
@@ -72,7 +68,7 @@ sistem içerisindeki yetkisiz erişimlerin kullanıcı parolalarını görmesini
         auth.setRoles(List.of(ERole.MANAGER,ERole.PERSONEL, ERole.FOUNDER));
         if (dto.getPassword().equals(dto.getRepassword())){
             auth.setActivationCode(generateCode()); //maili cuma yaparız.
-            auth.setPassword(passwordEncoder.encode(dto.getPassword()));
+            auth.setPassword(dto.getPassword());
             auth.setStatus(EStatus.ACTIVE);
             save(auth);
         }else {
@@ -81,21 +77,7 @@ sistem içerisindeki yetkisiz erişimlerin kullanıcı parolalarını görmesini
         return true;
     }
 
-    public Boolean confirmUserAccount(String confirmationToken) {
-        try {
-            Long authId = jwtTokenProvider.getIdFromToken(confirmationToken).orElseThrow(() -> {
-                throw new AuthManagerException(ErrorType.INVALID_TOKEN);
-            });
-            Optional<Auth> auth = authRepository.findOptionalByAuthId(authId);
-            if(auth.get().getStatus()==EStatus.INACTIVE)
-                throw new AuthManagerException(ErrorType.INVALID_ACTION);
-            auth.get().setStatus(EStatus.INACTIVE);
-            update(auth.get());
-            return true;
-        }catch (Exception e){
-            return false;
-        }
-    }
+
 
 
 

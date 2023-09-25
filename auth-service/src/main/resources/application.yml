@@ -6,12 +6,3 @@ spring:
     import: "configserver:"
   application:
     name: auth-service-application
-
-rabbitmq:
-  exchange-auth: auth-exchange
-  registerKey: register-key
-  queueRegister: register-queue
-  registerMailQueue: mail-queue
-  registerMailBindingKey: register-mail-key
-  registerMailHelloQueue: mail-hello-queue
-  registerMailHelloBindingKey: register-mail-key-hello
