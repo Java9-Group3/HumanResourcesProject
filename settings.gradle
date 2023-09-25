@@ -6,4 +6,5 @@ include 'mail-service'
 include 'website-management-service'
 include 'api-gateway-service'
 include 'user-profile-service'
+include 'balance-service'
 
