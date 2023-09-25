@@ -26,7 +26,6 @@ public class MailService {
     }
 
 
-
     public void sendHelloMail(RegisterMailHelloModel registerMailHelloModel) {
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setFrom("${spring.mail.username}");

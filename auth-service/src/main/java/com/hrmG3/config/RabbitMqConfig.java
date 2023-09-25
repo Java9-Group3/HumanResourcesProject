@@ -17,24 +17,36 @@ public class RabbitMqConfig {
     DirectExchange directExchange() {return new DirectExchange(exchange);}
 
 
-    //Mail işlemi için
+    /**
+     * Mail işlemi için kullanılacak olan kuyruğu oluşturur.
+     * @return Mail kuyruğu.
+     */
     @Value("${rabbitmq.registerMailQueue}")
     private String registerMailQueue;
     @Value("${rabbitmq.registerMailBindingKey}")
     private String registerMailBindingKey;
+
 
     @Bean
     Queue registerMailQueue(){
         return new Queue(registerMailQueue);
     }
 
+    /**
+     * Mail kuyruğunu exchange ile bağlar.
+     * @param registerMailQueue Mail kuyruğu.
+     * @param exchangeAuth Exchange nesnesi.
+     * @return Bağlantı nesnesi.
+     */
     @Bean
     public Binding bindingRegisterMail(final Queue registerMailQueue, final DirectExchange exchangeAuth){
         return BindingBuilder.bind(registerMailQueue).to(exchangeAuth).with(registerMailBindingKey);
     }
 
-    //Visitor Hello
-
+    /**
+     * Visitor Hello işlemi için kullanılacak olan kuyruğu oluşturur.
+     * @return Visitor Hello kuyruğu.
+     */
     @Value("${rabbitmq.registerMailHelloQueue}")
     private String registerMailHelloQueue;
     @Value("${rabbitmq.registerMailHelloBindingKey}")
@@ -45,6 +57,12 @@ public class RabbitMqConfig {
         return new Queue(registerMailHelloQueue);
     }
 
+    /**
+     * Visitor Hello kuyruğunu exchange ile bağlar.
+     * @param registerMailHelloQueue Visitor Hello kuyruğu.
+     * @param exchangeAuthHello Exchange nesnesi (Visitor Hello için).
+     * @return Bağlantı nesnesi.
+     */
     @Bean
     public Binding bindingRegisterHelloMail(final Queue registerMailHelloQueue, final DirectExchange exchangeAuthHello){
         return BindingBuilder.bind(registerMailHelloQueue).to(exchangeAuthHello).with(registerMailHelloBindingKey);

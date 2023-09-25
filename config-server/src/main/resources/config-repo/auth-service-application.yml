@@ -1,5 +1,5 @@
 server:
-  port: 9091
+  port: 9090
 
 spring:
   datasource:
@@ -15,8 +15,6 @@ spring:
     port: 5672
     username: efe
     password: 123
-
-
 
 rabbitmq:
   exchange-auth: auth-exchange
