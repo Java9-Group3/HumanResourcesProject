@@ -22,13 +22,15 @@ public class UserProfile extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id; // Anahtar alanı
     private String userId;
+    private String name;
+    private String surname;
     private Long authId;
     private String password;
     private String email;
+
     private EStatus status;
     @ElementCollection(targetClass = ERole.class)
     @Enumerated(EnumType.STRING)
-    @Builder.Default    //rollerin listesini tuttum
+    @Builder.Default
     private List<ERole> role = new ArrayList<>();
-
 }

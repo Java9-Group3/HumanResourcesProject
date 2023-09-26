@@ -6,8 +6,8 @@ public class EndPoints {
 
     public static final String API = "/api";
     public static final String AUTH = "/auth";
-    public static final String SAVE_VISITOR = "/save-visitor";
-    public static final String SAVE_MANAGER = "/save-manager";
+    public static final String REGISTERVISITOR = "/register/visitor";
+    public static final String REGISTERMANAGER = "/register/manager";
     public static final String CONFIRM_ACCOUNT = "/confirm-account";
 
     public static final String SAVE = "/save";

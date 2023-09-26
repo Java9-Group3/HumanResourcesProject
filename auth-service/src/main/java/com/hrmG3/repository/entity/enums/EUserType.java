@@ -1,4 +1,4 @@
-package com.hrmG3.repository.entity;
+package com.hrmG3.repository.entity.enums;
 
 public enum EUserType {
     MANAGER,USER,ADMIN,EMPLOYEE

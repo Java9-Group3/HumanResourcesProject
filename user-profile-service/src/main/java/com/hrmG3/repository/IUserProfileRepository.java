@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface IUserProfileRepository extends JpaRepository<UserProfile, String> {
+public interface IUserProfileRepository extends JpaRepository<UserProfile, Long> {
     Optional<UserProfile> findByAuthId(Long authId);
 
 

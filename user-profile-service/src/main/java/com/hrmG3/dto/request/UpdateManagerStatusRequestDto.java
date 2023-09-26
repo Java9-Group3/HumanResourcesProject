@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UpdateManagerStatusRequestDto {
-    private EStatus status;
+
     private Long authId;
+    private EStatus status;
 }

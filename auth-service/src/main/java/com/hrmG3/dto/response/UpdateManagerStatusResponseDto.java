@@ -6,16 +6,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
-@NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class NewCreateVisitorUserResponseDto {
-    private Long authId;
-    private String password;
-    private String email;
-    private String name;
-    private String surname;
+@Data
+@NoArgsConstructor
+public class UpdateManagerStatusResponseDto {
     private EStatus status;
-
+    private Long authId;
 }

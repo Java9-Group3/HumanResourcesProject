@@ -14,15 +14,11 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-//deneme123
 public class RegisterManagerRequestDto {
     @NotBlank(message = "Adınızı boş bırakmayınız.")
     private String name;
-    private String middleName;
     @NotBlank(message = "Soyadınızı boş bırakmayınız.")
     private String surname;
-    @NotBlank
-    private String identificationNumber;
     @NotNull
     @Email(message = "Lütfen geçerli bir email giriniz.")
     private String email;
@@ -31,10 +27,6 @@ public class RegisterManagerRequestDto {
     private String password;
     @NotBlank
     private String repassword;
-    @NotNull
-    private String companyId;
-    @NotNull
-    private String department;
-    @NotNull
-    private Integer companySubscribeDay;
+    @NotBlank
+    private String taxId;
 }

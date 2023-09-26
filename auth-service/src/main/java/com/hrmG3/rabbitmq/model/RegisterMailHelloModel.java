@@ -1,6 +1,6 @@
 package com.hrmG3.rabbitmq.model;
 
-import com.hrmG3.repository.entity.EStatus;
+import com.hrmG3.repository.entity.enums.EStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

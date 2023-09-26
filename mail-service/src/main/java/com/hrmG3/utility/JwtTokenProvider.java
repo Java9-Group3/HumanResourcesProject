@@ -11,12 +11,30 @@ import java.util.Optional;
 
 @Service
 public class JwtTokenProvider {
-    @Value("123")
+    @Value("${secretkey}")
     String secretKey;
-    @Value("asd")
+    @Value("${audience}")
     String audience;
-    @Value("qwe")
+    @Value("${issuer}")
     String issuer;
+
+    public Optional<String> createTokenForForgotPassword(Long id){
+        String token = null;
+        Date date = new Date(System.currentTimeMillis() + (1000*60*60*24*7));
+        try {
+            token = JWT.create()
+                    .withAudience(audience)
+                    .withIssuer(issuer)
+                    .withIssuedAt(new Date())
+                    .withExpiresAt(date)
+                    .withClaim("id", id)
+                    .sign(Algorithm.HMAC512(secretKey));
+            return Optional.of(token);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return Optional.empty();
+        }
+    }
 
     public Optional<String> createMailToken(Long id, EStatus status){
         String token = null;
@@ -36,7 +54,5 @@ public class JwtTokenProvider {
             return Optional.empty();
         }
     }
-
-
 
 }

@@ -1,19 +1,19 @@
 package com.hrmG3.repository.entity;
 
+import com.hrmG3.repository.entity.enums.ERole;
+import com.hrmG3.repository.entity.enums.EStatus;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 import java.util.List;
 
-@SuperBuilder
 @Data
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 @Entity
-@Table(name = "tblAuth")
-public class Auth extends BaseEntity {
+public class Auth extends Base {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long authId;
@@ -28,7 +28,9 @@ public class Auth extends BaseEntity {
     @ElementCollection(targetClass = ERole.class)
     @JoinTable(name = "tblRoleTypes", joinColumns = @JoinColumn(name = "authId"))
     @Column(name = "roleType", nullable = false)
+    @Enumerated(EnumType.STRING)
     private List<ERole> roles;
+    @Enumerated(EnumType.STRING)
     @Builder.Default
     private EStatus status = EStatus.PENDING;
 

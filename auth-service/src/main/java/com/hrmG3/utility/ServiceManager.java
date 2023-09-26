@@ -1,40 +1,36 @@
 package com.hrmG3.utility;
 
+import com.hrmG3.repository.entity.Base;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import com.hrmG3.repository.entity.BaseEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 import java.util.Optional;
 
-
 @RequiredArgsConstructor
 @Getter
-public class ServiceManager <T extends BaseEntity,ID> implements IService<T,ID> {
-
-    private final JpaRepository<T,ID> repository;
+public abstract class ServiceManager<T extends Base, ID> implements IService<T, ID>{
+    private final JpaRepository<T, ID> repository;
     @Override
     public T save(T t) {
-        t.setCreateDate(System.currentTimeMillis());
-        t.setUpdateDate(System.currentTimeMillis());
-
+        t.setCreatedDate(System.currentTimeMillis());
+        t.setUpdatedDate(System.currentTimeMillis());
         return repository.save(t);
     }
 
     @Override
     public Iterable<T> saveAll(Iterable<T> t) {
-        t.forEach(x->{
-            x.setCreateDate(System.currentTimeMillis());
-            x.setUpdateDate(System.currentTimeMillis());
-
+        t.forEach(x -> {
+            x.setCreatedDate(System.currentTimeMillis());
+            x.setUpdatedDate(System.currentTimeMillis());
         });
         return repository.saveAll(t);
     }
 
     @Override
     public T update(T t) {
-        t.setUpdateDate(System.currentTimeMillis());
+        t.setUpdatedDate(System.currentTimeMillis());
         return repository.save(t);
     }
 
@@ -57,5 +53,4 @@ public class ServiceManager <T extends BaseEntity,ID> implements IService<T,ID> 
     public Optional<T> findById(ID id) {
         return repository.findById(id);
     }
-
 }

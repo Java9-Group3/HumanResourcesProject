@@ -17,4 +17,5 @@ public interface IUserProfileMapper {
 
     UserProfile fromNewCreateManagerUserResponseDtoToUserProfile(final NewCreateManagerUserResponseDto dto);
 
+
 }

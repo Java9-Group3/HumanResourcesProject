@@ -15,11 +15,11 @@ import java.util.Optional;
 @Service
 public class JwtTokenManager {
 
-    @Value("${jwt-secretkey}")
+    @Value("${secretkey}")
     String secretKey;
-    @Value("${jwt-issuer}")
+    @Value("${issuer}")
     String issuer;
-    @Value("${jwt-audience}")
+    @Value("${audience}")
     String audience;
 
     /**
