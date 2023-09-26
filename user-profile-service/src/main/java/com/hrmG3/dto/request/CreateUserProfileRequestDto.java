@@ -18,7 +18,6 @@ public class CreateUserProfileRequestDto {
     private String email;
     @NotBlank
     private String name;
-    private String middleName;
     @NotBlank
     private String surname;
     @NotBlank

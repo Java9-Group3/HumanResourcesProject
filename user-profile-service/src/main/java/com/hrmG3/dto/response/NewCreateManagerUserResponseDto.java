@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 public class NewCreateManagerUserResponseDto {
     private Long authId;
     private String name;
-    private String middleName;
     private String surname;
     private String identificationNumber;
     private String email;

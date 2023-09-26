@@ -1,11 +1,10 @@
 package com.hrmG3.dto.request;
 
-
+import com.hrmG3.repository.entity.enums.EStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import com.hrmG3.repository.entity.EStatus;
 
 @Data
 @NoArgsConstructor

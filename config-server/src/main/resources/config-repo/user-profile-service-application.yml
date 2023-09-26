@@ -15,7 +15,12 @@ spring:
     host: localhost
     port: 5672
     username: user
-    password: user
+    password: root
+
+jwt:
+  secretkey: ${secretkey}
+  udience: ${audience}
+  issuer: ${issuer}
 
 rabbitmq:
   user-exchange: user-exchange

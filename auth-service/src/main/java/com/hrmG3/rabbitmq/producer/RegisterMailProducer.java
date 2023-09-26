@@ -10,8 +10,10 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class RegisterMailProducer {
+
     @Value("${rabbitmq.exchange-auth}")
     private String directExchange;
+
     @Value("${rabbitmq.registerMailBindingKey}")
     private String registerMailBindingKey;
 

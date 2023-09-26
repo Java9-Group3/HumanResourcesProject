@@ -1,5 +1,6 @@
 package com.hrmG3.rabbitmq.consumer;
 
+
 import com.hrmG3.rabbitmq.model.RegisterMailHelloModel;
 import com.hrmG3.service.MailService;
 import lombok.RequiredArgsConstructor;

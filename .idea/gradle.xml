@@ -11,11 +11,11 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/api-gateway-service" />
             <option value="$PROJECT_DIR$/auth-service" />
+            <option value="$PROJECT_DIR$/balance-service" />
             <option value="$PROJECT_DIR$/company-service" />
             <option value="$PROJECT_DIR$/config-server" />
             <option value="$PROJECT_DIR$/mail-service" />
             <option value="$PROJECT_DIR$/user-profile-service" />
-            <option value="$PROJECT_DIR$/website-management-service" />
           </set>
         </option>
       </GradleProjectSettings>

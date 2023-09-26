@@ -16,12 +16,10 @@ public class RegisterVisitorRequestDto {
 
     @NotBlank(message = "Adınızı boş bırakmayınız.")
     private String name;
-    private String middleName;
     @NotBlank(message = "Soyadınızı boş bırakmayınız.")
     private String surname;
     @Email(message = "Lütfen geçerli bir email giriniz.")
     private String email;
-
     @NotBlank
     @Size(min = 8, max = 32, message = "Şifre en az 8 en çok 32 karakter olabilir.")
     private String password;

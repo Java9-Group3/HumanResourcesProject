@@ -1,0 +1,35 @@
+server:
+  port: 9091
+
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    username: postgres
+    password: root
+    url: jdbc:postgresql://localhost:5432/AuthDB
+  jpa:
+    hibernate:
+      ddl-auto: create
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: user
+    password: root
+
+jwt:
+  secretkey: ${secretkey}
+  audience: ${audience}
+  issuer: ${issuer}
+
+rabbitmq:
+  exchange-auth: auth-exchange
+  registerKey: register-key
+  queueRegister: register-queue
+  registerMailQueue: mail-queue
+  registerMailBindingKey: register-mail-key
+  registerMailHelloQueue: mail-hello-queue
+  registerMailHelloBindingKey: register-mail-key-hello
+  queueForgotPassword: forgot-password-mail-queue
+  forgotPasswordMailBindingKey: forgot-password-mail-key
+  queueResetPassword: reset-password-mail-queue
+  resetPasswordMailBindingKey:  reset-password-mail-key

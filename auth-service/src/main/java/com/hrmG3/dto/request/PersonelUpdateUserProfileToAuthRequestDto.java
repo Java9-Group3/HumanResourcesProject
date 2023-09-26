@@ -9,15 +9,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @Data
 @NoArgsConstructor
-public class NewCreateManagerUserRequestDto {
-    private Long authId;
+public class PersonelUpdateUserProfileToAuthRequestDto {
     private String name;
     private String middleName;
     private String surname;
-    private String identificationNumber;
     private String email;
-    private String password;
-    private String repassword;
-    private String companyId;
-    private String department;
+    private String phone;
 }

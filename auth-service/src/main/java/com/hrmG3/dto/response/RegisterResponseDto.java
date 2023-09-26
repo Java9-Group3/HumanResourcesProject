@@ -1,4 +1,4 @@
-package com.hrmG3.dto.request;
+package com.hrmG3.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,8 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class LoginRequestDto {
-    String email;
-    String password;
-
+public class RegisterResponseDto {
+    private Long authId;
+    private String activationCode;
 }
