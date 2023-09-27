@@ -17,7 +17,7 @@ allprojects {
 }
 
 subprojects {
-    group = 'com.hrmG3'
+    group = 'com.hrmanagement'
     version = 'v.0.0.1'
     sourceCompatibility=JavaVersion.VERSION_19
     targetCompatibility=JavaVersion.VERSION_19
