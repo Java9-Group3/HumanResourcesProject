@@ -12,10 +12,10 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 public class UserProfilePersonnelDashboardResponseDto {
-    private String userId;
+    private Long userId;
     private List<String> jobBreak;
     private String jobShift;
     private String department;
     private Double wage;
-    private String companyId;
+    private Long companyId;
 }

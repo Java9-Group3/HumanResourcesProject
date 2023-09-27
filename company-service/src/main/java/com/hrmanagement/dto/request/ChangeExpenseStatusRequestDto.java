@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class ChangeExpenseStatusRequestDto {
-    private String expenseId;
+    private Long expenseId;
     private Boolean action;
 }

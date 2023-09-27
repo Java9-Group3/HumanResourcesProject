@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class CommentService extends ServiceManager<Comment, String> {
+public class CommentService extends ServiceManager<Comment, Long> {
     private final ICommentRepository commentRepository;
     private final JwtTokenProvider jwtTokenProvider;
     private final IUserManager userManager;
@@ -51,7 +51,7 @@ public class CommentService extends ServiceManager<Comment, String> {
         throw new CompanyManagerException(ErrorType.NO_AUTHORIZATION);
     }
 
-    public List<FindCompanyCommentsResponseDto> findCompanyComments(String companyId) {
+    public List<FindCompanyCommentsResponseDto> findCompanyComments(Long companyId) {
         List<Comment> commentList = commentRepository.findByCompanyId(companyId);
         List<FindCompanyCommentsResponseDto> companyComments = commentList.stream().filter(y ->
                 y.getECommentStatus() == ECommentStatus.ACTIVE).map(x ->
@@ -110,7 +110,7 @@ public class CommentService extends ServiceManager<Comment, String> {
             List<PersonnelActiveCompanyCommentsResponseDto> activeCompanyCommentsResponseDtos =
                     filteredComments.stream().map(comment -> {
                         PersonnelActiveCompanyCommentsResponseDto dto1 = ICommentMapper.INSTANCE.fromCommentToPersonnelActiveCompanyCommentsResponseDto(comment);
-                        String avatar = userManager.getUserAvatarByUserId(comment.getUserId()).getBody();
+                        String avatar = String.valueOf(userManager.getUserAvatarByUserId(comment.getUserId()).getBody());
                         dto1.setAvatar(avatar);
                         return dto1;
                     }).collect(Collectors.toList());

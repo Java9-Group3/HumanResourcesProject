@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
-import javax.persistence.Entity;
 import javax.persistence.MappedSuperclass;
 
 @Data
@@ -13,7 +12,6 @@ import javax.persistence.MappedSuperclass;
 @NoArgsConstructor
 @AllArgsConstructor
 @MappedSuperclass
-
 public class Base {
     private Long createdDate;
     private Long updatedDate;

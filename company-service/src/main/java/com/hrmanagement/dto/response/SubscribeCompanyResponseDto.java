@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class SubscribeCompanyResponseDto {
 
-    private String companyId;
+    private Long companyId;
     private Integer companySubscribeDay;
 
 }

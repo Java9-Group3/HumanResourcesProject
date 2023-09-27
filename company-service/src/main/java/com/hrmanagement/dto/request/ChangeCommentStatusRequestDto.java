@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class ChangeCommentStatusRequestDto {
-    private String commentId;
+    private Long commentId;
     private Boolean action;
 }

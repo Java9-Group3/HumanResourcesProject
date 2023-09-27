@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class CompanyExpenseListResponseDto {
-    private String expenseId;
+    private Long expenseId;
     private String avatar;
     private String name;
     private String surname;

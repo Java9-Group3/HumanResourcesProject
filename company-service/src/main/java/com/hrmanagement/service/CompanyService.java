@@ -24,7 +24,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
-public class CompanyService extends ServiceManager<Company, String> {
+public class CompanyService extends ServiceManager<Company, Long> {
     private final ICompanyRepository companyRepository;
     private final JwtTokenProvider jwtTokenProvider;
     private final IUserManager userManager;
@@ -66,7 +66,7 @@ public class CompanyService extends ServiceManager<Company, String> {
         Optional<Long> authId = jwtTokenProvider.getIdFromToken(token);
         if (authId.isEmpty())
             throw new CompanyManagerException(ErrorType.BAD_REQUEST);
-        String companyId = userManager.getCompanyId(authId.get()).getBody();
+        Long companyId = userManager.getCompanyId(authId.get()).getBody();
         Company company = findById(companyId).orElseThrow(() -> {
             throw new CompanyManagerException(ErrorType.COMPANY_NOT_FOUND);
         });
@@ -105,7 +105,7 @@ public class CompanyService extends ServiceManager<Company, String> {
     }
 
     //Detaylı company sayfası için metot
-    public VisitorDetailedCompanyInformationResponse findCompanyDetailedInformation(String companyId) {
+    public VisitorDetailedCompanyInformationResponse findCompanyDetailedInformation(Long companyId) {
         Company company = findById(companyId).orElseThrow(() -> {
             throw new CompanyManagerException(ErrorType.COMPANY_NOT_FOUND);
         });
@@ -126,7 +126,7 @@ public class CompanyService extends ServiceManager<Company, String> {
     }
 
 
-    public PersonnelCompanyInformationResponseDto getPersonnelCompanyInformation(String companyId) {
+    public PersonnelCompanyInformationResponseDto getPersonnelCompanyInformation(Long companyId) {
         Company company = findById(companyId).orElseThrow(() -> {
             throw new CompanyManagerException(ErrorType.COMPANY_NOT_FOUND);
         });
@@ -144,7 +144,7 @@ public class CompanyService extends ServiceManager<Company, String> {
         return dto;
     }
 
-    public Boolean doesCompanyIdExist(String companyId) {
+    public Boolean doesCompanyIdExist(Long companyId) {
         if (companyRepository.existsByCompanyId(companyId)) {
             return true;
         }
@@ -159,7 +159,7 @@ public class CompanyService extends ServiceManager<Company, String> {
                     .map(comment -> {
                         Company company = findById(comment.getCompanyId())
                                 .orElseThrow(() -> new RuntimeException("Şirket bulunamadı"));
-                        String userAvatar = userManager.getUserAvatarByUserId(comment.getUserId()).getBody();
+                        String userAvatar = String.valueOf(userManager.getUserAvatarByUserId(comment.getUserId()).getBody());
                         FindPendingCommentWithCompanyName pending = FindPendingCommentWithCompanyName.builder()
                                 .commentId(comment.getCommentId())
                                 .avatar(userAvatar)
@@ -177,7 +177,7 @@ public class CompanyService extends ServiceManager<Company, String> {
         throw new CompanyManagerException(ErrorType.NO_AUTHORIZATION);
     }
 
-    public String getCompanyNameWithCompanyId(String companyId) {
+    public String getCompanyNameWithCompanyId(Long companyId) {
         Optional<Company> optionalCompany = findById(companyId);
         if (optionalCompany.isEmpty())
             throw new CompanyManagerException(ErrorType.COMPANY_NOT_FOUND);
@@ -236,7 +236,7 @@ public class CompanyService extends ServiceManager<Company, String> {
         }
         throw new CompanyManagerException(ErrorType.NO_AUTHORIZATION);
     }
-    public AllCompanyInfosForUserProfileResponseDto getAllInfosCompanyWithCompanyId(String companyId) {
+    public AllCompanyInfosForUserProfileResponseDto getAllInfosCompanyWithCompanyId(Long companyId) {
         Optional<Company> companyInfos = findById(companyId);
         if (companyInfos.isEmpty())
             throw new CompanyManagerException(ErrorType.COMPANY_NOT_FOUND);
@@ -245,7 +245,7 @@ public class CompanyService extends ServiceManager<Company, String> {
     }
 
 
-    public CompanyNameAndWageDateRequestDto getCompanyNameAndWageDateResponseDto(String companyId) {
+    public CompanyNameAndWageDateRequestDto getCompanyNameAndWageDateResponseDto(Long companyId) {
         Company company = findById(companyId).orElseThrow(()->{throw new CompanyManagerException(ErrorType.COMPANY_NOT_FOUND);});
         try{
             Date wageDate = new SimpleDateFormat("dd-MM-yyyy").parse(company.getWageDate());
@@ -287,7 +287,7 @@ public class CompanyService extends ServiceManager<Company, String> {
     }
 
 
-    public Boolean doesCompanySubscriptionExist(String companyId) {
+    public Boolean doesCompanySubscriptionExist(Long companyId) {
         Company company = findById(companyId).orElseThrow(()->{
             throw new CompanyManagerException(ErrorType.COMPANY_NOT_FOUND);
         });

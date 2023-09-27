@@ -10,8 +10,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class UserProfileCommentResponseDto {
-    private String userId;
+    private Long userId;
     private String name;
     private String surname;
-    private String companyId;
+    private Long companyId;
 }

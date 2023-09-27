@@ -6,22 +6,20 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.hrmanagement.exception.CompanyManagerException;
 import com.hrmanagement.exception.ErrorType;
-import com.hrmanagement.repository.entity.enums.ERole;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class JwtTokenProvider {
-    @Value("${secretkey}")
+    @Value("${jwt.secretkey}")
     String secretKey;
-    @Value("${audience}")
+    @Value("${jwt.audience}")
     String audience;
-    @Value("${issuer}")
+    @Value("${jwt.issuer}")
     String issuer;
 
     public Optional<String> createToken(Long id){

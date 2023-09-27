@@ -10,9 +10,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class PersonelExpenseRequestDto {
-
-
-
     private String expenseType;
     private String currency;
     private String demandDate;

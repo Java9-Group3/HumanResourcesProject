@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class FindPendingCommentWithCompanyName {
-    private String commentId;
+    private Long commentId;
     private String comment;
     private String avatar;
     private String name;

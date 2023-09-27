@@ -1,27 +1,26 @@
 package com.hrmanagement.repository.entity;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import lombok.experimental.SuperBuilder;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.validation.constraints.NotBlank;
+import javax.persistence.*;
 import java.util.List;
 
 
-@AllArgsConstructor
 @SuperBuilder
 @Data
 @NoArgsConstructor
-@Document
+@AllArgsConstructor
+@ToString
+@Entity
+@Table(name = "tblCompany")
 public class Company extends Base{
     @Id
-    private String companyId;
-    @Indexed(unique = true)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long companyId;
     private String companyName;
     private String companyNeighbourhood;
     private String companyDistrict;
@@ -34,6 +33,7 @@ public class Company extends Base{
     private String logo;
     private String taxNumber;
     private String sector;
+    @ElementCollection
     private List<String> holidayDates;
     private String description;
     private String companyPhone;

@@ -10,9 +10,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class FindCompanyCommentsResponseDto {
-    private String commentId;
+    private Long commentId;
     private String comment;
     private String name;
     private String surname;
-    private String companyId;
+    private Long companyId;
 }

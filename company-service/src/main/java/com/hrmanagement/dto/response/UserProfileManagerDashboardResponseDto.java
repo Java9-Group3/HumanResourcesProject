@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class UserProfileManagerDashboardResponseDto {
-    private String companyId;
+    private Long companyId;
     private Integer companyPersonnelCount;
 }

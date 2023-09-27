@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
 import java.util.List;
 
 @AllArgsConstructor
@@ -24,5 +23,5 @@ public class PersonnelDashboardResponseDto {
     private String department;
     private Double wage;
     private String wageDate;
-    private int employeeCount;
+    private Long employeeCount;
 }

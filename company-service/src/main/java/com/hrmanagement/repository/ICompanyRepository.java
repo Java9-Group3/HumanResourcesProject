@@ -1,10 +1,12 @@
 package com.hrmanagement.repository;
 
 import com.hrmanagement.repository.entity.Company;
-import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface ICompanyRepository extends MongoRepository<Company,String> {
+@Repository
+public interface ICompanyRepository extends JpaRepository<Company,Long> {
     Boolean existsByCompanyNameIgnoreCase(String companyName);
-    Boolean existsByCompanyId(String companyId);
+    Boolean existsByCompanyId(Long companyId);
 
 }

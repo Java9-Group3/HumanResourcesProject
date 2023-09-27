@@ -8,12 +8,9 @@ import com.hrmanagement.dto.response.UserProfileExpenseResponseDto;
 import com.hrmanagement.exception.CompanyManagerException;
 import com.hrmanagement.exception.ErrorType;
 import com.hrmanagement.manager.IUserManager;
-import com.hrmanagement.mapper.ICommentMapper;
 import com.hrmanagement.mapper.IExpenseMapper;
 import com.hrmanagement.repository.IExpenseRepository;
-import com.hrmanagement.repository.entity.Comment;
 import com.hrmanagement.repository.entity.Expense;
-import com.hrmanagement.repository.entity.enums.ECommentStatus;
 import com.hrmanagement.repository.entity.enums.EExpenseStatus;
 import com.hrmanagement.repository.entity.enums.ERole;
 import com.hrmanagement.utility.JwtTokenProvider;
@@ -25,7 +22,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class ExpenseService extends ServiceManager<Expense, String> {
+public class ExpenseService extends ServiceManager<Expense, Long> {
 
     private final IExpenseRepository expenseRepository;
     private final JwtTokenProvider jwtTokenProvider;
@@ -70,8 +67,8 @@ public class ExpenseService extends ServiceManager<Expense, String> {
         if(roles.isEmpty())
             throw new CompanyManagerException(ErrorType.BAD_REQUEST);
         if(roles.contains(ERole.MANAGER.toString())){
-            String companyId = userManager.findUserCompanyId(authId).getBody();
-            List<Expense> expenseList = expenseRepository.findAllByCompanyId(companyId);
+            String companyId = String.valueOf(userManager.findUserCompanyId(authId).getBody());
+            List<Expense> expenseList = expenseRepository.findAllByCompanyId(Long.valueOf(companyId));
             if(expenseList.isEmpty())
                 throw new CompanyManagerException(ErrorType.NO_EXPENSE_EXIST);
             List<CompanyExpenseListResponseDto> dtoList = expenseList.stream().filter(expense ->
@@ -79,7 +76,7 @@ public class ExpenseService extends ServiceManager<Expense, String> {
                     ).map(expense->{
                     CompanyExpenseListResponseDto dto = IExpenseMapper.INSTANCE.fromExpenseToCompanyExpenseListResponseDto(expense);
                     dto.setEExpenseStatus(expense.getEExpenseStatus());
-                    String avatar = userManager.findAvatar(expense.getUserId()).getBody();
+                    String avatar = String.valueOf(userManager.findAvatar(String.valueOf(expense.getUserId())).getBody());
                     dto.setAvatar(avatar);
                     if(expense.getBillPhoto()!=null){
                         try{

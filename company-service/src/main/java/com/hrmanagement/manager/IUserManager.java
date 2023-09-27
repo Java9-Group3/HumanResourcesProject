@@ -12,10 +12,10 @@ import java.util.List;
 public interface IUserManager {
 
     @GetMapping("/get-manager-id/{authId}")
-    public ResponseEntity<String> getCompanyId(@PathVariable Long authId);
+    public ResponseEntity<Long> getCompanyId(@PathVariable Long authId);
 
     @GetMapping("/get-manager-names/{companyId}")
-    public ResponseEntity<List<String>> getManagerNames(@PathVariable String companyId);
+    public ResponseEntity<List<Long>> getManagerNames(@PathVariable Long companyId);
 
     @GetMapping("/get-userprofile-comment-information/{authId}")
     public ResponseEntity<UserProfileCommentResponseDto> getUserProfileCommentInformation(@PathVariable Long authId);
@@ -23,7 +23,7 @@ public interface IUserManager {
     @GetMapping("/get-userprofile-expense-information/{authId}")
     public ResponseEntity<UserProfileExpenseResponseDto> getUserProfileExpenseInformation(@PathVariable Long authId);
     @GetMapping("/get-userprofile-avatar-by-user-id/{userId}")
-    ResponseEntity<String> getUserAvatarByUserId(@PathVariable String userId);
+    ResponseEntity<Long> getUserAvatarByUserId(@PathVariable Long userId);
 
     @GetMapping("/get-userprofile-personnel-dashboard-information/{authId}")
     ResponseEntity<UserProfilePersonnelDashboardResponseDto> getUserProfilePersonnelDashboardInformation(@PathVariable Long authId);
@@ -35,8 +35,8 @@ public interface IUserManager {
     ResponseEntity<UserProfileManagerDashboardResponseDto> getUserProfileManagerDashboard(@PathVariable Long authId);
 
     @GetMapping("/find-user-companyId/{authId}")
-    ResponseEntity<String> findUserCompanyId(@PathVariable Long authId);
+    ResponseEntity<Long> findUserCompanyId(@PathVariable Long authId);
 
     @GetMapping("/find-avatar/{userId}")
-    ResponseEntity<String> findAvatar(@PathVariable String userId);
+    ResponseEntity<Long> findAvatar(@PathVariable String userId);
 }

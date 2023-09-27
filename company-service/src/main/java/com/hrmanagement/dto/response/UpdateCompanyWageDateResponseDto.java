@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class UpdateCompanyWageDateResponseDto {
-    private String companyId;
+    private Long companyId;
     private String wageDate;
 }

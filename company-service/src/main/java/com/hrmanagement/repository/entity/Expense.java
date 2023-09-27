@@ -1,28 +1,26 @@
 package com.hrmanagement.repository.entity;
 
-import com.hrmanagement.repository.entity.enums.ECommentStatus;
 import com.hrmanagement.repository.entity.enums.EExpenseStatus;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
-@AllArgsConstructor
+import javax.persistence.*;
+
 @SuperBuilder
 @Data
 @NoArgsConstructor
-@Document
+@AllArgsConstructor
+@ToString
+@Entity
+@Table(name = "tblExpense")
 public class Expense extends Base{
-
     @Id
-    private String expenseId;
-    private String userId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long expenseId;
+    private Long userId;
     private String name;
     private String surname;
-    private String companyId;
+    private Long companyId;
     private String expenseType;
     private String currency;
     private String demandDate;
@@ -35,6 +33,7 @@ public class Expense extends Base{
     private String description;
     private String billPhoto;
     @Builder.Default
+    @Enumerated(EnumType.STRING)
     private EExpenseStatus eExpenseStatus = EExpenseStatus.PENDING;
 
 }

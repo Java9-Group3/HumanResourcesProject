@@ -1,25 +1,28 @@
 package com.hrmanagement.repository.entity;
 
 import com.hrmanagement.repository.entity.enums.ECommentStatus;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.springframework.data.annotation.Id;
 
-@AllArgsConstructor
+import javax.persistence.*;
+
 @SuperBuilder
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
+@ToString
+@Entity
+@Table(name = "tblComment")
 public class Comment extends Base {
     @Id
-    private String commentId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long commentId;
     private String comment;
-    private String userId;
+    private Long userId;
     private String name;
     private String surname;
-    private String companyId;
+    private Long companyId;
     @Builder.Default
+    @Enumerated(EnumType.STRING)
     private ECommentStatus eCommentStatus = ECommentStatus.PENDING;
 }

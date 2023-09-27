@@ -3,7 +3,7 @@ package com.hrmanagement.utility;
 import com.hrmanagement.repository.entity.Base;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -11,7 +11,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Getter
 public abstract class ServiceManager<T extends Base, ID> implements IService<T, ID>{
-    private final MongoRepository<T, ID> repository;
+    private final JpaRepository<T, ID> repository;
     @Override
     public T save(T t) {
         t.setCreatedDate(System.currentTimeMillis());
