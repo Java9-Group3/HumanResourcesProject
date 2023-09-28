@@ -44,8 +44,8 @@ public class AuthController {
     }
 
     @GetMapping(CONFIRM_ACCOUNT)
-    public ResponseEntity<Auth> confirmUserAccount(@RequestParam("token") String token) {
-        return ResponseEntity.ok(authService.confirmUserAccount(token));
+    public ResponseEntity<Auth> confirmUserAccount(@RequestParam("Activation Code") String activationCode) {
+        return ResponseEntity.ok(authService.confirmUserAccount(activationCode));
     }
 
     @GetMapping(FIND_ALL)

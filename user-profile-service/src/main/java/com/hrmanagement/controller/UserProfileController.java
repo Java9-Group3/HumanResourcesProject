@@ -10,11 +10,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-
 import java.util.List;
 
 import static com.hrmanagement.constant.ApiUrls.*;
-import static com.hrmanagement.constant.ApiUrls.ADMINCHANGEVISITORSTATUS;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -24,7 +22,7 @@ public class UserProfileController {
 
     private final UserProfileService userProfileService;
 
-    @PutMapping(ADMINCHANGEVISITORSTATUS + "/{token}")
+    @PutMapping(ADMINCHANGEMANAGERSTATUS + "/{token}")
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     public ResponseEntity<Boolean> adminChangeManagerStatus(@PathVariable String token, @RequestBody ChangeManagerStatusRequestDto dto) {
         return ResponseEntity.ok(userProfileService.adminChangeManagerStatus(token, dto));
@@ -97,6 +95,7 @@ public class UserProfileController {
         return ResponseEntity.ok(userProfileService.getUserProfileExpenseInformation(authId));
     }
 
+    @Hidden
     @GetMapping("/find-all-manager-list/{token}")
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     public ResponseEntity<List<FindAllManagerResponseDto>> findAllInactiveManager(@PathVariable String token) {
@@ -139,7 +138,7 @@ public class UserProfileController {
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @PutMapping("/updatePersonel")
+    @PutMapping("/update/personel")
     public ResponseEntity<Boolean> updatePersonel(@RequestBody PersonelUpdateRequestDto personelUpdateRequestDto) {
         return ResponseEntity.ok(userProfileService.updatePersonel(personelUpdateRequestDto));
     }
