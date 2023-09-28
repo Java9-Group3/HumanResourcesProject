@@ -16,7 +16,6 @@ public class RegisterVisitorRequestDto {
 
     @NotBlank(message = "Adınızı boş bırakmayınız.")
     private String name;
-    private String middleName;
     @NotBlank(message = "Soyadınızı boş bırakmayınız.")
     private String surname;
     @Email(message = "Lütfen geçerli bir email giriniz.")

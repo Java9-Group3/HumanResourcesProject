@@ -13,5 +13,5 @@ public class UserProfileCommentResponseDto {
     private String userId;
     private String name;
     private String surname;
-    private String companyId;
+    private Long companyId;
 }

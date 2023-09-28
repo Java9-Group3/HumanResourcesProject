@@ -1,12 +1,9 @@
 package com.hrmanagement.dto.response;
 
-import com.hrmanagement.repository.entity.enums.EGender;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
 
 @AllArgsConstructor
 @Builder
@@ -21,6 +18,6 @@ public class NewCreateManagerUserResponseDto {
     private String email;
     private String password;
     private String repassword;
-    private String companyId;
+    private Long companyId;
     private String department;
 }

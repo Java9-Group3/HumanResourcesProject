@@ -1,10 +1,6 @@
 package com.hrmanagement.service;
 
 import com.hrmanagement.dto.request.*;
-import com.hrmanagement.dto.request.LoginRequestDto;
-import com.hrmanagement.dto.request.RegisterManagerRequestDto;
-import com.hrmanagement.dto.request.RegisterVisitorRequestDto;
-
 import com.hrmanagement.dto.response.*;
 import com.hrmanagement.exception.AuthManagerException;
 import com.hrmanagement.exception.ErrorType;
@@ -21,7 +17,6 @@ import com.hrmanagement.repository.IAuthRepository;
 import com.hrmanagement.repository.entity.Auth;
 import com.hrmanagement.repository.entity.enums.ERole;
 import com.hrmanagement.repository.entity.enums.EStatus;
-import com.hrmanagement.utility.CodeGenerator;
 import com.hrmanagement.utility.JwtTokenProvider;
 import com.hrmanagement.utility.ServiceManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -31,8 +26,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
-import static com.hrmanagement.utility.CodeGenerator.generateCode;
 
 @Service
 public class AuthService extends ServiceManager<Auth,Long> {
@@ -86,17 +79,17 @@ public class AuthService extends ServiceManager<Auth,Long> {
     public RegisterResponseDto registerManager(RegisterManagerRequestDto dto){
         Auth auth = IAuthMapper.INSTANCE.fromManagerRequestDtoToAuth(dto);
         auth.setRoles(List.of(ERole.MANAGER,ERole.PERSONEL,ERole.FOUNDER));
-        Boolean isCompanyExists = companyManager.doesCompanyExist(dto.getCompanyId()).getBody();
-        if(!isCompanyExists)
-            throw new AuthManagerException(ErrorType.COMPANY_NOT_FOUND);
-        Boolean isFounderExists = userManager.doesFounderExists(dto.getCompanyId()).getBody();
-        System.out.println(isFounderExists);
-        if(!isFounderExists)
-            throw new AuthManagerException(ErrorType.FOUNDER_EXIST_ERROR);
-        Boolean isSubscriptionExists = companyManager.doesCompanySubscriptionExist(dto.getCompanyId()).getBody();
-        System.out.println("Company Subscription" + isSubscriptionExists);
-        if(!isSubscriptionExists)
-            throw new AuthManagerException(ErrorType.COMPANY_SUBSCRIPTION_EXIST);
+//        Boolean isCompanyExists = companyManager.doesCompanyExist(dto.getCompanyId()).getBody();
+//        if(!isCompanyExists)
+//            throw new AuthManagerException(ErrorType.COMPANY_NOT_FOUND);
+//        Boolean isFounderExists = userManager.doesFounderExists(dto.getCompanyId()).getBody();
+//        System.out.println(isFounderExists);
+//        if(!isFounderExists)
+//            throw new AuthManagerException(ErrorType.FOUNDER_EXIST_ERROR);
+//        Boolean isSubscriptionExists = companyManager.doesCompanySubscriptionExist(dto.getCompanyId()).getBody();
+//        System.out.println("Company Subscription" + isSubscriptionExists);
+//        if(!isSubscriptionExists)
+//            throw new AuthManagerException(ErrorType.COMPANY_SUBSCRIPTION_EXIST);
 
         if (dto.getPassword().equals(dto.getRepassword())){
             auth.setActivationCode("aklsjzbdaskljdgbasjlhdbasljh");
@@ -105,7 +98,7 @@ public class AuthService extends ServiceManager<Auth,Long> {
             NewCreateManagerUserRequestDto managerUserDto = IAuthMapper.INSTANCE.fromRegisterManagerRequestDtoToNewCreateManagerUserRequestDto(dto);
             managerUserDto.setAuthId(auth.getAuthId());
             managerUserDto.setPassword(auth.getPassword());
-            companyManager.subscribeCompany(IAuthMapper.INSTANCE.fromRegisterManagerRequestDtoToSubscribeCompanyRequestDto(dto));
+//            companyManager.subscribeCompany(IAuthMapper.INSTANCE.fromRegisterManagerRequestDtoToSubscribeCompanyRequestDto(dto));
             userManager.createManagerUser(managerUserDto);
             registerMailProducer.sendActivationCode(IAuthMapper.INSTANCE.fromAuthToRegisterMailModel(auth));
         }else {
@@ -151,20 +144,20 @@ public class AuthService extends ServiceManager<Auth,Long> {
         return true;
     }
 
-
-
-    public Boolean confirmUserAccount(String activationCode) {
+    public Auth confirmUserAccount(String activationCode) {
         try {
             Auth confirmAcc=authRepository.findOptionalByActivationCode(activationCode).get();
             String temp=confirmAcc.getActivationCode();
             if (activationCode.equals(temp)){
+                confirmAcc.setStatus(EStatus.ACTIVE);
                 userManager.activateUser(confirmAcc.getAuthId());
+                save(confirmAcc);
             }else{
                 throw new AuthManagerException(ErrorType.INVALID_ACTION);
             }
-            return true;
+            return confirmAcc;
         }catch (Exception e){
-            return false;
+            return null;
         }
     }
 

@@ -12,6 +12,7 @@ import java.util.List;
 
 import static com.hrmanagement.constants.EndPoints.COMMENT;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping(COMMENT)
 @RequiredArgsConstructor

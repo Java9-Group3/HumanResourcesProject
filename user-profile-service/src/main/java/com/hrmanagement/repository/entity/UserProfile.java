@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +25,7 @@ public class UserProfile extends Base {
     private Long id;
     private Long userId;
     private Long authId;
+    private Long companyId;
     private String password;
     private String email;
     private String name;
@@ -49,7 +49,6 @@ public class UserProfile extends Base {
     private Integer buildingNumber;
     private Integer apartmentNumber;
     private Integer postalCode;
-    private String companyId;
     private int employeeLeaves;
     private String department;
     private Long jobEndingDate;

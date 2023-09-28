@@ -154,19 +154,19 @@ public class UserProfileService extends ServiceManager<UserProfile, Long> {
     }
 
 
-    public String getCompanyId(Long authId) {
+    public Long getCompanyId(Long authId) {
         Optional<UserProfile> optionalUserProfile = userProfileRepository.findByAuthId(authId);
         if(optionalUserProfile.isEmpty())
             throw new UserProfileManagerException(ErrorType.USER_NOT_FOUND);
         return optionalUserProfile.get().getCompanyId();
     }
 
-    public List<String> getManagerNames(String companyId) {
+    public List<Long> getManagerNames(Long companyId) {
         List<UserProfile> userProfileList = userProfileRepository.findByCompanyId(companyId);
         if(userProfileList.isEmpty())
             throw new UserProfileManagerException(ErrorType.USER_NOT_FOUND);
-        List<String> managerList = new ArrayList<>();
-        userProfileList.forEach(userProfile -> managerList.add(userProfile.getName()));
+        List<Long> managerList = new ArrayList<>();
+        userProfileList.forEach(userProfile -> managerList.add(Long.valueOf(userProfile.getName())));
         return managerList;
     }
 
@@ -206,10 +206,14 @@ public class UserProfileService extends ServiceManager<UserProfile, Long> {
 
     public Boolean activateUser(Long authId) {
         Optional<UserProfile> optionalUserProfile = userProfileRepository.findByAuthId(authId);
-        if(optionalUserProfile.isEmpty())
+        if(optionalUserProfile.isEmpty()){
             throw new UserProfileManagerException(ErrorType.USER_NOT_FOUND);
+        }
+        System.out.println("****212****");
         optionalUserProfile.get().setStatus(EStatus.ACTIVE);
-        update(optionalUserProfile.get());
+        System.out.println("****214****");
+        userProfileRepository.save(optionalUserProfile.get());
+        System.out.println("****sa****");
         return true;
     }
 
@@ -441,7 +445,7 @@ public class UserProfileService extends ServiceManager<UserProfile, Long> {
         }
     }
 
-    public Boolean doesFounderExists(String companyId) {
+    public Boolean doesFounderExists(Long companyId) {
         List<UserProfile> userProfileList = userProfileRepository.findByCompanyId(companyId);
         if(userProfileList.isEmpty())
             return true;

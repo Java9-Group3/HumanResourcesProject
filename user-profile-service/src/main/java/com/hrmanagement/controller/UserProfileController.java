@@ -16,6 +16,7 @@ import java.util.List;
 import static com.hrmanagement.constant.ApiUrls.*;
 import static com.hrmanagement.constant.ApiUrls.ADMINCHANGEVISITORSTATUS;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping(USER_PROFILE)
 @RequiredArgsConstructor
@@ -29,6 +30,7 @@ public class UserProfileController {
         return ResponseEntity.ok(userProfileService.adminChangeManagerStatus(token, dto));
     }
 
+    @Hidden
     @PutMapping(FORGOT_PASSWORD)
     public ResponseEntity<Boolean> forgotPassword(@RequestBody ForgotPasswordUserResponseDto dto) {
         return ResponseEntity.ok(userProfileService.forgotPassword(dto));
@@ -37,7 +39,6 @@ public class UserProfileController {
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping(CREATE_PERSONAL + "/{token}")
     public ResponseEntity<Boolean> managerCreatePersonelUserProfile(@PathVariable String token, @RequestBody @Valid CreateUserProfileRequestDto dto) {
-
         return ResponseEntity.ok(userProfileService.managerCreatePersonelUserProfile(token, dto));
     }
 
@@ -54,15 +55,15 @@ public class UserProfileController {
 
     @Hidden
     @GetMapping("/get-manager-id/{authId}")
-    public ResponseEntity<String> getCompanyId(@PathVariable Long authId) {
+    public ResponseEntity<Long> getCompanyId(@PathVariable Long authId) {
         return ResponseEntity.ok(userProfileService.getCompanyId(authId));
     }
-
+    @Hidden
     @GetMapping("/get-manager-names/{companyId}")
-    public ResponseEntity<List<String>> getManagerNames(@PathVariable String companyId) {
+    public ResponseEntity<List<Long>> getManagerNames(@PathVariable Long companyId) {
         return ResponseEntity.ok(userProfileService.getManagerNames(companyId));
     }
-
+    @Hidden
     @PutMapping("/manager-delete-personnel/{token}/{userId}")
     public ResponseEntity<Boolean> managerDeletePersonnel(@PathVariable String token, @PathVariable Long userId) {
         return ResponseEntity.ok(userProfileService.managerDeletePersonnel(token, userId));
@@ -72,7 +73,7 @@ public class UserProfileController {
     public ResponseEntity<PersonnelInformationResponseDto> showPersonnelInformation(@PathVariable String token) {
         return ResponseEntity.ok(userProfileService.showPersonnelInformation(token));
     }
-
+    @Hidden
     @PutMapping("/inactivate-user/{authId}")
     public ResponseEntity<Boolean> inactivateUser(@PathVariable Long authId) {
         System.out.println("burdayım");
@@ -124,13 +125,13 @@ public class UserProfileController {
     public ResponseEntity<UserProfileManagerDashboardRequestDto> getUserProfileManagerDashboard(@PathVariable Long authId) {
         return ResponseEntity.ok(userProfileService.getUserProfileManagerDashboard(authId));
     }
-
+    @Hidden
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/get-userprofile-avatar-and-name/{token}")
     public ResponseEntity<UserProfileAvatarAndNameResponseDto> getUserProfileAvatarAndName(@PathVariable String token) {
         return ResponseEntity.ok(userProfileService.getUserProfileAvatarAndName(token));
     }
-
+    @Hidden
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/get-userprofile-avatar-and-name-and-surname/{token}")
     public ResponseEntity<UserProfileAvatarAndNameAndSurnameResponseDto> getUserProfileAvatarAndNameAndSurname(@PathVariable String token) {
@@ -142,37 +143,37 @@ public class UserProfileController {
     public ResponseEntity<Boolean> updatePersonel(@RequestBody PersonelUpdateRequestDto personelUpdateRequestDto) {
         return ResponseEntity.ok(userProfileService.updatePersonel(personelUpdateRequestDto));
     }
-
+    @Hidden
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/get-personel-profile-for-user-profile-dashboard/{token}")
     public ResponseEntity<UserProfileSendingInfosResponseDto> getPersonelProfileForUserProfileDashboard(@PathVariable String token) {
         return ResponseEntity.ok(userProfileService.getPersonelProfileForUserProfileDashboard(token));
     }
-
+    @Hidden
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PutMapping("/update-personel-address")
     public ResponseEntity<Boolean> updatePersonelAdress(@RequestBody PersonelAddressUpdateRequestDto personelUpdateRequestDto) {
         return ResponseEntity.ok(userProfileService.updatePersonelAdress(personelUpdateRequestDto));
     }
-
+    @Hidden
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PutMapping(PASS_CHANGE)
     public ResponseEntity<String> passwordChange(@RequestBody PasswordChangeDto dto) {
         return ResponseEntity.ok(userProfileService.passwordChange(dto));
     }
-
+    @Hidden
     @GetMapping("/does-founder-exists/{companyId}")
-    public ResponseEntity<Boolean> doesFounderExists(@PathVariable String companyId) {
+    public ResponseEntity<Boolean> doesFounderExists(@PathVariable Long companyId) {
         return ResponseEntity.ok(userProfileService.doesFounderExists(companyId));
     }
-
+    @Hidden
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/get-wage/{token}")
     public ResponseEntity<Double> getWage(@PathVariable String token) {
         return ResponseEntity.ok(userProfileService.getWage(token));
     }
 
-
+    @Hidden
     @PostMapping("/founder-create-manager/{token}")
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     public ResponseEntity<Boolean> founderCreateManagerUserProfile(@PathVariable String token, @RequestBody @Valid CreateUserProfileRequestDto dto){
@@ -181,7 +182,7 @@ public class UserProfileController {
 
     @Hidden
     @GetMapping("/find-user-companyId/{authId}")
-    public ResponseEntity<String> findUserCompanyId(@PathVariable Long authId){
+    public ResponseEntity<Long> findUserCompanyId(@PathVariable Long authId){
         return ResponseEntity.ok(userProfileService.getCompanyId(authId));
     }
 
@@ -191,7 +192,7 @@ public class UserProfileController {
         return ResponseEntity.ok(userProfileService.findAvatar(userId));
     }
 
-
+    @Hidden
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PutMapping("/update-avatar/{token}")
     public ResponseEntity<Boolean> updateAvatar(@PathVariable String token,@RequestBody UpdateAvatarRequestDto dto){

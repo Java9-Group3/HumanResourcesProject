@@ -14,5 +14,5 @@ public class UserProfileExpenseResponseDto {
     private String userId;
     private String name;
     private String surname;
-    private String companyId;
+    private Long companyId;
 }

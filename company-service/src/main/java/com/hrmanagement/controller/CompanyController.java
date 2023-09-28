@@ -15,6 +15,7 @@ import java.util.List;
 
 import static com.hrmanagement.constants.EndPoints.*;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping(COMPANY)
 @RequiredArgsConstructor

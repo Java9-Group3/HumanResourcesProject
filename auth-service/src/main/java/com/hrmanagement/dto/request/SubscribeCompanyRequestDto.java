@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class SubscribeCompanyRequestDto {
-    private String companyId;
+    private Long companyId;
     private Integer companySubscribeDay;
 }

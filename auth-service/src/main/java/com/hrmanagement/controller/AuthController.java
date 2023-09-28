@@ -16,37 +16,36 @@ import java.util.List;
 
 import static com.hrmanagement.constant.ApiUrls.*;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(AUTH)
 public class AuthController {
     private final AuthService authService;
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping(REGISTER_VISITOR)
     public ResponseEntity<Boolean> registerVisitor(@RequestBody @Valid RegisterVisitorRequestDto dto){
         return ResponseEntity.ok(authService.registerVisitor(dto));
     }
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
+
     @PostMapping(REGISTER_MANAGER)
     public ResponseEntity<RegisterResponseDto> registerManager(@RequestBody @Valid RegisterManagerRequestDto dto){
         return ResponseEntity.ok(authService.registerManager(dto));
     }
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
+
     @PostMapping(LOGIN)
     public ResponseEntity<LoginResponseDto> login(@RequestBody LoginRequestDto dto){
         return ResponseEntity.ok(authService.login(dto));
     }
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @Hidden
     @GetMapping(FORGOT_PASSWORD_REQUEST + "/{email}")
     public ResponseEntity<Boolean> forgotPasswordRequest(@PathVariable String email){
         return ResponseEntity.ok(authService.forgotPasswordRequest(email));
     }
 
     @GetMapping(CONFIRM_ACCOUNT)
-    public ResponseEntity<String> confirmUserAccount(@RequestParam("token") String token) {
-        authService.confirmUserAccount(token);
-        return ResponseEntity.ok("Confirmation success.");
+    public ResponseEntity<Auth> confirmUserAccount(@RequestParam("token") String token) {
+        return ResponseEntity.ok(authService.confirmUserAccount(token));
     }
 
     @GetMapping(FIND_ALL)
@@ -54,13 +53,14 @@ public class AuthController {
         return ResponseEntity.ok(authService.findAll());
     }
 
+
     @Hidden
     @PostMapping("/manager-create-personnel-userProfile")
     public ResponseEntity<Long> managerCreatePersonnelUserProfile(@RequestBody AuthCreatePersonnelProfileResponseDto dto){
         return ResponseEntity.ok(authService.managerCreatePersonelUserProfile(dto));
     }
+    @Hidden
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping(FORGOT_PASSWORD + "/{token}")
     public ResponseEntity<Boolean> forgotPassword(@PathVariable String token, @RequestBody @Valid ForgotPasswordChangePasswordRequestDto dto) {
         return ResponseEntity.ok(authService.forgotPassword(token,dto));
@@ -70,13 +70,13 @@ public class AuthController {
     public ResponseEntity<Boolean> updateManagerStatus(@RequestBody UpdateManagerStatusResponseDto dto){
         return ResponseEntity.ok(authService.updateManagerStatus(dto));
     }
-
+    @Hidden
     @PutMapping("/manager-delete-personnel")
     public ResponseEntity<Boolean> managerDeletePersonnel(@RequestBody DeletePersonnelFromAuthResponseDto dto){
         return ResponseEntity.ok(authService.managerDeletePersonnel(dto));
     }
+    @Hidden
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/get-roles-from-token/{token}")
     public ResponseEntity<List<String>> getRolesFromToken(@PathVariable String token){
         return ResponseEntity.ok(authService.getRolesFromToken(token));

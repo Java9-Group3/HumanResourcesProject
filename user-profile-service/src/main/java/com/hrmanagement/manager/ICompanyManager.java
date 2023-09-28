@@ -17,14 +17,14 @@ public interface ICompanyManager {
 
 
     @GetMapping("/get-personnel-company-information/{companyId}")
-    public ResponseEntity<PersonnelCompanyInformationResponseDto> getPersonnelCompanyInformation(@PathVariable String companyId);
+    public ResponseEntity<PersonnelCompanyInformationResponseDto> getPersonnelCompanyInformation(@PathVariable Long companyId);
     @GetMapping("/get-company-name-with-company-id/{companyId}")
     ResponseEntity<String> getCompanyNameWithCompanyId(@PathVariable String companyId);
     @GetMapping("/get-company-infos-with-company-id/{companyId}")
-    public ResponseEntity<AllCompanyInfosForUserProfileResponseDto> getAllInfosCompanyWithCompanyId(@PathVariable String companyId);
+    public ResponseEntity<AllCompanyInfosForUserProfileResponseDto> getAllInfosCompanyWithCompanyId(@PathVariable Long companyId);
 
     @GetMapping("/get-company-name-and-wagedate-with-company-id/{companyId}")
-    ResponseEntity<CompanyNameAndWageDateResponseDto> getCompanyNameAndWageDateResponseDto(@PathVariable String companyId);
+    ResponseEntity<CompanyNameAndWageDateResponseDto> getCompanyNameAndWageDateResponseDto(@PathVariable Long companyId);
 
     @PutMapping("/update-company-wage-date")
     ResponseEntity<Boolean> updateCompanyWageDate(@RequestBody UpdateCompanyWageDateRequestDto dto);
