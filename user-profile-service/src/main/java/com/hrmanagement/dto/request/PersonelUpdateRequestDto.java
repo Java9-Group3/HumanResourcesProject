@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PersonelUpdateRequestDto {
     private String name;
-    private String middleName;
     private String surname;
     private String email;
     private String phone;

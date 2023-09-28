@@ -45,21 +45,6 @@ public class UserProfileService extends ServiceManager<UserProfile, Long> {
 
     }
 
-    /**
-     *  Personnel Create methodunda dateOfBirth için takvim etkinleştirmesi bakılacak
-     *  Gender combobox'ından değer çekilme bakılacak
-     *  Base64 formatında avatar ekleme koyulamalıdır.
-     *
-     *
-     *
-     *
-     * Şifre validasyonu
-     *
-     *
-     * @param token
-     * @return
-     */
-    //çift butonlu olacaktır
     public Boolean adminChangeManagerStatus(String token, ChangeManagerStatusRequestDto dto) {
         Long authId = jwtTokenProvider.getIdFromToken(token).orElseThrow(() -> {throw new UserProfileManagerException(ErrorType.INVALID_TOKEN);});
         Optional<UserProfile> optionalAdminProfile = userProfileRepository.findByAuthId(authId);
@@ -189,7 +174,7 @@ public class UserProfileService extends ServiceManager<UserProfile, Long> {
         }
         throw new UserProfileManagerException(ErrorType.AUTHORIZATION_ERROR);
     }
-    //BAKILCAK DÜZELTILECEK
+
     public PersonnelInformationResponseDto showPersonnelInformation(String token){
         Long authId = jwtTokenProvider.getIdFromToken(token).orElseThrow(()->{throw new UserProfileManagerException(ErrorType.USER_NOT_FOUND);});
         List<String> roles = jwtTokenProvider.getRoleFromToken(token);
@@ -342,7 +327,6 @@ public class UserProfileService extends ServiceManager<UserProfile, Long> {
             if (personelprofile.isPresent()) {
                 UserProfile profile = personelprofile.get();
                 profile.setName(personelUpdateRequestDto.getName());
-                profile.setMiddleName(personelUpdateRequestDto.getMiddleName());
                 profile.setSurname(personelUpdateRequestDto.getSurname());
                 profile.setEmail(personelUpdateRequestDto.getEmail());
                 profile.setPhone(personelUpdateRequestDto.getPhone());
