@@ -20,17 +20,17 @@ public class ExpenseController {
 
     private final ExpenseService expenseService;
 
-    @PostMapping("/personnel-make-expense/{token}")
+    @PostMapping("/personnel-make-expense")
     public ResponseEntity<Boolean> personnelMakeExpense(@PathVariable String token, @RequestBody PersonelExpenseRequestDto dto) {
         return ResponseEntity.ok(expenseService.personnelMakeExpense(token, dto));
     }
 
-    @GetMapping("/find-all-company-expense-list/{token}")
+    @GetMapping("/find-all-company-expense-list")
     public ResponseEntity<List<CompanyExpenseListResponseDto>> findAllCompanyExpenseList(@PathVariable String token) {
         return ResponseEntity.ok(expenseService.findAllCompanyExpenseList(token));
     }
 
-    @PutMapping("/change-expense-status/{token}")
+    @PutMapping("/change-expense-status")
     public ResponseEntity<Boolean> changeExpenseStatus(@PathVariable String token, @RequestBody ChangeExpenseStatusRequestDto dto) {
         return ResponseEntity.ok(expenseService.changeExpenseStatus(token, dto));
     }

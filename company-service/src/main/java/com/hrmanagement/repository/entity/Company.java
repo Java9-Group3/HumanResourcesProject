@@ -40,5 +40,4 @@ public class Company extends Base{
     private String companyMail;
     private String wageDate;
     private Long subscriptionExpirationDate;
-
 }

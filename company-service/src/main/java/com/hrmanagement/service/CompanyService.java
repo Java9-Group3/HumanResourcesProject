@@ -41,32 +41,22 @@ public class CompanyService extends ServiceManager<Company, Long> {
         this.commentService = commentService;
     }
 
-    public Boolean save(String token, SaveCompanyRequestDto dto) {
-        List<String> roles = jwtTokenProvider.getRoleFromToken(token);
-        if (roles.isEmpty())
-            throw new CompanyManagerException(ErrorType.INVALID_TOKEN);
-        if (roles.contains(ERole.ADMIN.toString())) {
+    public Boolean save(SaveCompanyRequestDto dto) {
             if (!companyRepository.existsByCompanyNameIgnoreCase(dto.getCompanyName())) {
                 Company company = ICompanyMapper.INSTANCE.fromSaveCompanyResponseDtoToCompany(dto);
                 if(dto.getBase64Logo()!=null){
                     String encodedLogo = Base64.getEncoder().encodeToString(dto.getBase64Logo().getBytes());
                     company.setLogo(encodedLogo);
+                    company.setSubscriptionExpirationDate(2023L);
                 }
                 save(company);
                 return true;
             }
             throw new CompanyManagerException(ErrorType.COMPANY_ALREADY_EXIST);
-        }
-        throw new CompanyManagerException(ErrorType.NO_AUTHORIZATION);
     }
 
     //İlgili müdür için hazırlanan şirket bilgileri getir metodudur. Role'le kontrol ypaılacak
-    public CompanyInformationResponseDto showCompanyInformation(String token) {
-        List<String> roles = jwtTokenProvider.getRoleFromToken(token);
-        Optional<Long> authId = jwtTokenProvider.getIdFromToken(token);
-        if (authId.isEmpty())
-            throw new CompanyManagerException(ErrorType.BAD_REQUEST);
-        Long companyId = userManager.getCompanyId(authId.get()).getBody();
+    public CompanyInformationResponseDto showCompanyInformation(Long companyId) {
         Company company = findById(companyId).orElseThrow(() -> {
             throw new CompanyManagerException(ErrorType.COMPANY_NOT_FOUND);
         });
@@ -84,7 +74,7 @@ public class CompanyService extends ServiceManager<Company, Long> {
                 Date expirationDate = new Date(company.getSubscriptionExpirationDate());
                 System.out.println(currentDate);
                 System.out.println(expirationDate);
-                    if(currentDate.before(expirationDate)){
+                    if(currentDate.after(expirationDate)){
                         VisitorCompanyInformations dto = ICompanyMapper.INSTANCE.fromCompanyToVisitorCompanyInformations(company);
                         if(company.getLogo()!=null){
                             try{
