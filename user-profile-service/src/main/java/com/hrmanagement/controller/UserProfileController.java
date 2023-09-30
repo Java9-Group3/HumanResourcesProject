@@ -71,9 +71,9 @@ public class UserProfileController {
     public ResponseEntity<PersonnelInformationResponseDto> showPersonnelInformation(@PathVariable String token) {
         return ResponseEntity.ok(userProfileService.showPersonnelInformation(token));
     }
-    @Hidden
-    @PutMapping("/inactivate-user/{authId}")
-    public ResponseEntity<Boolean> inactivateUser(@PathVariable Long authId) {
+
+    @PutMapping("/activateUser-user/{authId}")
+    public ResponseEntity<Boolean> activateUser(@PathVariable Long authId){
         System.out.println("burdayım");
         return ResponseEntity.ok(userProfileService.activateUser(authId));
     }

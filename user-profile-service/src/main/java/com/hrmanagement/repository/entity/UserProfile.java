@@ -37,6 +37,7 @@ public class UserProfile extends Base {
     @Enumerated(EnumType.STRING)
     @Builder.Default
     private List<ERole> role = new ArrayList<>();
+    @Enumerated(EnumType.STRING)
     private EStatus status;
     private EGender gender;
     private String phone;

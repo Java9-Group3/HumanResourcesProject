@@ -17,11 +17,13 @@ import com.hrmanagement.repository.IAuthRepository;
 import com.hrmanagement.repository.entity.Auth;
 import com.hrmanagement.repository.entity.enums.ERole;
 import com.hrmanagement.repository.entity.enums.EStatus;
+import com.hrmanagement.utility.CodeGenerator;
 import com.hrmanagement.utility.JwtTokenProvider;
 import com.hrmanagement.utility.ServiceManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -31,13 +33,10 @@ import java.util.stream.Collectors;
 public class AuthService extends ServiceManager<Auth,Long> {
     private final IAuthRepository authRepository;
     private final PasswordEncoder passwordEncoder;
-
     private final RegisterMailHelloProducer registerMailHelloProducer;
-    //private final CodeGenerator codeGenerator;
     private final IUserProfileManager userManager;
     private final JwtTokenProvider jwtTokenProvider;
     private final ForgotPasswordProducer forgotPasswordProducer;
-
     private final RegisterMailProducer registerMailProducer;
     private final ResetPasswordProducer resetPasswordProducer;
     private final ICompanyManager companyManager;
@@ -46,7 +45,6 @@ public class AuthService extends ServiceManager<Auth,Long> {
         this.authRepository=authRepository;
         this.passwordEncoder = passwordEncoder;
         this.registerMailHelloProducer = registerMailHelloProducer;
-        //this.codeGenerator = codeGenerator;
         this.userManager = userManager;
         this.jwtTokenProvider = jwtTokenProvider;
         this.forgotPasswordProducer = forgotPasswordProducer;
@@ -64,9 +62,9 @@ public class AuthService extends ServiceManager<Auth,Long> {
         auth.setRoles(List.of(ERole.VISITOR));
         if (dto.getPassword().equals(dto.getRepassword())){
             auth.setPassword(passwordEncoder.encode(dto.getPassword()));
-            auth.setStatus(EStatus.ACTIVE);
-            //String code=codeGenerator.generateCode();
-            auth.setActivationCode("code12356");
+            auth.setStatus(EStatus.PENDING);
+            String code= CodeGenerator.generateCode();
+            auth.setActivationCode(code);
             save(auth);
             userManager.createVisitorUser(IAuthMapper.INSTANCE.fromAuthNewCreateVisitorUserRequestDto(auth));
             registerMailProducer.sendActivationCode(IAuthMapper.INSTANCE.fromAuthToRegisterMailModel(auth));
@@ -92,7 +90,6 @@ public class AuthService extends ServiceManager<Auth,Long> {
 //            throw new AuthManagerException(ErrorType.COMPANY_SUBSCRIPTION_EXIST);
 
         if (dto.getPassword().equals(dto.getRepassword())){
-            auth.setActivationCode("aklsjzbdaskljdgbasjlhdbasljh");
             auth.setPassword(passwordEncoder.encode(dto.getPassword()));
             save(auth);
             NewCreateManagerUserRequestDto managerUserDto = IAuthMapper.INSTANCE.fromRegisterManagerRequestDtoToNewCreateManagerUserRequestDto(dto);
@@ -149,8 +146,8 @@ public class AuthService extends ServiceManager<Auth,Long> {
             Auth confirmAcc=authRepository.findOptionalByActivationCode(activationCode).get();
             String temp=confirmAcc.getActivationCode();
             if (activationCode.equals(temp)){
-                confirmAcc.setStatus(EStatus.ACTIVE);
                 userManager.activateUser(confirmAcc.getAuthId());
+                confirmAcc.setStatus(EStatus.ACTIVE);
                 save(confirmAcc);
             }else{
                 throw new AuthManagerException(ErrorType.INVALID_ACTION);
@@ -246,5 +243,15 @@ public class AuthService extends ServiceManager<Auth,Long> {
         auth.setRoles(Arrays.asList(ERole.PERSONEL,ERole.MANAGER));
         save(auth);
         return auth.getAuthId();
+    }
+
+    @PostConstruct
+    public void defaultAdmin(){
+        save(Auth.builder()
+                .email("admin")
+                .password(passwordEncoder.encode("admin"))
+                .roles(List.of(ERole.ADMIN))
+                .status(EStatus.ACTIVE)
+                .build());
     }
 }

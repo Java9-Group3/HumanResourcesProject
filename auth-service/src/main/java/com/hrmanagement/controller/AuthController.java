@@ -43,8 +43,8 @@ public class AuthController {
         return ResponseEntity.ok(authService.forgotPasswordRequest(email));
     }
 
-    @GetMapping(CONFIRM_ACCOUNT)
-    public ResponseEntity<Auth> confirmUserAccount(@RequestParam("Activation Code") String activationCode) {
+    @GetMapping("/confirm-account")
+    public ResponseEntity<Auth> confirmUserAccount(String activationCode) {
         return ResponseEntity.ok(authService.confirmUserAccount(activationCode));
     }
 
