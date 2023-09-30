@@ -34,7 +34,7 @@ public class Auth extends Base{
     private List<ERole> roles;
     @Enumerated(EnumType.STRING)
     @Builder.Default
-    private EStatus status = EStatus.ACTIVE;
+    private EStatus status = EStatus.PENDING;
     
 
 

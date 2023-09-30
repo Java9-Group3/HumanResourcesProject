@@ -20,8 +20,8 @@ public class MailService {
         mailMessage.setSubject("KAYDI TAMAMLAYIN LÜTFEN");
         //+jwtTokenProvider.createMailToken(registerMailModel.getAuthId(), registerMailModel.getStatus()).get()
         mailMessage.setText(
-                registerMailModel.getName()+" " + registerMailModel.getSurname() + " To confirm your account, please click here :\n"  +registerMailModel.getActivationCode() +
-                        "http://localhost:9090/api/v1/auth/confirm-account?token="
+                registerMailModel.getName()+" " + registerMailModel.getSurname() + " To confirm your account, please click here :\n" +
+                        "http://localhost:9090/api/v1/auth/confirm-account?activationCode="+registerMailModel.getActivationCode()
         );
         javaMailSender.send(mailMessage);
     }

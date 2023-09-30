@@ -21,6 +21,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
+import javax.annotation.PostConstruct;
 import java.util.*;
 
 @Service
@@ -48,10 +49,11 @@ public class UserProfileService extends ServiceManager<UserProfile, Long> {
     public Boolean adminChangeManagerStatus(String token, ChangeManagerStatusRequestDto dto) {
         Long authId = jwtTokenProvider.getIdFromToken(token).orElseThrow(() -> {throw new UserProfileManagerException(ErrorType.INVALID_TOKEN);});
         Optional<UserProfile> optionalAdminProfile = userProfileRepository.findByAuthId(authId);
+        if (optionalAdminProfile.isEmpty())
+            throw new UserProfileManagerException(ErrorType.USER_NOT_FOUND);
         List<String> role = jwtTokenProvider.getRoleFromToken(token);
         if(role.contains(ERole.ADMIN.toString())) {
-            if (optionalAdminProfile.isEmpty())
-                throw new UserProfileManagerException(ErrorType.USER_NOT_FOUND);
+
             Optional<UserProfile> user = findById(dto.getUserId());
             if (user.get().getRole().contains(ERole.MANAGER)) {
                 if (dto.getAction()) {
@@ -524,7 +526,16 @@ public class UserProfileService extends ServiceManager<UserProfile, Long> {
         return false;
     }
 
-
+    @PostConstruct
+    public void defaultAdmin(){
+        save(UserProfile.builder()
+                .email("admin")
+                .password(passwordEncoder.encode("admin"))
+                .role(List.of(ERole.ADMIN))
+                .status(EStatus.ACTIVE)
+                .authId(1L)
+                .build());
+    }
 
 
 }
