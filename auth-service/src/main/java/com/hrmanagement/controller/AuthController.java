@@ -22,6 +22,12 @@ import static com.hrmanagement.constant.ApiUrls.*;
 @RequestMapping(AUTH)
 public class AuthController {
     private final AuthService authService;
+
+    @GetMapping("/pending-managers")
+    public ResponseEntity<List<PendingManagerResponseDtoList>> getPendingManagers() {
+        List<PendingManagerResponseDtoList> pendingManagers = authService.findPendingManagers();
+        return ResponseEntity.ok(pendingManagers);
+    }
     @PostMapping(REGISTER_VISITOR)
     public ResponseEntity<Boolean> registerVisitor(@RequestBody @Valid RegisterVisitorRequestDto dto){
         return ResponseEntity.ok(authService.registerVisitor(dto));
@@ -52,6 +58,7 @@ public class AuthController {
     public ResponseEntity<List<Auth>> findAll(){
         return ResponseEntity.ok(authService.findAll());
     }
+
 
 
     @Hidden

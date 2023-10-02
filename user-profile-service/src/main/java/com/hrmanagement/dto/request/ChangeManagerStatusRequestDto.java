@@ -12,4 +12,5 @@ import lombok.NoArgsConstructor;
 public class ChangeManagerStatusRequestDto {
     private Long userId;
     private Boolean action;
+    private String token;
 }
