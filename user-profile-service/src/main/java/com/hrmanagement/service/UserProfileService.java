@@ -48,7 +48,7 @@ public class UserProfileService extends ServiceManager<UserProfile, Long> {
 
     public Boolean adminChangeManagerStatus(String token, ChangeManagerStatusRequestDto dto) {
         Long authId = jwtTokenProvider.getIdFromToken(token).orElseThrow(() -> {throw new UserProfileManagerException(ErrorType.INVALID_TOKEN);});
-        Optional<UserProfile> optionalAdminProfile = userProfileRepository.findByAuthId(authId);
+        Optional<UserProfile> optionalAdminProfile = userProfileRepository.findByAuthId(authId); //authId'ye göre arama-->front bağı burdan olmalı
         if (optionalAdminProfile.isEmpty())
             throw new UserProfileManagerException(ErrorType.USER_NOT_FOUND);
         List<String> role = jwtTokenProvider.getRoleFromToken(token);
@@ -529,7 +529,7 @@ public class UserProfileService extends ServiceManager<UserProfile, Long> {
     @PostConstruct
     public void defaultAdmin(){
         save(UserProfile.builder()
-                .email("admin")
+                .email("admin@admin.admin")
                 .password(passwordEncoder.encode("admin"))
                 .role(List.of(ERole.ADMIN))
                 .status(EStatus.ACTIVE)

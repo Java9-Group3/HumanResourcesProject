@@ -2,6 +2,7 @@ package com.hrmanagement.mapper;
 
 import com.hrmanagement.dto.request.*;
 import com.hrmanagement.dto.response.AuthCreatePersonnelProfileResponseDto;
+import com.hrmanagement.dto.response.PendingManagerResponseDtoList;
 import com.hrmanagement.dto.response.RegisterResponseDto;
 import com.hrmanagement.rabbitmq.model.RegisterMailHelloModel;
 import com.hrmanagement.rabbitmq.model.RegisterMailModel;
@@ -9,9 +10,13 @@ import com.hrmanagement.repository.entity.Auth;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface IAuthMapper {
     IAuthMapper INSTANCE = Mappers.getMapper(IAuthMapper.class);
+
+    List<PendingManagerResponseDtoList> fromAuthListToPendingManagerResponseDtoList(List<Auth> pendingManagers);
 
     Auth fromVisitorsRequestDtoToAuth(final RegisterVisitorRequestDto dto);
 
@@ -38,4 +43,6 @@ public interface IAuthMapper {
     void updateBecauseOfUserProfile(PersonelUpdateUserProfileToAuthRequestDto dto, @MappingTarget Auth auth);
 
     SubscribeCompanyRequestDto fromRegisterManagerRequestDtoToSubscribeCompanyRequestDto(final RegisterManagerRequestDto dto);
+
+
 }

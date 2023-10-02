@@ -13,6 +13,11 @@ public class ManagerChangeStatusConsumer {
 
     @RabbitListener(queues = "${rabbitmq.queueManagerChangeStatus}")
     public void sendInfoMailForManager(ManagerChangeStatusModel model) {
-        mailService.sendInfoMailForManager(model);
+
+        try {
+            mailService.sendInfoMailForManager(model);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 }

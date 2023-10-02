@@ -95,9 +95,10 @@ public class AuthService extends ServiceManager<Auth,Long> {
             NewCreateManagerUserRequestDto managerUserDto = IAuthMapper.INSTANCE.fromRegisterManagerRequestDtoToNewCreateManagerUserRequestDto(dto);
             managerUserDto.setAuthId(auth.getAuthId());
             managerUserDto.setPassword(auth.getPassword());
+            auth.setStatus(EStatus.PENDING);
 //            companyManager.subscribeCompany(IAuthMapper.INSTANCE.fromRegisterManagerRequestDtoToSubscribeCompanyRequestDto(dto));
             userManager.createManagerUser(managerUserDto);
-            registerMailProducer.sendActivationCode(IAuthMapper.INSTANCE.fromAuthToRegisterMailModel(auth));
+//            registerMailProducer.sendActivationCode(IAuthMapper.INSTANCE.fromAuthToRegisterMailModel(auth));
         }else {
             throw new AuthManagerException(ErrorType.PASSWORD_ERROR);
         }
@@ -248,10 +249,19 @@ public class AuthService extends ServiceManager<Auth,Long> {
     @PostConstruct
     public void defaultAdmin(){
         save(Auth.builder()
-                .email("admin")
+                .email("admin@admin.admin")
                 .password(passwordEncoder.encode("admin"))
                 .roles(List.of(ERole.ADMIN))
                 .status(EStatus.ACTIVE)
                 .build());
     }
+
+    public List<PendingManagerResponseDtoList> findPendingManagers() {
+        List<Auth> pendingManagers = authRepository.findByRolesContainsAndStatus(ERole.MANAGER, EStatus.PENDING);
+
+        // Auth sınıfından PendingManagerResponseDto'ya dönüştürme işlemi
+        return IAuthMapper.INSTANCE.fromAuthListToPendingManagerResponseDtoList(pendingManagers);
+    }
+
+
 }

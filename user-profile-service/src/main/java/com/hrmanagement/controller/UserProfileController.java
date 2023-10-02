@@ -22,10 +22,9 @@ public class UserProfileController {
 
     private final UserProfileService userProfileService;
 
-    @PutMapping(ADMINCHANGEMANAGERSTATUS + "/{token}")
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
-    public ResponseEntity<Boolean> adminChangeManagerStatus(@PathVariable String token, @RequestBody ChangeManagerStatusRequestDto dto) {
-        return ResponseEntity.ok(userProfileService.adminChangeManagerStatus(token, dto));
+    @PutMapping("/adminchangemanagerstatus/{token}")
+    public ResponseEntity<Boolean> adminChangeManagerStatus(@PathVariable String token,@RequestBody ChangeManagerStatusRequestDto dto) {
+        return ResponseEntity.ok(userProfileService.adminChangeManagerStatus(token,dto));
     }
 
     @Hidden
