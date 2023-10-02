@@ -296,4 +296,13 @@ public class CompanyService extends ServiceManager<Company, Long> {
         update(company);
         return true;
     }
+
+    public Company findCompanyByCompanyName(String companyName) {
+        Optional<Company> optionalCompany = companyRepository.findByCompanyName(companyName);
+        if (optionalCompany.isEmpty()) {
+            throw new CompanyManagerException(ErrorType.COMPANY_NOT_FOUND);
+        }
+        return optionalCompany.get();
+    }
+
 }
