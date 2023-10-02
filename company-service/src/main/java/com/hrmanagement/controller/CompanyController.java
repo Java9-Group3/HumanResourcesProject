@@ -110,6 +110,10 @@ public class CompanyController {
     ResponseEntity<Boolean> updateCompanyWageDate(@RequestBody UpdateCompanyWageDateResponseDto dto){
         return ResponseEntity.ok(companyService.updateCompanyWageDate(dto));
     }
+//    @GetMapping(FINDBYCOMPANYNAME)
+//    public ResponseEntity<Company> findCompanyByCompanyName(String companyName) {
+//        return ResponseEntity.ok(companyService.findCompanyByCompanyName(companyName));
+//    }
 
 
 }

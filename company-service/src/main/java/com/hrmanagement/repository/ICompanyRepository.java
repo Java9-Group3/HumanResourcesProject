@@ -9,4 +9,6 @@ public interface ICompanyRepository extends JpaRepository<Company,Long> {
     Boolean existsByCompanyNameIgnoreCase(String companyName);
     Boolean existsByCompanyId(Long companyId);
 
+//    Optional<Company> findByCompanyName(String companyName);
+
 }

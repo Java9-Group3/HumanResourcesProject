@@ -11,4 +11,6 @@ public interface ICommentRepository extends JpaRepository<Comment, Long> {
 
 //    List<Comment> findByECommentStatus(String status);
 
+
+
 }
