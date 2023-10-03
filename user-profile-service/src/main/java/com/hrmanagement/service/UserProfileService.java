@@ -115,7 +115,7 @@ public class UserProfileService extends ServiceManager<UserProfile, Long> {
                 AuthCreatePersonnelProfileRequestDto authDto = IUserProfileMapper.INSTANCE.fromUserProfileToAuthCreatePersonelProfileRequestDto(userProfile);
                 Long personnelAuthId = authManager.managerCreatePersonnelUserProfile(authDto).getBody();
                 userProfile.setAuthId(personnelAuthId);
-                save(userProfile);
+                save(userProfile);//
                 PersonnelPasswordModel personnelPasswordModel = IUserProfileMapper.INSTANCE.fromUserProfileToPersonnelPasswordModel(userProfile);
                 personnelPasswordModel.setPassword(newPassword);
                 personelPasswordProducer.sendPersonnelPassword(personnelPasswordModel);
