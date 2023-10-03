@@ -13,18 +13,19 @@ public class MailService {
     private final JavaMailSender javaMailSender;
     private final JwtTokenProvider jwtTokenProvider;
 
-    public void sendMail(RegisterMailModel registerMailModel){
+    public void sendMail(RegisterMailModel registerMailModel, String redirectUrl) {
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setFrom("${spring.mail.username}");
         mailMessage.setTo(registerMailModel.getEmail());
         mailMessage.setSubject("KAYDI TAMAMLAYIN LÜTFEN");
-        //+jwtTokenProvider.createMailToken(registerMailModel.getAuthId(), registerMailModel.getStatus()).get()
         mailMessage.setText(
-                registerMailModel.getName()+" " + registerMailModel.getSurname() + " To confirm your account, please click here :\n" +
-                        "http://localhost:9090/api/v1/auth/confirm-account?activationCode="+registerMailModel.getActivationCode()
+                registerMailModel.getName() + " " + registerMailModel.getSurname() + " To confirm your account, please click here :\n" +
+                        "http://localhost:5173/redirect?code=" + registerMailModel.getActivationCode()
         );
-        javaMailSender.send(mailMessage);
+        System.out.println(redirectUrl);
+        javaMailSender.send(mailMessage);//
     }
+
 
     public void sendHelloMail(RegisterMailHelloModel registerMailHelloModel) {
         SimpleMailMessage mailMessage = new SimpleMailMessage();
@@ -89,7 +90,7 @@ public class MailService {
         if (model.getStatus().equals("ACTIVE"))
             mailMessage.setText("Welcome Dear "+model.getName()+";\n"+ "Your account has been ACTIVATED. Thank you for choosing us");
         else
-            mailMessage.setText("Welcome Dear "+model.getName()+";\n" + "Your account has been BANNED.");
+            mailMessage.setText("Dear "+model.getName()+";\n" + "Your account has been BANNED.");
         javaMailSender.send(mailMessage);
     }
 }

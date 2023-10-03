@@ -50,16 +50,16 @@ public class AuthController {
     }
 
     @GetMapping("/confirm-account")
-    public ResponseEntity<Auth> confirmUserAccount(String activationCode) {
-        return ResponseEntity.ok(authService.confirmUserAccount(activationCode));
+    public ResponseEntity<ConfirmationResponseDto> confirmUserAccount(@RequestParam("activationCode") String activationCode) {
+        ConfirmationResponseDto responseDto = authService.confirmUserAccount(activationCode);
+        return ResponseEntity.status(responseDto.getStatusCode()).body(responseDto);
     }
+
 
     @GetMapping(FIND_ALL)
     public ResponseEntity<List<Auth>> findAll(){
         return ResponseEntity.ok(authService.findAll());
     }
-
-
 
     @Hidden
     @PostMapping("/manager-create-personnel-userProfile")

@@ -22,6 +22,7 @@ public class RegisterManagerRequestDto {
     private String password;
     private String repassword;
     private String taxId;
+    private String companyName;
     private Long companyId;
 //    private String department;
 //    private Integer companySubscribeDay;

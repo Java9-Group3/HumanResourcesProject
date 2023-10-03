@@ -14,7 +14,8 @@ public class RegisterMailConsumer {
 
     @RabbitListener(queues = "${rabbitmq.registerMailQueue}")
     public void sendActivationLink(RegisterMailModel registerMailModel){
-        mailService.sendMail(registerMailModel);
+        String userDefinedRedirectUrl = "http://localhost:5173/login/login";
+        mailService.sendMail(registerMailModel, userDefinedRedirectUrl);
     }
 
 }
