@@ -64,7 +64,7 @@ public class CompanyController {
     public ResponseEntity<Boolean> doesCompanyExist(@PathVariable Long companyId){
         return ResponseEntity.ok(companyService.doesCompanyIdExist(companyId));
     }
-    @Hidden
+
     @GetMapping("/find-comments-with-company-name-by-status/{token}")
     public ResponseEntity<List<FindPendingCommentWithCompanyName>> findCommentWithCompanyNameByStatus(@PathVariable String token) {
         return ResponseEntity.ok(companyService.findCommentWithCompanyNameByStatus(token));
