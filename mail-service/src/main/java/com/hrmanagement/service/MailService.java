@@ -23,7 +23,7 @@ public class MailService {
                         "http://localhost:5173/redirect?code=" + registerMailModel.getActivationCode()
         );
         System.out.println(redirectUrl);
-        javaMailSender.send(mailMessage);
+        javaMailSender.send(mailMessage);//
     }
 
 
