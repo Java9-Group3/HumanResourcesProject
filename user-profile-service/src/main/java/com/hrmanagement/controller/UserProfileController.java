@@ -73,7 +73,6 @@ public class UserProfileController {
 
     @PutMapping("/activateUser-user/{authId}")
     public ResponseEntity<Boolean> activateUser(@PathVariable Long authId){
-        System.out.println("burdayım");
         return ResponseEntity.ok(userProfileService.activateUser(authId));
     }
 

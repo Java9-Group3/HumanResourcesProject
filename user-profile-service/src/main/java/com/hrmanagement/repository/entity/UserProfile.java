@@ -41,6 +41,7 @@ public class UserProfile extends Base {
     private EStatus status;
     private EGender gender;
     private String phone;
+    private String token;
     private double wage;
     private String avatar;
     private String neighbourhood;

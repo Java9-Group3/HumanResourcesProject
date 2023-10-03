@@ -26,6 +26,8 @@ public class Auth extends Base{
     private String surname;
     private String password;
     private String activationCode;
+    private String taxId;
+    private String companyName;
 
     @ElementCollection(targetClass = ERole.class)
     @JoinTable(name = "tblRoleTypes", joinColumns = @JoinColumn(name = "authId"))

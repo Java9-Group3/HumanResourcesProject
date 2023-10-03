@@ -12,12 +12,13 @@ import lombok.NoArgsConstructor;
 public class NewCreateManagerUserRequestDto {
     private Long authId;
     private String name;
-    private String middleName;
+//    private String middleName;
     private String surname;
-    private String identificationNumber;
+//    private String identificationNumber;
     private String email;
     private String password;
     private String repassword;
+    private String companyName;
     private Long companyId;
     private String department;
 }

@@ -20,6 +20,7 @@ import com.hrmanagement.repository.entity.enums.EStatus;
 import com.hrmanagement.utility.CodeGenerator;
 import com.hrmanagement.utility.JwtTokenProvider;
 import com.hrmanagement.utility.ServiceManager;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -95,7 +96,8 @@ public class AuthService extends ServiceManager<Auth,Long> {
             NewCreateManagerUserRequestDto managerUserDto = IAuthMapper.INSTANCE.fromRegisterManagerRequestDtoToNewCreateManagerUserRequestDto(dto);
             managerUserDto.setAuthId(auth.getAuthId());
             managerUserDto.setPassword(auth.getPassword());
-            auth.setStatus(EStatus.PENDING);
+            managerUserDto.setCompanyName(auth.getCompanyName());
+//            auth.setStatus(EStatus.PENDING);
 //            companyManager.subscribeCompany(IAuthMapper.INSTANCE.fromRegisterManagerRequestDtoToSubscribeCompanyRequestDto(dto));
             userManager.createManagerUser(managerUserDto);
 //            registerMailProducer.sendActivationCode(IAuthMapper.INSTANCE.fromAuthToRegisterMailModel(auth));
@@ -142,7 +144,8 @@ public class AuthService extends ServiceManager<Auth,Long> {
         return true;
     }
 
-    public Auth confirmUserAccount(String activationCode) {
+    public ConfirmationResponseDto confirmUserAccount(String activationCode) {
+            String redirectUrl = "http://localhost:5173/login/login";
         try {
             Auth confirmAcc=authRepository.findOptionalByActivationCode(activationCode).get();
             String temp=confirmAcc.getActivationCode();
@@ -150,12 +153,14 @@ public class AuthService extends ServiceManager<Auth,Long> {
                 userManager.activateUser(confirmAcc.getAuthId());
                 confirmAcc.setStatus(EStatus.ACTIVE);
                 save(confirmAcc);
+                // Auth işlemi başarılı olduğunda ConfirmationResponse objesini oluştur ve dön
+                return new ConfirmationResponseDto("User account confirmed", HttpStatus.OK.value(), redirectUrl);
             }else{
                 throw new AuthManagerException(ErrorType.INVALID_ACTION);
             }
-            return confirmAcc;
         }catch (Exception e){
-            return null;
+            // Hata durumunda da uygun bir response dön
+            return new ConfirmationResponseDto("Error confirming user account", HttpStatus.INTERNAL_SERVER_ERROR.value(), redirectUrl);
         }
     }
 
@@ -258,8 +263,6 @@ public class AuthService extends ServiceManager<Auth,Long> {
 
     public List<PendingManagerResponseDtoList> findPendingManagers() {
         List<Auth> pendingManagers = authRepository.findByRolesContainsAndStatus(ERole.MANAGER, EStatus.PENDING);
-
-        // Auth sınıfından PendingManagerResponseDto'ya dönüştürme işlemi
         return IAuthMapper.INSTANCE.fromAuthListToPendingManagerResponseDtoList(pendingManagers);
     }
 

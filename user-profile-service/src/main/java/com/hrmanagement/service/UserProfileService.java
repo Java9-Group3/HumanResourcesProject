@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class UserProfileService extends ServiceManager<UserProfile, Long> {
@@ -99,7 +100,14 @@ public class UserProfileService extends ServiceManager<UserProfile, Long> {
                     String encodedAvatar = Base64.getEncoder().encodeToString(dto.getBase64Avatar().getBytes());
                     userProfile.setAvatar(encodedAvatar);
                 }
+                List<String> roleList = userProfile.getRole().stream().map(x -> x.toString()).collect(Collectors.toList());
+                String tokenPersonel = jwtTokenProvider.createToken(userProfile.getUserId(), roleList)
+                        .orElseThrow(()->{
+                            throw new UserProfileManagerException(ErrorType.BAD_REQUEST);
+                        });
                 String newPassword = UUID.randomUUID().toString();
+                userProfile.setToken(tokenPersonel);
+                System.out.println(tokenPersonel);
                 userProfile.setPassword(passwordEncoder.encode(newPassword));
                 userProfile.setRole(Arrays.asList(ERole.PERSONEL));
                 userProfile.setStatus(EStatus.ACTIVE);
@@ -196,11 +204,8 @@ public class UserProfileService extends ServiceManager<UserProfile, Long> {
         if(optionalUserProfile.isEmpty()){
             throw new UserProfileManagerException(ErrorType.USER_NOT_FOUND);
         }
-        System.out.println("****212****");
         optionalUserProfile.get().setStatus(EStatus.ACTIVE);
-        System.out.println("****214****");
         userProfileRepository.save(optionalUserProfile.get());
-        System.out.println("****sa****");
         return true;
     }
 

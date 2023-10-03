@@ -4,7 +4,6 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
-
 import com.hrmanagement.exception.ErrorType;
 import com.hrmanagement.exception.UserProfileManagerException;
 import org.springframework.beans.factory.annotation.Value;
@@ -57,6 +56,24 @@ public class JwtTokenProvider {
         }catch (Exception e){
             System.out.println(e.getMessage());
             throw new UserProfileManagerException(ErrorType.INVALID_TOKEN);
+        }
+    }
+    public Optional<String> createToken(Long id, List<String> roles){
+        String token = null;
+        Date date = new Date(System.currentTimeMillis() + (1000*60*60*24*5));
+        try {
+            token = JWT.create()
+                    .withAudience(audience)
+                    .withIssuer(issuer)
+                    .withIssuedAt(new Date())
+                    .withExpiresAt(date)
+                    .withClaim("id", id)
+                    .withClaim("roles", roles)
+                    .sign(Algorithm.HMAC512(secretKey));
+            return Optional.of(token);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return Optional.empty();
         }
     }
 

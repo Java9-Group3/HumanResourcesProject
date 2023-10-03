@@ -1,15 +1,21 @@
 package com.hrmanagement.manager;
 
+import com.hrmanagement.dto.request.PersonnelCommentRequestDto;
 import com.hrmanagement.dto.response.*;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
-@FeignClient(url = "http://localhost:9080/api/v1/user-profile", name = "company-userprofile",decode404 = true)
+@FeignClient(url = "http://localhost:9093/api/v1/user-profile", name = "company-userprofile",decode404 = true)
 public interface IUserManager {
+
+    @PostMapping("/personnel-make-comment/{token}")
+    public ResponseEntity<Boolean> personnelMakeComment(@PathVariable String token, @RequestBody PersonnelCommentRequestDto dto);
 
     @GetMapping("/get-manager-id/{authId}")
     public ResponseEntity<Long> getCompanyId(@PathVariable Long authId);
