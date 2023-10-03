@@ -11,5 +11,4 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PersonnelCommentRequestDto {
     private String comment;
-    private String token;
 }

@@ -20,10 +20,8 @@ import com.hrmanagement.utility.ServiceManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-
 import javax.annotation.PostConstruct;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class UserProfileService extends ServiceManager<UserProfile, Long> {
@@ -109,30 +107,16 @@ public class UserProfileService extends ServiceManager<UserProfile, Long> {
                 if (dto.getBase64Avatar() != null) {
                     String encodedAvatar = Base64.getEncoder().encodeToString(dto.getBase64Avatar().getBytes());
                     userProfile.setAvatar(encodedAvatar);
-
                 }
-                List<String> roleList = userProfile.getRole().stream().map(x -> x.toString()).collect(Collectors.toList());
-                String tokenPersonel = jwtTokenProvider.createToken(userProfile.getUserId(), roleList)
-                        .orElseThrow(()->{
-                            throw new UserProfileManagerException(ErrorType.BAD_REQUEST);
-                        });
-                  }
                 String newPassword = UUID.randomUUID().toString();
-                userProfile.setToken(tokenPersonel);
-                System.out.println(tokenPersonel);
                 userProfile.setPassword(passwordEncoder.encode(newPassword));
-                
                 userProfile.setRole(Arrays.asList(ERole.PERSONEL));
                 userProfile.setStatus(EStatus.ACTIVE);
-                
                 userProfile.setCompanyId(managerProfile.get().getCompanyId());
-                
                 AuthCreatePersonnelProfileRequestDto authDto = IUserProfileMapper.INSTANCE.fromUserProfileToAuthCreatePersonelProfileRequestDto(userProfile);
                 Long personnelAuthId = authManager.managerCreatePersonnelUserProfile(authDto).getBody();
                 userProfile.setAuthId(personnelAuthId);
-
                 save(userProfile);
-
                 PersonnelPasswordModel personnelPasswordModel = IUserProfileMapper.INSTANCE.fromUserProfileToPersonnelPasswordModel(userProfile);
                 personnelPasswordModel.setPassword(newPassword);
                 personelPasswordProducer.sendPersonnelPassword(personnelPasswordModel);
