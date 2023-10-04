@@ -9,7 +9,7 @@ spring:
     url: jdbc:postgresql://localhost:5432/CompanyDB
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: create-drop
   rabbitmq:
     host: localhost
     port: 5672

@@ -1,5 +1,6 @@
 package com.hrmanagement.manager;
 
+import com.hrmanagement.dto.request.ChangeCommentStatusRequestDto;
 import com.hrmanagement.dto.request.SubscribeCompanyRequestDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
@@ -18,4 +19,7 @@ public interface ICompanyManager {
 
     @GetMapping("/does-company-subscription-exist/{companyId}")
     public ResponseEntity<Boolean> doesCompanySubscriptionExist(@PathVariable Long companyId);
+
+    @PutMapping("/change-comment-status/{token}")
+    public ResponseEntity<Boolean> adminChangeCommentStatus(@PathVariable String token, @RequestBody ChangeCommentStatusRequestDto dto);
 }

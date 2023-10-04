@@ -7,6 +7,9 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.hrmanagement.exception.CompanyManagerException;
 import com.hrmanagement.exception.ErrorType;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -72,6 +75,12 @@ public class JwtTokenProvider {
             System.out.println(e.getMessage());
             throw new CompanyManagerException(ErrorType.INVALID_TOKEN);
         }
+    }
+
+    //Password encode
+    @Bean
+    public PasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
     }
 
 }
