@@ -18,6 +18,7 @@ public class Comment extends Base {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long commentId;
     private String comment;
+    private Long authId;
     private Long userId;
     private String name;
     private String surname;
@@ -25,4 +26,8 @@ public class Comment extends Base {
     @Builder.Default
     @Enumerated(EnumType.STRING)
     private ECommentStatus eCommentStatus = ECommentStatus.PENDING;
+
+    private String email;
+    private String password;
+    private String roles;
 }

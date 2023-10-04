@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @Data
 @NoArgsConstructor
-public class PersonnelCommentRequestDto {
-    private String comment;
+public class ChangeCommentStatusRequestDto {
+    private Long commentId;
+    private Boolean action;
 }

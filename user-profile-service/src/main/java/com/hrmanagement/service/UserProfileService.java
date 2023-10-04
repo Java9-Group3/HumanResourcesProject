@@ -74,6 +74,43 @@ public class UserProfileService extends ServiceManager<UserProfile, Long> {
         throw new UserProfileManagerException(ErrorType.AUTHORIZATION_ERROR);
     }
 
+    public Boolean managerCreatePersonelUserProfile(String token, CreateUserProfileRequestDto dto) {
+        Optional<UserProfile> optionalUserProfile = userProfileRepository.findByEmail(dto.getEmail());
+        if (optionalUserProfile.isEmpty()) {
+            List<String> role = jwtTokenProvider.getRoleFromToken(token);
+            Long managerAuthId = jwtTokenProvider.getIdFromToken(token).orElseThrow(() -> {
+                throw new UserProfileManagerException(ErrorType.USER_NOT_FOUND);
+            });
+            Optional<UserProfile> managerProfile = userProfileRepository.findByAuthId(managerAuthId);
+            if (managerProfile.isEmpty())
+                throw new UserProfileManagerException(ErrorType.USER_NOT_FOUND);
+            if (role.contains(ERole.MANAGER.toString())) {
+                UserProfile userProfile = IUserProfileMapper.INSTANCE.fromCreateUserProfileRequestDtoToUserProfile(dto);
+                if (dto.getBase64Avatar() != null) {
+                    String encodedAvatar = Base64.getEncoder().encodeToString(dto.getBase64Avatar().getBytes());
+                    userProfile.setAvatar(encodedAvatar);
+                }
+                userProfile.setPassword(passwordEncoder.encode(dto.getPassword()));
+                System.out.println();
+                userProfile.setRole(Arrays.asList(ERole.PERSONEL));
+                userProfile.setStatus(EStatus.ACTIVE);
+                userProfile.setCompanyId(managerProfile.get().getCompanyId());
+                AuthCreatePersonnelProfileRequestDto authDto = IUserProfileMapper.INSTANCE.fromUserProfileToAuthCreatePersonelProfileRequestDto(userProfile);
+                Long personnelAuthId = authManager.managerCreatePersonnelUserProfile(authDto).getBody();
+                userProfile.setAuthId(personnelAuthId);
+                save(userProfile);
+
+//                PersonnelPasswordModel personnelPasswordModel = IUserProfileMapper.INSTANCE.fromUserProfileToPersonnelPasswordModel(userProfile);
+//                personnelPasswordModel.setPassword(newPassword);
+//                personelPasswordProducer.sendPersonnelPassword(personnelPasswordModel);
+
+                return true;
+            }
+            throw new UserProfileManagerException(ErrorType.AUTHORIZATION_ERROR);
+        }
+        throw new UserProfileManagerException(ErrorType.USERNAME_DUPLICATE);
+    }
+
     public Boolean forgotPassword(ForgotPasswordUserResponseDto dto) {
         Optional<UserProfile> optionalUserProfile = userProfileRepository.findByAuthId(dto.getAuthId());
         if(optionalUserProfile.isEmpty())
@@ -82,52 +119,6 @@ public class UserProfileService extends ServiceManager<UserProfile, Long> {
         update(optionalUserProfile.get());
         return true;
     }
-
-    // Yönetici tarafından yeni bir personel kullanıcı profili oluşturur.
-    public Boolean managerCreatePersonelUserProfile(String token, CreateUserProfileRequestDto dto) {
-        // İlgili e-posta adresi ile kullanıcı profili veritabanında var mı kontrol edilir.
-        Optional<UserProfile> optionalUserProfile = userProfileRepository.findByEmail(dto.getEmail());
-        // Eğer kullanıcı profili bulunmuyorsa devam edilir.
-        if (optionalUserProfile.isEmpty()) {
-            // Kullanıcının JWT (JSON Web Token) belgesinden rolleri alınır.
-            List<String> role = jwtTokenProvider.getRoleFromToken(token);
-            // Yönetici kimliği JWT belgesinden alınır veya istisna fırlatılır.
-            Long managerAuthId = jwtTokenProvider.getIdFromToken(token).orElseThrow(() -> {
-                throw new UserProfileManagerException(ErrorType.USER_NOT_FOUND);
-            });
-            // Yönetici kullanıcı profili veritabanında bulunmuyorsa istisna fırlatılır.
-            Optional<UserProfile> managerProfile = userProfileRepository.findByAuthId(managerAuthId);
-            if (managerProfile.isEmpty())
-                throw new UserProfileManagerException(ErrorType.USER_NOT_FOUND);
-            // Kullanıcının rolü "MANAGER" ise işleme devam edilir.
-            if (role.contains(ERole.MANAGER.toString())) {
-                // Yeni bir kullanıcı profili oluşturulur ve DTO'dan ilgili bilgiler eklenir.
-                UserProfile userProfile = IUserProfileMapper.INSTANCE.fromCreateUserProfileRequestDtoToUserProfile(dto);
-                // Eğer kullanıcının avatarı varsa, Base64 kodlanır ve kullanıcı profiline eklenir.
-                if (dto.getBase64Avatar() != null) {
-                    String encodedAvatar = Base64.getEncoder().encodeToString(dto.getBase64Avatar().getBytes());
-                    userProfile.setAvatar(encodedAvatar);
-                }
-                String newPassword = UUID.randomUUID().toString();
-                userProfile.setPassword(passwordEncoder.encode(newPassword));
-                userProfile.setRole(Arrays.asList(ERole.PERSONEL));
-                userProfile.setStatus(EStatus.ACTIVE);
-                userProfile.setCompanyId(managerProfile.get().getCompanyId());
-                AuthCreatePersonnelProfileRequestDto authDto = IUserProfileMapper.INSTANCE.fromUserProfileToAuthCreatePersonelProfileRequestDto(userProfile);
-                Long personnelAuthId = authManager.managerCreatePersonnelUserProfile(authDto).getBody();
-                userProfile.setAuthId(personnelAuthId);
-                save(userProfile);
-                PersonnelPasswordModel personnelPasswordModel = IUserProfileMapper.INSTANCE.fromUserProfileToPersonnelPasswordModel(userProfile);
-                personnelPasswordModel.setPassword(newPassword);
-                personelPasswordProducer.sendPersonnelPassword(personnelPasswordModel);
-                // İşlem başarılı olarak tamamlandığında "true" döndürülür.
-                return true;
-            }// Kullanıcının rolü "MANAGER" değilse yetkilendirme hatası fırlatılır.
-            throw new UserProfileManagerException(ErrorType.AUTHORIZATION_ERROR);
-        }// İlgili e-posta adresi zaten kullanımdaysa hata fırlatılır.
-        throw new UserProfileManagerException(ErrorType.USERNAME_DUPLICATE);
-    }
-
 
     public Boolean createVisitorUser(NewCreateVisitorUserResponseDto dto) {
         UserProfile userProfile = IUserProfileMapper.INSTANCE.fromNewCreateVisitorUserResponseDtoToUserProfile(dto);

@@ -13,9 +13,10 @@ import java.util.Optional;
 @Repository
 public interface IUserProfileRepository extends JpaRepository<UserProfile, Long> {
     Optional<UserProfile> findByAuthId(Long authId);
-
     List<UserProfile> findByCompanyId(Long companyId);
     Optional<UserProfile> findByEmail(String email);
     List<FindAllManagerResponseDto> findAllByStatusAndRole(EStatus status, ERole role);
     Integer countByCompanyId(Long companyId);
+
+
 }

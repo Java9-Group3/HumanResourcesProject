@@ -147,7 +147,7 @@ public class CompanyService extends ServiceManager<Company, Long> {
         // Kullanıcı admin rolüne sahipse:
         if (userRoles.contains(ERole.ADMIN.toString())) {
             // Yorum servisi aracılığıyla belirli bir durumda olan yorumları alır.
-            List<Comment> commentList = commentService.findByCommentByStatus();
+            List<Comment> commentList = commentService.findCommentByStatus();
             // Her yorum için aşağıdaki işlemleri yapar:
             List<FindPendingCommentWithCompanyName> pendingComment = commentList.stream()
                     .map(comment -> {

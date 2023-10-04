@@ -27,17 +27,17 @@ public class UserProfileController {
         return ResponseEntity.ok(userProfileService.adminChangeManagerStatus(token,dto));
     }
 
+    @PostMapping(CREATE_PERSONAL + "/{token}")
+    public ResponseEntity<Boolean> managerCreatePersonelUserProfile(@PathVariable String token, @RequestBody @Valid CreateUserProfileRequestDto dto) {
+        return ResponseEntity.ok(userProfileService.managerCreatePersonelUserProfile(token, dto));
+    }
+
     @Hidden
     @PutMapping(FORGOT_PASSWORD)
     public ResponseEntity<Boolean> forgotPassword(@RequestBody ForgotPasswordUserResponseDto dto) {
         return ResponseEntity.ok(userProfileService.forgotPassword(dto));
     }
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @PostMapping(CREATE_PERSONAL + "/{token}")
-    public ResponseEntity<Boolean> managerCreatePersonelUserProfile(@PathVariable String token, @RequestBody @Valid CreateUserProfileRequestDto dto) {
-        return ResponseEntity.ok(userProfileService.managerCreatePersonelUserProfile(token, dto));
-    }
 
     @PostMapping("/create-visitor")
     public ResponseEntity<Boolean> createVisitorUser(@RequestBody NewCreateVisitorUserResponseDto dto) {

@@ -1,8 +1,11 @@
 package com.hrmanagement.service;
 
 import com.hrmanagement.dto.request.ChangeCommentStatusRequestDto;
-import com.hrmanagement.dto.request.PersonnelCommentRequestDto;
-import com.hrmanagement.dto.response.*;
+import com.hrmanagement.dto.request.PersonelCommentRequestDto;
+import com.hrmanagement.dto.response.FindCompanyCommentsResponseDto;
+import com.hrmanagement.dto.response.PersonnelActiveCompanyCommentsResponseDto;
+import com.hrmanagement.dto.response.PersonnelDashboardCommentResponseDto;
+import com.hrmanagement.dto.response.UserProfileCommentResponseDto;
 import com.hrmanagement.exception.CompanyManagerException;
 import com.hrmanagement.exception.ErrorType;
 import com.hrmanagement.manager.IUserManager;
@@ -13,6 +16,7 @@ import com.hrmanagement.repository.entity.enums.ECommentStatus;
 import com.hrmanagement.repository.entity.enums.ERole;
 import com.hrmanagement.utility.JwtTokenProvider;
 import com.hrmanagement.utility.ServiceManager;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -24,17 +28,17 @@ public class CommentService extends ServiceManager<Comment, Long> {
     private final ICommentRepository commentRepository;
     private final JwtTokenProvider jwtTokenProvider;
     private final IUserManager userManager;
+    private final PasswordEncoder passwordEncoder;
 
-    public CommentService(ICommentRepository commentRepository,
-                          JwtTokenProvider jwtTokenProvider,
-                          IUserManager userManager) {
+    public CommentService(ICommentRepository commentRepository, JwtTokenProvider jwtTokenProvider, IUserManager userManager, PasswordEncoder passwordEncoder) {
         super(commentRepository);
         this.commentRepository = commentRepository;
         this.jwtTokenProvider = jwtTokenProvider;
         this.userManager = userManager;
+        this.passwordEncoder = passwordEncoder;
     }
 
-    public Boolean personnelMakeComment(String token, PersonnelCommentRequestDto dto) {
+    public Boolean personelMakeComment(String token, PersonelCommentRequestDto dto) {
         Long authId = jwtTokenProvider.getIdFromToken(token).orElseThrow(() -> {
             throw new CompanyManagerException(ErrorType.USER_NOT_FOUND);
         });
@@ -59,22 +63,21 @@ public class CommentService extends ServiceManager<Comment, Long> {
         return companyComments;
     }
 
-
     public Boolean changeCommentStatus(String token, ChangeCommentStatusRequestDto dto) {
         List<String> roles = jwtTokenProvider.getRoleFromToken(token);
         if (roles.isEmpty())
             throw new CompanyManagerException(ErrorType.INVALID_TOKEN);
         if (roles.contains(ERole.ADMIN.toString())) {
-            Comment comment = findById(dto.getCommentId()).orElseThrow(() -> {
+            Comment commentId = findById(dto.getCommentId()).orElseThrow(() -> {
                 throw new CompanyManagerException(ErrorType.COMMENT_NOT_FOUND);
             });
-            if (comment.getECommentStatus() == ECommentStatus.PENDING) {
+            if (commentId.getECommentStatus() == ECommentStatus.PENDING) {
                 if (dto.getAction()) {
-                    comment.setECommentStatus(ECommentStatus.ACTIVE);
+                    commentId.setECommentStatus(ECommentStatus.ACTIVE);
                 } else {
-                    comment.setECommentStatus(ECommentStatus.DELETED);
+                    commentId.setECommentStatus(ECommentStatus.DELETED);
                 }
-                update(comment);
+                update(commentId);
                 return true;
             }
             throw new CompanyManagerException(ErrorType.COMMENT_NOT_PENDING);
@@ -82,7 +85,7 @@ public class CommentService extends ServiceManager<Comment, Long> {
         throw new CompanyManagerException(ErrorType.NO_AUTHORIZATION);
     }
 
-    public List<Comment> findByCommentByStatus() {
+    public List<Comment> findCommentByStatus() {
         List<Comment> commentList = commentRepository.findAll();
         List<Comment> pendingComment = new ArrayList<>();
         commentList.forEach(x -> {
@@ -118,13 +121,7 @@ public class CommentService extends ServiceManager<Comment, Long> {
             return activeCompanyCommentsResponseDtos;
         }
         throw new CompanyManagerException(ErrorType.NO_AUTHORIZATION);
-
     }
-
-
-
-
-
 
 
 }
