@@ -330,9 +330,12 @@ public class UserProfileService extends ServiceManager<UserProfile, Long> {
                 profile.setName(personelUpdateRequestDto.getName());
                 profile.setSurname(personelUpdateRequestDto.getSurname());
                 profile.setEmail(personelUpdateRequestDto.getEmail());
-                profile.setPhone(personelUpdateRequestDto.getPhone());
+                if (!personelUpdateRequestDto.getPassword().equals(profile.getPassword())){
+                    profile.setPassword(passwordEncoder.encode(personelUpdateRequestDto.getPassword()));
+                }
 
-                PersonelUpdateUserProfileToAuthRequestDto dto=IUserProfileMapper.INSTANCE.fromPersonelUpdateRequestDtoToPersonelUpdateUserProfileToAuthRequestDto(personelUpdateRequestDto);
+                PersonelUpdateUserProfileToAuthRequestDto dto = IUserProfileMapper.INSTANCE.toPersonelUpdateUserProfileToAuthRequestDto(profile);
+                dto.setToken(personelUpdateRequestDto.getToken());
                 authManager.updatePersonel(dto);
                 update(profile);
                 return true;
@@ -547,6 +550,17 @@ public class UserProfileService extends ServiceManager<UserProfile, Long> {
                 .build());
     }
 
+
+    public UpdateUserProfileResponseDto findUserInfoFromToken(String token) {
+        Optional<Long> authId = jwtTokenProvider.getIdFromToken(token);
+        if (authId.isEmpty()){
+            throw new UserProfileManagerException(ErrorType.USER_NOT_FOUND);
+        }
+        Optional<UserProfile> user = userProfileRepository.findByAuthId(authId.get());
+        if (user.isEmpty())
+            throw new UserProfileManagerException(ErrorType.USER_NOT_FOUND);
+        return IUserProfileMapper.INSTANCE.toUpdateUserProfileResponseDto(user.get());
+    }
 
 }
 

@@ -11,8 +11,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PersonelUpdateUserProfileToAuthRequestDto {
     private String name;
-    private String middleName;
     private String surname;
     private String email;
-    private String phone;
+    private String password;
+    private String token;
 }

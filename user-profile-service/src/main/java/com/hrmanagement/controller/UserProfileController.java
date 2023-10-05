@@ -22,14 +22,24 @@ public class UserProfileController {
 
     private final UserProfileService userProfileService;
 
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @PutMapping("/update/personel")
+    public ResponseEntity<Boolean> updatePersonel(@RequestBody PersonelUpdateRequestDto personelUpdateRequestDto) {
+        return ResponseEntity.ok(userProfileService.updatePersonel(personelUpdateRequestDto));
+    }
     @PutMapping("/adminchangemanagerstatus/{token}")
     public ResponseEntity<Boolean> adminChangeManagerStatus(@PathVariable String token,@RequestBody ChangeManagerStatusRequestDto dto) {
         return ResponseEntity.ok(userProfileService.adminChangeManagerStatus(token,dto));
     }
-
+    @CrossOrigin(origins = "*")
     @PostMapping(CREATE_PERSONAL + "/{token}")
     public ResponseEntity<Boolean> managerCreatePersonelUserProfile(@PathVariable String token, @RequestBody @Valid CreateUserProfileRequestDto dto) {
         return ResponseEntity.ok(userProfileService.managerCreatePersonelUserProfile(token, dto));
+    }
+
+    @GetMapping("/user-info/{token}")
+    public ResponseEntity<UpdateUserProfileResponseDto> getUserInfoFromToken(@PathVariable String token){
+        return ResponseEntity.ok(userProfileService.findUserInfoFromToken(token));
     }
 
     @Hidden
@@ -135,11 +145,6 @@ public class UserProfileController {
         return ResponseEntity.ok(userProfileService.getUserProfileAvatarAndNameAndSurname(token));
     }
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @PutMapping("/update/personel")
-    public ResponseEntity<Boolean> updatePersonel(@RequestBody PersonelUpdateRequestDto personelUpdateRequestDto) {
-        return ResponseEntity.ok(userProfileService.updatePersonel(personelUpdateRequestDto));
-    }
     @Hidden
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/get-personel-profile-for-user-profile-dashboard/{token}")

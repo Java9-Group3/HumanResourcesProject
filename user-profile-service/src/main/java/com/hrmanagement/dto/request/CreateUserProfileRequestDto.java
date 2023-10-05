@@ -11,9 +11,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CreateUserProfileRequestDto {
 
-
-
-
 //    @Email
     private String email;
     private String name;

@@ -226,14 +226,21 @@ public class AuthService extends ServiceManager<Auth,Long> {
     }
 
     public Boolean updateBecauseOfUserProfile(PersonelUpdateUserProfileToAuthRequestDto dto){
-        Optional<Auth> auth = authRepository.findOptionalByEmail(dto.getEmail());
+        Optional<Long> fromToken = jwtTokenProvider.getIdFromToken(dto.getToken());
+        if (fromToken.isEmpty())
+            throw new AuthManagerException(ErrorType.INVALID_TOKEN);
+        Optional<Auth> auth = authRepository.findById(fromToken.get());
         if (auth.isEmpty()){
             throw new AuthManagerException(ErrorType.USER_NOT_FOUND);
         }
-        IAuthMapper.INSTANCE.updateBecauseOfUserProfile(dto,auth.get());
+        auth.get().setName(dto.getName());
+        auth.get().setSurname(dto.getSurname());
+        auth.get().setEmail(dto.getEmail());
+        auth.get().setPassword(dto.getPassword());
         update(auth.get());
         return true;
     }
+
     public Boolean passwordChange(ToAuthPasswordChangeDto dto){
         Optional<Auth> auth = authRepository.findById(dto.getAuthId());
         if (auth.isEmpty()){
