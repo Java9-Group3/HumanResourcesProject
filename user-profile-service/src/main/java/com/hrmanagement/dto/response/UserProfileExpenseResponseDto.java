@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UserProfileExpenseResponseDto {
 
-    private String userId;
+    private Long userId;
     private String name;
     private String surname;
     private Long companyId;

@@ -10,5 +10,5 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class PersonnelDashboardCommentRequestDto {
-    private String companyId;
+    private Long companyId;
 }

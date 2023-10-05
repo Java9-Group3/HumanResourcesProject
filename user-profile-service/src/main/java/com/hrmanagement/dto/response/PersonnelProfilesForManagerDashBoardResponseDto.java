@@ -6,16 +6,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
-import java.util.List;
-
 @AllArgsConstructor
 @Builder
 @Data
 @NoArgsConstructor
 public class PersonnelProfilesForManagerDashBoardResponseDto  {
 
-    private String userId;
+    private Long userId;
     private String avatar;
     private String name;
     private String middleName;

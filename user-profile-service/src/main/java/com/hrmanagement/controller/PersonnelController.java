@@ -1,0 +1,63 @@
+package com.hrmanagement.controller;
+
+import com.hrmanagement.dto.request.ActionDayOffPermissionDto;
+import com.hrmanagement.dto.request.TakeDayOffPermissionRequestDto;
+import com.hrmanagement.dto.response.FindAllPendingDayOfPermissionResponseDto;
+import com.hrmanagement.repository.entity.Permission;
+import com.hrmanagement.service.DebtService;
+import com.hrmanagement.service.PermissionService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.text.ParseException;
+import java.util.List;
+
+@RestController
+@RequestMapping("api/v1/day-off-permission")
+@RequiredArgsConstructor
+public class PersonnelController {
+    private final PermissionService permissionService;
+    private final DebtService debtService;
+
+    @PostMapping("/take-day-off-permission/{token}")
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    public ResponseEntity<Permission> takeDayOffPermission(@PathVariable String token, @RequestBody TakeDayOffPermissionRequestDto dto) throws ParseException {
+        return ResponseEntity.ok(permissionService.takeDayOffPermission(token,dto));
+    }
+
+    @PutMapping("/action-day-off-permission/{token}")
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    public ResponseEntity<Boolean> actionDayOffPermission(@PathVariable String token,@RequestBody ActionDayOffPermissionDto dto) {
+        return ResponseEntity.ok(permissionService.actionDayOffPermission(token, dto));
+    }
+
+    @GetMapping("/find-all-pending-day-off-permissions/{token}")
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    public ResponseEntity<List<FindAllPendingDayOfPermissionResponseDto>> findAllPendingDayOffPermission(@PathVariable String token) {
+        return ResponseEntity.ok(permissionService.findAllPendingDayOffPermission(token));
+    }
+
+    @GetMapping("/get-vardiya-ve-mola-bilgileri/{personelId}")
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    public ResponseEntity<Permission> getBreakAndShiftInformation(@PathVariable Long personelId) {
+        Permission permission = permissionService.getBreakAndShiftInformation(personelId);
+        if (permission != null) {
+            return ResponseEntity.ok(permission);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+
+    @GetMapping("/get-personel-maas/{personelId}")
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    public ResponseEntity<Double> getPersonnelDept(@PathVariable Long personelId) {
+        Double dept = debtService.getPersonnelDept(personelId);
+        if (dept != null) {
+            return ResponseEntity.ok(dept);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+}
