@@ -196,7 +196,10 @@ public class UserProfileController {
         return ResponseEntity.ok(userProfileService.updateAvatar(token,dto));
     }
 
-
+    @GetMapping(PERSONALINFO)
+    public ResponseEntity<UserProfile> showPersonelInfo(@RequestParam String token) {
+        return ResponseEntity.ok(userProfileService.showPersonalInfo(token));
+    }
 
 }
 
