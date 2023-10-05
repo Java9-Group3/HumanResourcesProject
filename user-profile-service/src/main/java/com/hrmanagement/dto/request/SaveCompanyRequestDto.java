@@ -12,7 +12,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 public class SaveCompanyRequestDto {
-    private String userId;
+    private Long userId;
     private String companyName;
     private String companyNeighbourhood;
     private String companyDistrict;
@@ -26,7 +26,7 @@ public class SaveCompanyRequestDto {
     private String taxNumber;
     private String title;
     private String sector;
-    private String companyId;
+    private Long companyId;
     private List<Long> holidayDates;
 
 }
