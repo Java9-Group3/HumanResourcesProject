@@ -56,6 +56,23 @@ public interface IUserProfileMapper {
     PersonelUpdateUserProfileToAuthRequestDto fromPersonelUpdateRequestDtoToPersonelUpdateUserProfileToAuthRequestDto (final PersonelUpdateRequestDto dto);
     ToAuthPasswordChangeDto fromUserProfileToAuthPasswordChangeDto(final UserProfile userProfile);
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     Permission fromTakeDayOffPermissionRequestDtoToDayOffPermission(final TakeDayOffPermissionRequestDto dto);
 
     FindAllPendingDayOfPermissionResponseDto fromToFindAllPendingDayOfPermissionResponseDtoToDayOffPermission(final Permission permission);
