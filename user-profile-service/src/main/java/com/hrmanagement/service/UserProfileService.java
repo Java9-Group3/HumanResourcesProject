@@ -482,7 +482,18 @@ public class UserProfileService extends ServiceManager<UserProfile, Long> {
         }
         throw new UserProfileManagerException(ErrorType.USERNAME_DUPLICATE);
     }
+    public UserProfile showPersonalInfo(String token) {
+        Optional<Long> optionalAuthId = jwtTokenProvider.getIdFromToken(token);
+        if (optionalAuthId.isEmpty()) {
+            throw new UserProfileManagerException(ErrorType.INVALID_TOKEN);
+        }
+        Optional<UserProfile> optionalUser = userProfileRepository.findByAuthId(optionalAuthId.get());
+        if (optionalUser.isEmpty()) {
+            throw new UserProfileManagerException(ErrorType.USER_NOT_FOUND);
+        }
+        return optionalUser.get();
 
+    }
     public String findAvatar(Long userId) {
         UserProfile userProfile = findById(userId).orElseThrow(()->{
             throw new UserProfileManagerException(ErrorType.USER_NOT_FOUND);
