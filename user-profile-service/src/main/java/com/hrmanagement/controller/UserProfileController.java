@@ -145,7 +145,7 @@ public class UserProfileController {
         return ResponseEntity.ok(userProfileService.getUserProfileAvatarAndNameAndSurname(token));
     }
 
-    @Hidden
+
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/get-personel-profile-for-user-profile-dashboard/{token}")
     public ResponseEntity<UserProfileSendingInfosResponseDto> getPersonelProfileForUserProfileDashboard(@PathVariable String token) {
@@ -204,6 +204,10 @@ public class UserProfileController {
     @GetMapping(PERSONALINFO)
     public ResponseEntity<UserProfile> showPersonelInfo(@RequestParam String token) {
         return ResponseEntity.ok(userProfileService.showPersonalInfo(token));
+    }
+    @GetMapping(COMPANYINFO)
+    public ResponseEntity<Long> showcompanyidinfo(@RequestParam String token) {
+        return ResponseEntity.ok(userProfileService.findCompanyIdFromToken(token));
     }
 
 }

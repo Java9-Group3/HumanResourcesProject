@@ -561,6 +561,17 @@ public class UserProfileService extends ServiceManager<UserProfile, Long> {
             throw new UserProfileManagerException(ErrorType.USER_NOT_FOUND);
         return IUserProfileMapper.INSTANCE.toUpdateUserProfileResponseDto(user.get());
     }
+    public Long findCompanyIdFromToken(String token) {
+        Optional<Long> authId = jwtTokenProvider.getIdFromToken(token);
+        if (authId.isEmpty()){
+            throw new UserProfileManagerException(ErrorType.USER_NOT_FOUND);
+        }
+        Optional<UserProfile> user = userProfileRepository.findByAuthId(authId.get());
+        if (user.isEmpty())
+            throw new UserProfileManagerException(ErrorType.USER_NOT_FOUND);
+
+        return user.get().getCompanyId();
+    }
 
 }
 

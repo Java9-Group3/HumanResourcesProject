@@ -17,4 +17,5 @@ public class ApiUrls {
     public static final String FORGOT_PASSWORD = "/forgot-password";
     public static final String ADMINCHANGEMANAGERSTATUS = "/adminchangemanagerstatus";
     public static final String PERSONALINFO="/personalinfo";
+    public static final String COMPANYINFO="/companyinfo";
 }

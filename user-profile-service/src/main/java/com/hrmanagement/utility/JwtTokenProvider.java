@@ -25,6 +25,23 @@ public class JwtTokenProvider {
     @Value("${issuer}")
     String issuer;
 
+
+
+    public List<String> getRoleFromToken(String token){
+        try{
+            Algorithm algorithm = Algorithm.HMAC512(secretKey);
+            JWTVerifier verifier = JWT.require(algorithm).withAudience(audience).withIssuer(issuer).build();
+            DecodedJWT decodedJWT = verifier.verify(token);
+            if (decodedJWT == null){
+                throw new UserProfileManagerException(ErrorType.INVALID_TOKEN);
+            }
+            List<String> roles = decodedJWT.getClaim("roles").asList(String.class);
+            return roles;
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            throw new UserProfileManagerException(ErrorType.INVALID_TOKEN);
+        }
+    }
     public Optional<Long> getIdFromToken(String token){
         try{
             Algorithm algorithm = Algorithm.HMAC512(secretKey);
@@ -40,8 +57,7 @@ public class JwtTokenProvider {
             throw new UserProfileManagerException(ErrorType.INVALID_TOKEN);
         }
     }
-
-    public List<String> getRoleFromToken(String token){
+    public Optional<Long> getCompanyIdFromToken(String token){
         try{
             Algorithm algorithm = Algorithm.HMAC512(secretKey);
             JWTVerifier verifier = JWT.require(algorithm).withAudience(audience).withIssuer(issuer).build();
@@ -49,8 +65,8 @@ public class JwtTokenProvider {
             if (decodedJWT == null){
                 throw new UserProfileManagerException(ErrorType.INVALID_TOKEN);
             }
-            List<String> roles = decodedJWT.getClaim("roles").asList(String.class);
-            return roles;
+            Long id  = decodedJWT.getClaim("companyId").asLong();
+            return Optional.of(id);
         }catch (Exception e){
             System.out.println(e.getMessage());
             throw new UserProfileManagerException(ErrorType.INVALID_TOKEN);
