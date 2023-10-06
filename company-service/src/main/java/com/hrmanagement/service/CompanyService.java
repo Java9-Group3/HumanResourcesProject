@@ -16,6 +16,7 @@ import com.hrmanagement.utility.JwtTokenProvider;
 import com.hrmanagement.utility.ServiceManager;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -41,16 +42,15 @@ public class CompanyService extends ServiceManager<Company, Long> {
         this.commentService = commentService;
     }
 
-    public Boolean save(SaveCompanyRequestDto dto) {
-        if (!companyRepository.existsByCompanyNameIgnoreCase(dto.getCompanyName())) {
+    public Long save(SaveCompanyRequestDto dto) {
+        if (!companyRepository.existsByCompanyNameIgnoreCase(dto.getCompanyName()) && !companyRepository.existsByTaxNumber(dto.getTaxNumber())) {
             Company company = ICompanyMapper.INSTANCE.fromSaveCompanyResponseDtoToCompany(dto);
-            if (dto.getBase64Logo() != null) {
-                String encodedLogo = Base64.getEncoder().encodeToString(dto.getBase64Logo().getBytes());
-                company.setLogo(encodedLogo);
-                company.setSubscriptionExpirationDate(2023L);
-            }
-            save(company);
-            return true;
+//            if (dto.getBase64Logo() != null) {
+//                String encodedLogo = Base64.getEncoder().encodeToString(dto.getBase64Logo().getBytes());
+//                company.setLogo(encodedLogo);
+//                company.setSubscriptionExpirationDate(2023L);
+//            }
+            return save(company).getCompanyId();
         }
         throw new CompanyManagerException(ErrorType.COMPANY_ALREADY_EXIST);
     }
@@ -140,6 +140,14 @@ public class CompanyService extends ServiceManager<Company, Long> {
         }
         return false;
     }
+
+//    public Long doesCompanyIdExist(Long companyId) {
+//        Optional<Long> companyExistence = companyRepository.existsByCompanyId(companyId);
+//        if (companyExistence.isEmpty()){
+//            throw new CompanyManagerException(ErrorType.COMPANY_NOT_FOUND);
+//        }
+//        return companyExistence.get();
+//    }
 
     // Verilen bir JWT (JSON Web Token) kimlik doğrulama belgesinden kullanıcı rollerini alır.
     public List<FindPendingCommentWithCompanyName> findCommentWithCompanyNameByStatus(String token) {
@@ -325,4 +333,37 @@ public class CompanyService extends ServiceManager<Company, Long> {
         return optionalCompany.get();
     }
 
+    @PostConstruct
+    public void defaultCompany(){
+        save(Company.builder()
+                .companyName("A Şirketi")
+                .companyCountry("Türkiye")
+                .companyProvince("Ankara")
+                .companyDistrict("Çankaya")
+                .companyNeighbourhood("Çukurambar")
+                .companyMail("asirketi@asirketi.com")
+                .companyPhone("000-0-000")
+                .companyPostalCode(6)
+                .taxNumber("000-000-001")
+                .companyBalanceStatus(500000000D)
+                .companyApartmentNumber(17)
+                .companyBuildingNumber(32)
+                .sector("Construction")
+                .build());
+        save(Company.builder()
+                .companyName("B Şirketi")
+                .companyCountry("Türkiye")
+                .companyProvince("Antalya")
+                .companyDistrict("Muratpaşa")
+                .companyNeighbourhood("Teomanpaşa")
+                .companyMail("bsirketi@bsirketi.com")
+                .companyPhone("000-0-000")
+                .companyPostalCode(6)
+                .taxNumber("000-000-002")
+                .companyBalanceStatus(377000000D)
+                .companyApartmentNumber(57)
+                .companyBuildingNumber(9)
+                .sector("Software")
+                .build());
+    }
 }

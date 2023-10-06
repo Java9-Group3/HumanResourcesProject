@@ -31,10 +31,10 @@ public class MailService {
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setFrom("${spring.mail.username}");
         mailMessage.setTo(registerMailHelloModel.getEmail());
-        mailMessage.setSubject("AKTIVASYON KODU");
+        mailMessage.setSubject("Activation Status Report");
         mailMessage.setText(
-                "Hello visitor, " +  registerMailHelloModel.getName() +" "+ registerMailHelloModel.getSurname()+" you have successfully registered\n"
-                        +   "email: " + registerMailHelloModel.getEmail()
+                "Hello there, " +  registerMailHelloModel.getName() +" "+ registerMailHelloModel.getSurname()+" you have successfully registered\n"
+                        +   "email: " + registerMailHelloModel.getEmail() + "Please wait the confirmation..."
 
         );
         javaMailSender.send(mailMessage);

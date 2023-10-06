@@ -19,6 +19,7 @@ public class NewCreateManagerUserRequestDto {
     private String password;
     private String repassword;
     private String companyName;
+    private String taxNumber;
     private Long companyId;
-    private String department;
+//    private String department;
 }

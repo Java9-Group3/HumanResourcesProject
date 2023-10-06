@@ -17,5 +17,5 @@ public class PendingManagerResponseDtoList {
     private String surname;
     private EStatus status;
     private String companyName;
-    private String taxId;
+    private String taxNumber;
 }

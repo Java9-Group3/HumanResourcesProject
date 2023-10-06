@@ -10,8 +10,8 @@ import java.util.Optional;
 public interface ICompanyRepository extends JpaRepository<Company,Long> {
     Boolean existsByCompanyNameIgnoreCase(String companyName);
     Boolean existsByCompanyId(Long companyId);
+//    Optional<Long> existsByCompanyId(Long companyId);
 
     Optional<Company> findByCompanyName(String companyName);
-
-
+    Boolean existsByTaxNumber(String taxNumber);
 }

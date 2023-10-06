@@ -11,5 +11,6 @@ import lombok.NoArgsConstructor;
 @Builder
 public class RegisterResponseDto {
     private Long authId;
-    private String activationCode;
+    private Long companyId;
+    private Long userId;
 }

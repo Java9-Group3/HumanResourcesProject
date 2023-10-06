@@ -69,7 +69,6 @@ public class AuthService extends ServiceManager<Auth,Long> {
             save(auth);
             userManager.createVisitorUser(IAuthMapper.INSTANCE.fromAuthNewCreateVisitorUserRequestDto(auth));
             registerMailProducer.sendActivationCode(IAuthMapper.INSTANCE.fromAuthToRegisterMailModel(auth));
-            //registerMailHelloProducer.sendHello(IAuthMapper.INSTANCE.fromAuthToRegisterMailHelloModel(auth));
             return true;
         }
         throw new AuthManagerException(ErrorType.PASSWORD_ERROR);
@@ -78,6 +77,7 @@ public class AuthService extends ServiceManager<Auth,Long> {
     public RegisterResponseDto registerManager(RegisterManagerRequestDto dto){
         Auth auth = IAuthMapper.INSTANCE.fromManagerRequestDtoToAuth(dto);
         auth.setRoles(List.of(ERole.MANAGER,ERole.PERSONEL,ERole.FOUNDER));
+
 //        Boolean isCompanyExists = companyManager.doesCompanyExist(dto.getCompanyId()).getBody();
 //        if(!isCompanyExists)
 //            throw new AuthManagerException(ErrorType.COMPANY_NOT_FOUND);
@@ -92,15 +92,18 @@ public class AuthService extends ServiceManager<Auth,Long> {
 
         if (dto.getPassword().equals(dto.getRepassword())){
             auth.setPassword(passwordEncoder.encode(dto.getPassword()));
-            save(auth);
             NewCreateManagerUserRequestDto managerUserDto = IAuthMapper.INSTANCE.fromRegisterManagerRequestDtoToNewCreateManagerUserRequestDto(dto);
+            Long companyId = companyManager.saveCompanyRequestDto(IAuthMapper.INSTANCE.toCompanyRequestDto(managerUserDto)).getBody();
+            auth.setCompanyId(companyId);
+            save(auth);
             managerUserDto.setAuthId(auth.getAuthId());
             managerUserDto.setPassword(auth.getPassword());
             managerUserDto.setCompanyName(auth.getCompanyName());
-//            auth.setStatus(EStatus.PENDING);
-//            companyManager.subscribeCompany(IAuthMapper.INSTANCE.fromRegisterManagerRequestDtoToSubscribeCompanyRequestDto(dto));
+            managerUserDto.setTaxNumber(auth.getTaxNumber());
+            managerUserDto.setCompanyId(companyId);
             userManager.createManagerUser(managerUserDto);
-//            registerMailProducer.sendActivationCode(IAuthMapper.INSTANCE.fromAuthToRegisterMailModel(auth));
+//            companyManager.subscribeCompany(IAuthMapper.INSTANCE.fromRegisterManagerRequestDtoToSubscribeCompanyRequestDto(dto));
+            registerMailHelloProducer.sendHello(IAuthMapper.INSTANCE.fromAuthToRegisterMailHelloModel(auth));
         }else {
             throw new AuthManagerException(ErrorType.PASSWORD_ERROR);
         }

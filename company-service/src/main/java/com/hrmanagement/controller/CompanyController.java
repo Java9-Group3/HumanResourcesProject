@@ -2,8 +2,8 @@ package com.hrmanagement.controller;
 
 import com.hrmanagement.dto.request.CompanyNameAndWageDateRequestDto;
 import com.hrmanagement.dto.request.FindPendingCommentWithCompanyName;
-import com.hrmanagement.dto.response.*;
 import com.hrmanagement.dto.request.SaveCompanyRequestDto;
+import com.hrmanagement.dto.response.*;
 import com.hrmanagement.repository.entity.Company;
 import com.hrmanagement.service.CompanyService;
 import io.swagger.v3.oas.annotations.Hidden;
@@ -14,7 +14,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static com.hrmanagement.constants.EndPoints.*;
+import static com.hrmanagement.constants.EndPoints.COMPANY;
+import static com.hrmanagement.constants.EndPoints.FINDBYCOMPANYNAME;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -25,7 +26,7 @@ public class CompanyController {
 
     @PostMapping("/save")
     @Operation(summary = "Şirket kaydeder.")
-    public ResponseEntity<Boolean> saveCompanyRequestDto(@RequestBody SaveCompanyRequestDto dto){
+    public ResponseEntity<Long> saveCompanyRequestDto(@RequestBody SaveCompanyRequestDto dto){
         return ResponseEntity.ok(companyService.save(dto));
     }
 
@@ -64,6 +65,10 @@ public class CompanyController {
     public ResponseEntity<Boolean> doesCompanyExist(@PathVariable Long companyId){
         return ResponseEntity.ok(companyService.doesCompanyIdExist(companyId));
     }
+//    @GetMapping("/does-company-exists/{companyId}")
+//    public ResponseEntity<Optional<Long>> doesCompanyExist(@PathVariable Long companyId){
+//        return ResponseEntity.ok(Optional.ofNullable(companyService.doesCompanyIdExist(companyId)));
+//    }
 
     @GetMapping("/find-comments-with-company-name-by-status/{token}")
     public ResponseEntity<List<FindPendingCommentWithCompanyName>> findCommentWithCompanyNameByStatus(@PathVariable String token) {

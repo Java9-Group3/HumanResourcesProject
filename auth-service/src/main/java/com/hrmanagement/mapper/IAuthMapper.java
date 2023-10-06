@@ -45,4 +45,5 @@ public interface IAuthMapper {
     SubscribeCompanyRequestDto fromRegisterManagerRequestDtoToSubscribeCompanyRequestDto(final RegisterManagerRequestDto dto);
 
 
+    SaveCompanyRequestDto toCompanyRequestDto(final NewCreateManagerUserRequestDto managerUserDto);
 }
