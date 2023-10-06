@@ -138,6 +138,7 @@ public class UserProfileService extends ServiceManager<UserProfile, Long> {
         roleList.add(ERole.FOUNDER);
         userProfile.setStatus(EStatus.PENDING);
         userProfile.setRole(roleList);
+        userProfile.setCompanyId(dto.getCompanyId());
         save(userProfile);
         return true;
     }
