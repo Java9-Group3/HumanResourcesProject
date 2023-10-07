@@ -142,6 +142,12 @@ public class UserProfileService extends ServiceManager<UserProfile, Long> {
         save(userProfile);
         return true;
     }
+    public Boolean updateManagerUser(NewCreateManagerUserResponseDto dto) {
+        UserProfile userProfile = IUserProfileMapper.INSTANCE.fromNewCreateManagerUserResponseDtoToUserProfile(dto);
+        userProfile.setCompanyId(dto.getCompanyId());
+        update(userProfile);
+        return true;
+    }
 
 
     public Long getCompanyId(Long authId) {

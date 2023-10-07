@@ -1,6 +1,7 @@
 package com.hrmanagement.service;
 
 import com.hrmanagement.dto.request.CompanyNameAndWageDateRequestDto;
+import com.hrmanagement.dto.request.CompanyUpdateRequestDto;
 import com.hrmanagement.dto.request.FindPendingCommentWithCompanyName;
 import com.hrmanagement.dto.response.*;
 import com.hrmanagement.dto.request.SaveCompanyRequestDto;
@@ -54,10 +55,37 @@ public class CompanyService extends ServiceManager<Company, Long> {
         }
         throw new CompanyManagerException(ErrorType.COMPANY_ALREADY_EXIST);
     }
+    public Long updateCompany(CompanyUpdateRequestDto dto) {
+        Long companyId = jwtTokenProvider.getCompanyIdFromToken(dto.getToken())
+                .orElseThrow(() -> new CompanyManagerException(ErrorType.COMPANY_NOT_FOUND));
+        Optional<Company> companyProfile = companyRepository.findById(companyId);
+        List<String> roles = jwtTokenProvider.getRoleFromToken(dto.getToken());
+        if (roles.isEmpty()) {
+            throw new CompanyManagerException(ErrorType.USER_NOT_FOUND);
+        }
+        if (roles.contains(ERole.MANAGER.toString())||roles.contains(ERole.FOUNDER.toString())) {
+            if (companyProfile.isPresent()) {
+                Company company = companyProfile.get();
+                company.setCompanyMail(dto.getCompanyMail());
+                company.setCompanyPhone(dto.getCompanyPhone());
+                company.setCompanyCountry(dto.getCompanyCountry());
+                company.setCompanyNeighbourhood(dto.getCompanyNeighbourhood());
+                company.setCompanyDistrict(dto.getCompanyDistrict());
+                company.setCompanyBuildingNumber(dto.getCompanyBuildingNumber());
+                company.setCompanyApartmentNumber(dto.getCompanyApartmentNumber());
+                company.setSector(dto.getSector());
+                company.setCompanyProvince(dto.getCompanyProvince());
+                return update(company).getCompanyId();
+            } else {
+                throw new CompanyManagerException(ErrorType.USER_NOT_FOUND);
+            }
+        } else {
+            throw new CompanyManagerException(ErrorType.AUTHORIZATION_ERROR);
+        }
+    }
 
-    //İlgili müdür için hazırlanan şirket bilgileri getir metodudur. Role'le kontrol ypaılacak
-    public CompanyInformationResponseDto showCompanyInformation(Long companyId) {
-        Company company = findById(companyId).orElseThrow(() -> {
+    public CompanyInformationResponseDto showCompanyInformation(String token) {
+        Company company = findById(jwtTokenProvider.getCompanyIdFromToken(token).get()).orElseThrow(() -> {
             throw new CompanyManagerException(ErrorType.COMPANY_NOT_FOUND);
         });
         return ICompanyMapper.INSTANCE.fromCompanyToCompanyInformationResponseDto(company);

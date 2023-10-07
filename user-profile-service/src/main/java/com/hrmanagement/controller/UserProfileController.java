@@ -59,6 +59,11 @@ public class UserProfileController {
     public ResponseEntity<Boolean> createManagerUser(@RequestBody NewCreateManagerUserResponseDto dto) {
         return ResponseEntity.ok(userProfileService.createManagerUser(dto));
     }
+    @PostMapping("/update-manager")
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    public ResponseEntity<Boolean> updateManagerUser(@RequestBody NewCreateManagerUserResponseDto dto) {
+        return ResponseEntity.ok(userProfileService.updateManagerUser(dto));
+    }
 
     @Hidden
     @GetMapping("/get-manager-id/{authId}")

@@ -17,6 +17,8 @@ public interface IUserProfileManager {
 
     @PostMapping("/create-manager")
     public ResponseEntity<Boolean> createManagerUser(@RequestBody NewCreateManagerUserRequestDto dto);
+    @PostMapping("/update-manager")
+    public ResponseEntity<Boolean> updateManagerUser(@RequestBody NewCreateManagerUserRequestDto dto);
 
     @PutMapping("/forgot-password")
     public ResponseEntity<Boolean> forgotPassword(@RequestBody ForgotPasswordUserRequestDto dto);
