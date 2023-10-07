@@ -574,6 +574,33 @@ public class UserProfileService extends ServiceManager<UserProfile, Long> {
         return user.get().getCompanyId();
     }
 
+    public Double getPersonnelWage(String name) {
+        UserProfile userProfile = userProfileRepository.findAllByName(name);
+        if (userProfile != null) {
+            return userProfile.getWage();
+        }
+        return 0.0;
+    }
+
+    public UserProfile getPersonnelInfo(String name) {
+        UserProfile userProfile = userProfileRepository.findAllByName(name);
+        if (userProfile != null) {
+            UserProfile basicUserInfo = new UserProfile();
+            basicUserInfo.setName(userProfile.getName());
+            basicUserInfo.setMiddleName(userProfile.getMiddleName());
+            basicUserInfo.setSurname(userProfile.getSurname());
+            basicUserInfo.setBirthPlace(userProfile.getBirthPlace());
+            basicUserInfo.setPhone(userProfile.getPhone());
+            basicUserInfo.setGender(userProfile.getGender());
+            basicUserInfo.setNeighbourhood(userProfile.getNeighbourhood());
+            basicUserInfo.setDistrict(userProfile.getDistrict());
+            basicUserInfo.setProvince(userProfile.getProvince());
+            basicUserInfo.setCountry(userProfile.getCountry());
+
+            return basicUserInfo;
+        }
+        return null;
+    }
 }
 
 
