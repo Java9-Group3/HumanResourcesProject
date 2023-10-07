@@ -1,6 +1,7 @@
 package com.hrmanagement.controller;
 
 import com.hrmanagement.dto.request.CompanyNameAndWageDateRequestDto;
+import com.hrmanagement.dto.request.CompanyUpdateRequestDto;
 import com.hrmanagement.dto.request.FindPendingCommentWithCompanyName;
 import com.hrmanagement.dto.request.SaveCompanyRequestDto;
 import com.hrmanagement.dto.response.*;
@@ -29,11 +30,16 @@ public class CompanyController {
     public ResponseEntity<Long> saveCompanyRequestDto(@RequestBody SaveCompanyRequestDto dto){
         return ResponseEntity.ok(companyService.save(dto));
     }
+    @PutMapping("/update/company")
+    @Operation(summary = "Şirket günceller.")
+    public ResponseEntity<Long> updateCompanyRequestDto(@RequestBody CompanyUpdateRequestDto dto){
+        return ResponseEntity.ok(companyService.updateCompany(dto));
+    }
 
     @GetMapping("/show-company-information")
     @Operation(summary = "Id'si sorgulanan şirketin bilgilerini gösterir.")
-    public ResponseEntity<CompanyInformationResponseDto> showCompanyInformation(Long companyId){
-        return ResponseEntity.ok(companyService.showCompanyInformation(companyId));
+    public ResponseEntity<CompanyInformationResponseDto> showCompanyInformation(String token){
+        return ResponseEntity.ok(companyService.showCompanyInformation(token));
     }
     @GetMapping("/find-all-company-preview-information")
     @Operation(summary = "Bütün şirketlerin temel bilgilerini listeler.(Id,Logo,Şirket ismi,Posta Kodu,Şehir)")

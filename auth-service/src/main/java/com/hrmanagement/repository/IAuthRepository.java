@@ -17,4 +17,5 @@ public interface IAuthRepository extends JpaRepository<Auth,Long> {
 
     List<Auth> findByRolesContainsAndStatus(ERole role, EStatus status);
 
+
 }

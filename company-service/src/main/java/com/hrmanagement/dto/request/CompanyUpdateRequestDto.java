@@ -1,15 +1,15 @@
-package com.hrmanagement.dto.response;
+package com.hrmanagement.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@AllArgsConstructor
-@Builder
 @Data
+@Builder
 @NoArgsConstructor
-public class CompanyInformationResponseDto {
+@AllArgsConstructor
+public class CompanyUpdateRequestDto {
     private String companyName;
     private String sector;
     private String taxNumber;
@@ -23,7 +23,7 @@ public class CompanyInformationResponseDto {
     private String companyCountry;
     private Integer companyBuildingNumber;
     private Integer companyApartmentNumber;
-    //    private Integer companyPostalCode;
+//    private Integer companyPostalCode;
 //    private String base64Logo;
 //    private List<String> holidayDates;
 //    private String wageDate;

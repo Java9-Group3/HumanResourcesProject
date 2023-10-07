@@ -20,6 +20,10 @@ public interface ICompanyManager {
     @Operation(summary = "Şirket kaydeder.")
     public ResponseEntity<Long> saveCompanyRequestDto(@RequestBody SaveCompanyRequestDto dto);
 
+    @PutMapping("/update")
+    @Operation(summary = "Şirket günceller.")
+    public ResponseEntity<Long> updateCompanyRequestDto(@RequestBody SaveCompanyRequestDto dto);
+
     @PutMapping("/subscribe-company")
     public ResponseEntity<Boolean> subscribeCompany(@RequestBody SubscribeCompanyRequestDto subscribeCompanyRequestDto);
 

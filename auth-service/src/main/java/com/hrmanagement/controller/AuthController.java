@@ -49,12 +49,12 @@ public class AuthController {
         return ResponseEntity.ok(authService.forgotPasswordRequest(email));
     }
 
+
     @GetMapping("/confirm-account")
     public ResponseEntity<ConfirmationResponseDto> confirmUserAccount(@RequestParam("activationCode") String activationCode) {
         ConfirmationResponseDto responseDto = authService.confirmUserAccount(activationCode);
         return ResponseEntity.status(responseDto.getStatusCode()).body(responseDto);
     }
-
 
     @GetMapping(FIND_ALL)
     public ResponseEntity<List<Auth>> findAll(){
@@ -66,8 +66,8 @@ public class AuthController {
     public ResponseEntity<Long> managerCreatePersonnelUserProfile(@RequestBody AuthCreatePersonnelProfileResponseDto dto){
         return ResponseEntity.ok(authService.managerCreatePersonelUserProfile(dto));
     }
-    @Hidden
 
+    @Hidden
     @PostMapping(FORGOT_PASSWORD + "/{token}")
     public ResponseEntity<Boolean> forgotPassword(@PathVariable String token, @RequestBody @Valid ForgotPasswordChangePasswordRequestDto dto) {
         return ResponseEntity.ok(authService.forgotPassword(token,dto));
@@ -77,6 +77,7 @@ public class AuthController {
     public ResponseEntity<Boolean> updateManagerStatus(@RequestBody UpdateManagerStatusResponseDto dto){
         return ResponseEntity.ok(authService.updateManagerStatus(dto));
     }
+
     @Hidden
     @PutMapping("/manager-delete-personnel")
     public ResponseEntity<Boolean> managerDeletePersonnel(@RequestBody DeletePersonnelFromAuthResponseDto dto){

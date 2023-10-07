@@ -6,7 +6,6 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.hrmanagement.exception.AuthManagerException;
 import com.hrmanagement.exception.ErrorType;
-import com.hrmanagement.repository.entity.enums.ERole;
 import com.hrmanagement.repository.entity.enums.EStatus;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -64,6 +63,26 @@ public class JwtTokenProvider {
         }
     }
 
+    public Optional<String> createManagerToken(Long id, Long companyId, List<String> roles){
+        String token = null;
+        Date date = new Date(System.currentTimeMillis() + (1000*60*60*24*5));
+        try {
+            token = JWT.create()
+                    .withAudience(audience)
+                    .withIssuer(issuer)
+                    .withIssuedAt(new Date())
+                    .withExpiresAt(date)
+                    .withClaim("id", id)
+                    .withClaim("companyId", companyId)
+                    .withClaim("roles", roles)
+                    .sign(Algorithm.HMAC512(secretKey));
+            return Optional.of(token);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return Optional.empty();
+        }
+    }
+
     public Optional<Long> getIdFromToken(String token){
         try{
             Algorithm algorithm = Algorithm.HMAC512(secretKey);
@@ -73,6 +92,36 @@ public class JwtTokenProvider {
                 throw new AuthManagerException(ErrorType.INVALID_TOKEN);
             }
             Long id = decodedJWT.getClaim("id").asLong();
+            return Optional.of(id); // == Optional<Long>
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            throw new AuthManagerException(ErrorType.INVALID_TOKEN);
+        }
+    }
+    public Optional<Long> getUserIdFromToken(String token){
+        try{
+            Algorithm algorithm = Algorithm.HMAC512(secretKey);
+            JWTVerifier verifier = JWT.require(algorithm).withAudience(audience).withIssuer(issuer).build();
+            DecodedJWT decodedJWT = verifier.verify(token);
+            if (decodedJWT == null){
+                throw new AuthManagerException(ErrorType.INVALID_TOKEN);
+            }
+            Long id = decodedJWT.getClaim("userId").asLong();
+            return Optional.of(id); // == Optional<Long>
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            throw new AuthManagerException(ErrorType.INVALID_TOKEN);
+        }
+    }
+    public Optional<Long> getCompanyIdFromToken(String token){
+        try{
+            Algorithm algorithm = Algorithm.HMAC512(secretKey);
+            JWTVerifier verifier = JWT.require(algorithm).withAudience(audience).withIssuer(issuer).build();
+            DecodedJWT decodedJWT = verifier.verify(token);
+            if (decodedJWT == null){
+                throw new AuthManagerException(ErrorType.INVALID_TOKEN);
+            }
+            Long id = decodedJWT.getClaim("companyId").asLong();
             return Optional.of(id); // == Optional<Long>
         }catch (Exception e){
             System.out.println(e.getMessage());
