@@ -18,5 +18,6 @@ public interface IUserProfileRepository extends JpaRepository<UserProfile, Long>
     List<FindAllManagerResponseDto> findAllByStatusAndRole(EStatus status, ERole role);
     Integer countByCompanyId(Long companyId);
 
+    UserProfile findAllByName(String name);
 
 }

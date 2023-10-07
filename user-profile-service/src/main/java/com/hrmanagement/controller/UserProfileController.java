@@ -215,5 +215,17 @@ public class UserProfileController {
         return ResponseEntity.ok(userProfileService.findCompanyIdFromToken(token));
     }
 
+    @GetMapping("/wage/{name}")
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    public ResponseEntity<Double> getPersonnelWage(@PathVariable String name) {
+        return ResponseEntity.ok(userProfileService.getPersonnelWage(name));
+    }
+
+    @GetMapping("/humanResourcesInfo/{name}")
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    public ResponseEntity<UserProfile > getPersonnelInfo(@PathVariable String name) {
+        return ResponseEntity.ok(userProfileService.getPersonnelInfo(name));
+    }
+
 }
 
