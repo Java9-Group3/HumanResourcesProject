@@ -16,7 +16,7 @@ public class DebtService extends ServiceManager<Debt,Long> {
         this.deptRepository = deptRepository;
     }
 
-    public Double getPersonnelDept(Long personelId) {
+    public Double getPersonnelDebt(Long personelId) {
         Optional<Debt> debtOptional = deptRepository.findById(personelId);
         return debtOptional.map(Debt::getDebt).orElse(null);
     }

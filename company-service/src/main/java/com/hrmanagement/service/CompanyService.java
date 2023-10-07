@@ -366,4 +366,8 @@ public class CompanyService extends ServiceManager<Company, Long> {
                 .sector("Software")
                 .build());
     }
+
+    public Optional<Company> getHolidayDatesByCompanyName(String companyName) {
+        return companyRepository.findByCompanyName(companyName);
+    }
 }

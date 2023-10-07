@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 import static com.hrmanagement.constants.EndPoints.COMPANY;
 import static com.hrmanagement.constants.EndPoints.FINDBYCOMPANYNAME;
@@ -119,6 +120,9 @@ public class CompanyController {
     public ResponseEntity<Company> findCompanyByCompanyName(String companyName) {
         return ResponseEntity.ok(companyService.findCompanyByCompanyName(companyName));
     }
-
+    @GetMapping("/companyHolidaysDates/{companyName}")
+    public ResponseEntity<Optional<Company>> getHolidayDatesByCompanyName(@PathVariable String companyName) {
+        return ResponseEntity.ok(companyService.getHolidayDatesByCompanyName(companyName));
+    }
 
 }
