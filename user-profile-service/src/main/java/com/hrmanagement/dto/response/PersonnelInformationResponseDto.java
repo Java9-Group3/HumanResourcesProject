@@ -5,8 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @AllArgsConstructor
 @Builder
 @Data
@@ -16,9 +14,9 @@ public class PersonnelInformationResponseDto {
     private Long wageDate;
     private String avatar;
     private String department;
-    private int employeeLeaves;
+//    private int employeeLeaves;
     //Company Service
     private String companyName;
     private String logo;
-    private List<Long> holidayDates;
+//    private List<Long> holidayDates;
 }
