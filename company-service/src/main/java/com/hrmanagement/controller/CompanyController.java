@@ -1,9 +1,6 @@
 package com.hrmanagement.controller;
 
-import com.hrmanagement.dto.request.CompanyNameAndWageDateRequestDto;
-import com.hrmanagement.dto.request.CompanyUpdateRequestDto;
-import com.hrmanagement.dto.request.FindPendingCommentWithCompanyName;
-import com.hrmanagement.dto.request.SaveCompanyRequestDto;
+import com.hrmanagement.dto.request.*;
 import com.hrmanagement.dto.response.*;
 import com.hrmanagement.repository.entity.Company;
 import com.hrmanagement.service.CompanyService;
@@ -16,8 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-import static com.hrmanagement.constants.EndPoints.COMPANY;
-import static com.hrmanagement.constants.EndPoints.FINDBYCOMPANYNAME;
+import static com.hrmanagement.constants.EndPoints.*;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -130,5 +126,12 @@ public class CompanyController {
     public ResponseEntity<Optional<Company>> getHolidayDatesByCompanyName(@PathVariable String companyName) {
         return ResponseEntity.ok(companyService.getHolidayDatesByCompanyName(companyName));
     }
+
+    @GetMapping(HOLIDAYS)
+    public ResponseEntity<List<PublicHolidaysRequestDto>> getPublicHoliday(){
+        return ResponseEntity.ok(companyService.getPublicHolidays());
+    }
+
+
 
 }
