@@ -111,6 +111,8 @@ public class UserProfileService extends ServiceManager<UserProfile, Long> {
         throw new UserProfileManagerException(ErrorType.USERNAME_DUPLICATE);
     }
 
+
+
     public Boolean forgotPassword(ForgotPasswordUserResponseDto dto) {
         Optional<UserProfile> optionalUserProfile = userProfileRepository.findByAuthId(dto.getAuthId());
         if(optionalUserProfile.isEmpty())
@@ -607,6 +609,8 @@ public class UserProfileService extends ServiceManager<UserProfile, Long> {
         }
         return null;
     }
+    //personelListRequestDto listesi döndüren bir metot yaz. Bu metot içinde  ile personelleri dolduracak.
+    //Dışarıdan token alıcak ve bu token a ve personelin bulunduğu company e göre şirketler getirecek.
 }
 
 

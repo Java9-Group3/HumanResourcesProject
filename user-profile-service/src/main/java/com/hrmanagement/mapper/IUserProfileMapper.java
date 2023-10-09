@@ -62,4 +62,6 @@ public interface IUserProfileMapper {
     Permission fromTakeDayOffPermissionRequestDtoToDayOffPermission(final TakeDayOffPermissionRequestDto dto);
 
     FindAllPendingDayOfPermissionResponseDto fromToFindAllPendingDayOfPermissionResponseDtoToDayOffPermission(final Permission permission);
+
+    UserProfile toUserporfile(final personelListRequestDto dto);
 }
