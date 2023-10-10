@@ -8,7 +8,6 @@ import com.hrmanagement.manager.IAuthManager;
 import com.hrmanagement.manager.ICompanyManager;
 import com.hrmanagement.mapper.IUserProfileMapper;
 import com.hrmanagement.rabbitmq.model.ManagerChangeStatusModel;
-import com.hrmanagement.rabbitmq.model.PersonnelPasswordModel;
 import com.hrmanagement.rabbitmq.producer.ManagerChangeStatusProducer;
 import com.hrmanagement.rabbitmq.producer.PersonelPasswordProducer;
 import com.hrmanagement.repository.IUserProfileRepository;
@@ -46,7 +45,7 @@ public class UserProfileService extends ServiceManager<UserProfile, Long> {
     }
 
     public Boolean adminChangeManagerStatus(String token, ChangeManagerStatusRequestDto dto) {
-        Long authId = jwtTokenProvider.getIdFromToken(token).orElseThrow(() -> {throw new UserProfileManagerException(ErrorType.INVALID_TOKEN);});
+        Long authId = jwtTokenProvider.getAuthIdFromToken(token).orElseThrow(() -> {throw new UserProfileManagerException(ErrorType.INVALID_TOKEN);});
         Optional<UserProfile> optionalAdminProfile = userProfileRepository.findByAuthId(authId); //authId'ye göre arama-->front bağı burdan olmalı
         if (optionalAdminProfile.isEmpty())
             throw new UserProfileManagerException(ErrorType.USER_NOT_FOUND);
@@ -78,7 +77,7 @@ public class UserProfileService extends ServiceManager<UserProfile, Long> {
         Optional<UserProfile> optionalUserProfile = userProfileRepository.findByEmail(dto.getEmail());
         if (optionalUserProfile.isEmpty()) {
             List<String> role = jwtTokenProvider.getRoleFromToken(token);
-            Long managerAuthId = jwtTokenProvider.getIdFromToken(token).orElseThrow(() -> {
+            Long managerAuthId = jwtTokenProvider.getAuthIdFromToken(token).orElseThrow(() -> {
                 throw new UserProfileManagerException(ErrorType.USER_NOT_FOUND);
             });
             Optional<UserProfile> managerProfile = userProfileRepository.findByAuthId(managerAuthId);
@@ -86,10 +85,10 @@ public class UserProfileService extends ServiceManager<UserProfile, Long> {
                 throw new UserProfileManagerException(ErrorType.USER_NOT_FOUND);
             if (role.contains(ERole.MANAGER.toString())) {
                 UserProfile userProfile = IUserProfileMapper.INSTANCE.fromCreateUserProfileRequestDtoToUserProfile(dto);
-                if (dto.getBase64Avatar() != null) {
-                    String encodedAvatar = Base64.getEncoder().encodeToString(dto.getBase64Avatar().getBytes());
-                    userProfile.setAvatar(encodedAvatar);
-                }
+//                if (dto.getBase64Avatar() != null) {
+//                    String encodedAvatar = Base64.getEncoder().encodeToString(dto.getBase64Avatar().getBytes());
+//                    userProfile.setAvatar(encodedAvatar);
+//                }
                 userProfile.setPassword(passwordEncoder.encode(dto.getPassword()));
                 System.out.println();
                 userProfile.setRole(Arrays.asList(ERole.PERSONEL));
@@ -189,7 +188,7 @@ public class UserProfileService extends ServiceManager<UserProfile, Long> {
     }
 
     public PersonnelInformationResponseDto showPersonnelInformation(String token){
-        Long authId = jwtTokenProvider.getIdFromToken(token).orElseThrow(()->{throw new UserProfileManagerException(ErrorType.USER_NOT_FOUND);});
+        Long authId = jwtTokenProvider.getAuthIdFromToken(token).orElseThrow(()->{throw new UserProfileManagerException(ErrorType.USER_NOT_FOUND);});
         List<String> roles = jwtTokenProvider.getRoleFromToken(token);
         if(roles.isEmpty())
             throw new UserProfileManagerException(ErrorType.USER_NOT_FOUND);
@@ -225,6 +224,7 @@ public class UserProfileService extends ServiceManager<UserProfile, Long> {
             throw new UserProfileManagerException(ErrorType.USER_NOT_FOUND);
         return IUserProfileMapper.INSTANCE.fromUserProfileToUserProfileExpenseResponseDto(optionalUserProfile.get());
     }
+
     public List<FindAllManagerResponseDto> findAllInactiveManager(String token) {
         Optional<Long> authId = jwtTokenProvider.getIdFromToken(token);
         if (authId.isEmpty())
@@ -235,7 +235,6 @@ public class UserProfileService extends ServiceManager<UserProfile, Long> {
 
         if (userProfile.get().getRole().toString().contains("ADMIN")) {
             List<FindAllManagerResponseDto> inactiveManagerList = userProfileRepository.findAllByStatusAndRole(EStatus.INACTIVE,ERole.MANAGER);
-            //TODO manager ile companyName alınacak. UNUTMA!!
             inactiveManagerList.forEach(x -> {
                 if(x.getAvatar()!=null){
                     try{
@@ -324,8 +323,8 @@ public class UserProfileService extends ServiceManager<UserProfile, Long> {
         return dto;
     }
     public Boolean updatePersonel(PersonelUpdateRequestDto personelUpdateRequestDto) {
-        Long authId = jwtTokenProvider.getIdFromToken(personelUpdateRequestDto.getToken())
-                .orElseThrow(() -> { throw new UserProfileManagerException(ErrorType.USER_NOT_FOUND); });
+        Long authId = jwtTokenProvider.getAuthIdFromToken(personelUpdateRequestDto.getToken())
+                .orElseThrow(() -> new UserProfileManagerException(ErrorType.USER_NOT_FOUND));
         List<String> roles = jwtTokenProvider.getRoleFromToken(personelUpdateRequestDto.getToken());
         Optional<UserProfile> personelprofile = userProfileRepository.findByAuthId(authId);
 
@@ -333,16 +332,19 @@ public class UserProfileService extends ServiceManager<UserProfile, Long> {
             throw new UserProfileManagerException(ErrorType.USER_NOT_FOUND);
         }
 
-        if (roles.contains(ERole.PERSONEL.toString())||roles.contains(ERole.VISITOR.toString())) {
+        if (roles.contains(ERole.PERSONEL.toString())||roles.contains(ERole.MANAGER.toString())) {
             if (personelprofile.isPresent()) {
                 UserProfile profile = personelprofile.get();
                 profile.setName(personelUpdateRequestDto.getName());
                 profile.setSurname(personelUpdateRequestDto.getSurname());
                 profile.setEmail(personelUpdateRequestDto.getEmail());
+                profile.setPhone(personelUpdateRequestDto.getPhone());
                 if (!personelUpdateRequestDto.getPassword().equals(profile.getPassword())){
                     profile.setPassword(passwordEncoder.encode(personelUpdateRequestDto.getPassword()));
                 }
-
+            else if(roles.contains(ERole.MANAGER.toString())){
+                    profile.setWage(personelUpdateRequestDto.getWage());
+                }
                 PersonelUpdateUserProfileToAuthRequestDto dto = IUserProfileMapper.INSTANCE.toPersonelUpdateUserProfileToAuthRequestDto(profile);
                 dto.setToken(personelUpdateRequestDto.getToken());
                 authManager.updatePersonel(dto);
@@ -462,38 +464,7 @@ public class UserProfileService extends ServiceManager<UserProfile, Long> {
         return userProfile.getWage();
     }
 
-    public Boolean founderCreateManagerUserProfile(String token, CreateUserProfileRequestDto dto){
-        Optional<UserProfile> optionalUserProfile = userProfileRepository.findByEmail(dto.getEmail());
-        if(optionalUserProfile.isEmpty()) {
-            List<String> role = jwtTokenProvider.getRoleFromToken(token);
-            Long founderAuthId = jwtTokenProvider.getIdFromToken(token).orElseThrow(()-> {throw new UserProfileManagerException(ErrorType.USER_NOT_FOUND);});
-            Optional<UserProfile> managerProfile = userProfileRepository.findByAuthId(founderAuthId);
-            if(managerProfile.isEmpty())
-                throw new UserProfileManagerException(ErrorType.USER_NOT_FOUND);
-            if (role.contains(ERole.FOUNDER.toString())) {
-                UserProfile userProfile = IUserProfileMapper.INSTANCE.fromCreateUserProfileRequestDtoToUserProfile(dto);
-                if(dto.getBase64Avatar()!=null){
-                    String encodedAvatar = Base64.getEncoder().encodeToString(dto.getBase64Avatar().getBytes());
-                    userProfile.setAvatar(encodedAvatar);
-                }
-                String newPassword = UUID.randomUUID().toString();
-                userProfile.setPassword(passwordEncoder.encode(newPassword));
-                userProfile.setRole(Arrays.asList(ERole.PERSONEL,ERole.MANAGER));
-                userProfile.setStatus(EStatus.ACTIVE);
-                userProfile.setCompanyId(managerProfile.get().getCompanyId());
-                AuthCreatePersonnelProfileRequestDto authDto = IUserProfileMapper.INSTANCE.fromUserProfileToAuthCreatePersonelProfileRequestDto(userProfile);
-                Long personnelAuthId = authManager.founderCreateManagerUserProfile(authDto).getBody();
-                userProfile.setAuthId(personnelAuthId);
-                save(userProfile);
-                PersonnelPasswordModel personnelPasswordModel = IUserProfileMapper.INSTANCE.fromUserProfileToPersonnelPasswordModel(userProfile);
-                personnelPasswordModel.setPassword(newPassword);
-                personelPasswordProducer.sendPersonnelPassword(personnelPasswordModel);
-                return true;
-            }
-            throw new UserProfileManagerException(ErrorType.AUTHORIZATION_ERROR);
-        }
-        throw new UserProfileManagerException(ErrorType.USERNAME_DUPLICATE);
-    }
+
     public UserProfile showPersonalInfo(String token) {
         Optional<Long> optionalAuthId = jwtTokenProvider.getIdFromToken(token);
         if (optionalAuthId.isEmpty()) {
@@ -561,7 +532,7 @@ public class UserProfileService extends ServiceManager<UserProfile, Long> {
 
 
     public UpdateUserProfileResponseDto findUserInfoFromToken(String token) {
-        Optional<Long> authId = jwtTokenProvider.getIdFromToken(token);
+        Optional<Long> authId = jwtTokenProvider.getAuthIdFromToken(token);
         if (authId.isEmpty()){
             throw new UserProfileManagerException(ErrorType.USER_NOT_FOUND);
         }
@@ -571,7 +542,7 @@ public class UserProfileService extends ServiceManager<UserProfile, Long> {
         return IUserProfileMapper.INSTANCE.toUpdateUserProfileResponseDto(user.get());
     }
     public Long findCompanyIdFromToken(String token) {
-        Optional<Long> authId = jwtTokenProvider.getIdFromToken(token);
+        Optional<Long> authId = jwtTokenProvider.getAuthIdFromToken(token);
         if (authId.isEmpty()){
             throw new UserProfileManagerException(ErrorType.USER_NOT_FOUND);
         }
@@ -604,6 +575,7 @@ public class UserProfileService extends ServiceManager<UserProfile, Long> {
             basicUserInfo.setDistrict(userProfile.getDistrict());
             basicUserInfo.setProvince(userProfile.getProvince());
             basicUserInfo.setCountry(userProfile.getCountry());
+            basicUserInfo.setWage(userProfile.getWage());
 
             return basicUserInfo;
         }

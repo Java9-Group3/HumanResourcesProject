@@ -180,12 +180,6 @@ public class UserProfileController {
         return ResponseEntity.ok(userProfileService.getWage(token));
     }
 
-    @Hidden
-    @PostMapping("/founder-create-manager/{token}")
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
-    public ResponseEntity<Boolean> founderCreateManagerUserProfile(@PathVariable String token, @RequestBody @Valid CreateUserProfileRequestDto dto){
-        return ResponseEntity.ok(userProfileService.founderCreateManagerUserProfile(token,dto));
-    }
 
     @Hidden
     @GetMapping("/find-user-companyId/{authId}")

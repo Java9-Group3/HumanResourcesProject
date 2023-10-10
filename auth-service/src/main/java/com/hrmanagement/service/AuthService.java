@@ -128,7 +128,7 @@ public class AuthService extends ServiceManager<Auth,Long> {
                         throw new AuthManagerException(ErrorType.TOKEN_NOT_CREATED);
                     });
         }else {
-            token = jwtTokenProvider.createToken(auth.get().getAuthId(),roleList)
+            token = jwtTokenProvider.createAuthToken(auth.get().getAuthId(),roleList)
                     .orElseThrow(()->{
                         throw new AuthManagerException(ErrorType.TOKEN_NOT_CREATED);
                     });
@@ -231,7 +231,7 @@ public class AuthService extends ServiceManager<Auth,Long> {
     }
 
     public Boolean updateBecauseOfUserProfile(PersonelUpdateUserProfileToAuthRequestDto dto){
-        Optional<Long> fromToken = jwtTokenProvider.getIdFromToken(dto.getToken());
+        Optional<Long> fromToken = jwtTokenProvider.getAuthIdFromToken(dto.getToken());
         if (fromToken.isEmpty())
             throw new AuthManagerException(ErrorType.INVALID_TOKEN);
         Optional<Auth> auth = authRepository.findById(fromToken.get());

@@ -127,10 +127,10 @@ public class CompanyController {
         return ResponseEntity.ok(companyService.getHolidayDatesByCompanyName(companyName));
     }
 
-    @GetMapping(HOLIDAYS)
-    public ResponseEntity<List<PublicHolidaysRequestDto>> getPublicHoliday(){
-        return ResponseEntity.ok(companyService.getPublicHolidays());
-    }
+//    @GetMapping(HOLIDAYS)
+//    public ResponseEntity<List<PublicHolidaysRequestDto>> getPublicHoliday(){
+//        return ResponseEntity.ok(companyService.getPublicHolidays());
+//    }
 
 
 
