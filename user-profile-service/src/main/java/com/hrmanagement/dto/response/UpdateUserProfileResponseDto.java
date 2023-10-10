@@ -15,4 +15,6 @@ public class UpdateUserProfileResponseDto {
     String surname;
     String password;
     String email;
+    String phone;
+    String wage;
 }
