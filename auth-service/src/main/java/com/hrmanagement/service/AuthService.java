@@ -25,9 +25,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -278,5 +276,40 @@ public class AuthService extends ServiceManager<Auth,Long> {
         return IAuthMapper.INSTANCE.fromAuthListToPendingManagerResponseDtoList(pendingManagers);
     }
 
+    public List<PersonelListResponseDto> getPersonelList(String token) {
+        Long companyId = jwtTokenProvider.getCompanyIdFromToken(token).get();
+        if (companyId == null) {
+            throw new AuthManagerException(ErrorType.INVALID_TOKEN);
+        }
+
+        List<Auth> authList = authRepository.findByCompanyId(companyId).get();
+        if (authList.isEmpty()) {
+            throw new AuthManagerException(ErrorType.USER_NOT_FOUND);
+        }
+
+        List<PersonelListResponseDto> personnelList = new ArrayList<>();
+        for (Auth auth : authList) {
+            PersonelListResponseDto dto = IAuthMapper.INSTANCE.fromAuthToPersonelListResponseDto(auth);
+            personnelList.add(dto);
+        }
+
+        return personnelList;
+    }
+    public List<PersonelListResponseDto> getPersonelList2() {
+        Long companyId = 3L;
+
+        List<Auth> authList = authRepository.findByCompanyId(companyId).get();
+        if (authList.isEmpty()) {
+            throw new AuthManagerException(ErrorType.USER_NOT_FOUND);
+        }
+
+        List<PersonelListResponseDto> personnelList = new ArrayList<>();
+        for (Auth auth : authList) {
+            PersonelListResponseDto dto = IAuthMapper.INSTANCE.fromAuthToPersonelListResponseDto(auth);
+            personnelList.add(dto);
+        }
+
+        return personnelList;
+    }
 
 }

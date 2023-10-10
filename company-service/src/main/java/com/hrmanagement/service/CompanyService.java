@@ -395,24 +395,24 @@ public class CompanyService extends ServiceManager<Company, Long> {
     public Optional<Company> getHolidayDatesByCompanyName(String companyName) {
         return companyRepository.findByCompanyName(companyName);
     }
-//    public List<PublicHolidaysRequestDto> getPublicHolidays() {
-//        List<PublicHolidaysRequestDto> listHoliday = new ArrayList<>();
-//
-//        listHoliday.add(createHoliday(1L, "Yılbaşı", "01.01.2023", "Miladi takvimin ilk günü"));
-//        listHoliday.add(createHoliday(2L, "Ulusal Egemenlik ve Çocuk Bayramı", "23.04.2023", "Ulusal Egemenlik ve Çocuk Bayramının kutlandığı gündür"));
-//        listHoliday.add(createHoliday(3L, "Atatürk’ü Anma, Gençlik ve Spor Bayramı", "19.05.2023", "Atatürk’ü Anma, Gençlik ve Spor Bayramı'dır."));
-//        listHoliday.add(createHoliday(4L, "Zafer Bayramı", "30.08.2023", "Zafer Bayramıdır."));
-//        listHoliday.add(createHoliday(5L, "Cumhuriyet Bayramı", "29.10.2023", "Cumhuriyet Bayramı'dır."));
-//
-//        return listHoliday;
-//    }
-//
-//    private PublicHolidaysRequestDto createHoliday(Long id, String name, String date, String description) {
-//        PublicHolidaysRequestDto holiday = new PublicHolidaysRequestDto();
-//        holiday.setId(id);
-//        holiday.setName(name);
-//        holiday.setDate(date);
-//        holiday.setDescription(description);
-//        return holiday;
-//    }
+    public List<PublicHolidaysRequestDto> getPublicHolidays() {
+        List<PublicHolidaysRequestDto> listHoliday = new ArrayList<>();
+
+        listHoliday.add(createHoliday(1L, "Yılbaşı", "01.01.2023", "Miladi takvimin ilk günü"));
+        listHoliday.add(createHoliday(2L, "Ulusal Egemenlik ve Çocuk Bayramı", "23.04.2023", "Ulusal Egemenlik ve Çocuk Bayramının kutlandığı gündür"));
+        listHoliday.add(createHoliday(3L, "Atatürk’ü Anma, Gençlik ve Spor Bayramı", "19.05.2023", "Atatürk’ü Anma, Gençlik ve Spor Bayramı'dır."));
+        listHoliday.add(createHoliday(4L, "Zafer Bayramı", "30.08.2023", "Zafer Bayramıdır."));
+        listHoliday.add(createHoliday(5L, "Cumhuriyet Bayramı", "29.10.2023", "Cumhuriyet Bayramı'dır."));
+
+        return listHoliday;
+    }
+
+    private PublicHolidaysRequestDto createHoliday(Long id, String name, String date, String description) {
+        PublicHolidaysRequestDto holiday = new PublicHolidaysRequestDto();
+        holiday.setId(id);
+        holiday.setName(name);
+        holiday.setDate(date);
+        holiday.setDescription(description);
+        return holiday;
+    }
 }

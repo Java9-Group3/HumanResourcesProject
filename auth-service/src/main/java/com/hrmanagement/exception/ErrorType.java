@@ -9,7 +9,7 @@ import org.springframework.http.HttpStatus;
 public enum ErrorType {
 
     INTERNAL_ERROR(5100, "Sunucu Hatası", HttpStatus.INTERNAL_SERVER_ERROR),
-    BAD_REQUEST(4000, "Parametre Hatası", HttpStatus.BAD_REQUEST),
+    BAD_REQUEST(4000, "Parametre Hatası!!", HttpStatus.BAD_REQUEST),
     LOGIN_ERROR(4100, "Kullancı adı veya şifre hatalı", HttpStatus.BAD_REQUEST),
     PASSWORD_ERROR(4200, "Şifreler aynı değil", HttpStatus.BAD_REQUEST),
     USERNAME_DUPLICATE(4300, "Bu kullanıcı zaten kayıtlı", HttpStatus.BAD_REQUEST),
