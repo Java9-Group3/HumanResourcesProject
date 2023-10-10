@@ -15,6 +15,8 @@ public interface IAuthRepository extends JpaRepository<Auth,Long> {
     Optional<Auth> findOptionalByAuthId(Long authId);
     Optional<Auth> findOptionalByActivationCode(String activationCode);
 
+    Optional<List<Auth>> findByCompanyId(Long companyid);
+
     List<Auth> findByRolesContainsAndStatus(ERole role, EStatus status);
 
 

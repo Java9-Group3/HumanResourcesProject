@@ -105,4 +105,12 @@ public class AuthController {
     public ResponseEntity<Long> founderCreateManagerUserProfile(@RequestBody AuthCreatePersonnelProfileResponseDto dto){
         return ResponseEntity.ok(authService.founderCreateManagerUserProfile(dto));
     }
+    @GetMapping("/getPersonelList")
+    public ResponseEntity<List<PersonelListResponseDto>> getPersonelList(String token){
+        return ResponseEntity.ok(authService.getPersonelList(token));
+    }
+    @GetMapping("/getPersonelList2")
+    public ResponseEntity<List<PersonelListResponseDto>> getPersonelList2(){
+        return ResponseEntity.ok(authService.getPersonelList2());
+    }
 }

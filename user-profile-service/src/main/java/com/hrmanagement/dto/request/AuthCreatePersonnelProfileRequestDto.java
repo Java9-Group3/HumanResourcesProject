@@ -21,4 +21,6 @@ public class AuthCreatePersonnelProfileRequestDto {
     private String password;
     private List<ERole> role;
     private EStatus status;
+    private String token;
+    private Long companyId;
 }
