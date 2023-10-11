@@ -126,7 +126,7 @@ public class AuthService extends ServiceManager<Auth,Long> {
                         throw new AuthManagerException(ErrorType.TOKEN_NOT_CREATED);
                     });
         }else {
-            token = jwtTokenProvider.createAuthToken(auth.get().getAuthId(),roleList)
+            token = jwtTokenProvider.createAuthToken(auth.get().getAuthId(),roleList,auth.get().getCompanyId())
                     .orElseThrow(()->{
                         throw new AuthManagerException(ErrorType.TOKEN_NOT_CREATED);
                     });

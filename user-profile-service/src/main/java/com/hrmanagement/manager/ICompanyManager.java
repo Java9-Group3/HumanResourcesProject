@@ -14,7 +14,7 @@ public interface ICompanyManager {
     @GetMapping("/get-personnel-company-information/{companyId}")
     public ResponseEntity<PersonnelCompanyInformationResponseDto> getPersonnelCompanyInformation(@PathVariable Long companyId);
     @GetMapping("/get-company-name-with-company-id/{companyId}")
-    ResponseEntity<String> getCompanyNameWithCompanyId(@PathVariable String companyId);
+    public ResponseEntity<String> getCompanyNameWithCompanyId(@PathVariable Long companyId);
     @GetMapping("/get-company-infos-with-company-id/{companyId}")
     public ResponseEntity<AllCompanyInfosForUserProfileResponseDto> getAllInfosCompanyWithCompanyId(@PathVariable Long companyId);
 
@@ -23,4 +23,7 @@ public interface ICompanyManager {
 
     @PutMapping("/update-company-wage-date")
     ResponseEntity<Boolean> updateCompanyWageDate(@RequestBody UpdateCompanyWageDateRequestDto dto);
+
+    @GetMapping("/get-company-name-with-auth-id/{companyId}")
+    public ResponseEntity<Long> getCompanyNameWithAuthId(@PathVariable Long AuthId);
 }

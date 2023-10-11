@@ -1,5 +1,6 @@
 package com.hrmanagement.dto.request;
 
+import com.hrmanagement.repository.entity.enums.ApprovalStatus;
 import com.hrmanagement.repository.entity.enums.EExpenseType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,4 +17,6 @@ public class CreateExpenseRequestDto {
     Double amount;
     EExpenseType expenseType;
     String currency;
+    @Builder.Default
+    ApprovalStatus approvalStatus=ApprovalStatus.PENDING;
 }
