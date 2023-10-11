@@ -12,6 +12,7 @@ public enum ErrorType {
     BAD_REQUEST(4000, "Parametre Hatası", HttpStatus.BAD_REQUEST),
     USERNAME_DUPLICATE(4300, "Bu kullanıcı zaten kayıtlı", HttpStatus.BAD_REQUEST),
     USERNAME_NOT_CREATED(4100, "Kullanıcı oluşturulamadı", HttpStatus.BAD_REQUEST),
+    EXPENSE_NOT_FOUND(4100, "Harcama bulunamadı", HttpStatus.NOT_FOUND),
     AUTHORIZATION_ERROR(4200,"You're not authorized to do this.", HttpStatus.BAD_REQUEST),
     PERMISSON_ERROR(9999,"Bu işlemi yapabilmek için gereken şartlara sahip değilsiniz",HttpStatus.BAD_REQUEST),
     USER_NOT_FOUND(4400, "Böyle bir kullanıcı bulunamadı", HttpStatus.NOT_FOUND),

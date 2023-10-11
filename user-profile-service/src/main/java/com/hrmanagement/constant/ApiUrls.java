@@ -10,6 +10,7 @@ public class ApiUrls {
     public static final String CREATE_PERSONAL = "/create-personal";
     public static final String SAVE = "/save";
     public static final String GETALLEXPENSES = "/getallexpenses";
+    public static final String GETALLPENDINGEXPENSES = "/getallpendingexpenses";
     public static final String PASS_CHANGE = "/password-change";
     public static final String UPDATE = "/update";
     public static final String DELETE_BY_ID = "/delete-by-id";

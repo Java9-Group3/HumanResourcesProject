@@ -22,4 +22,6 @@ public class ListExpenseResponseDto {
     private LocalDate requestDate;
     @Builder.Default
     private LocalDate replyDate=LocalDate.now();
+    private Long companyId;
+    private Long expenseId;
 }

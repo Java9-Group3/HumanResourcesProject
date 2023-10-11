@@ -19,7 +19,7 @@ import java.time.LocalDate;
 public class Expense extends Base {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long expenseId;
     private Long authid;
     private String companyName;
     private Long companyId;
