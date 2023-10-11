@@ -13,7 +13,7 @@ public enum ErrorType {
     USERNAME_DUPLICATE(4300, "Bu kullanıcı zaten kayıtlı", HttpStatus.BAD_REQUEST),
     USERNAME_NOT_CREATED(4100, "Kullanıcı oluşturulamadı", HttpStatus.BAD_REQUEST),
     AUTHORIZATION_ERROR(4200,"You're not authorized to do this.", HttpStatus.BAD_REQUEST),
-
+    PERMISSON_ERROR(9999,"Bu işlemi yapabilmek için gereken şartlara sahip değilsiniz",HttpStatus.BAD_REQUEST),
     USER_NOT_FOUND(4400, "Böyle bir kullanıcı bulunamadı", HttpStatus.NOT_FOUND),
     INVALID_TOKEN(4600,"Token hatası" ,  HttpStatus.BAD_REQUEST),
     FOLLOW_ALREADY_EXIST(4700, "Böyle bir takip isteği daha önce oluşturulmuştur.", HttpStatus.BAD_REQUEST),
