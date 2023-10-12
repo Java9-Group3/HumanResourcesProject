@@ -34,6 +34,7 @@ public enum ErrorType {
     NOT_FOUND_DAY_OFF_PERMISSION(6200,"İzin bulunamadı",HttpStatus.NOT_FOUND),
     PERMISSION_STATUS_NOT_PENDING(6300,"İzin durumu Pending değil",HttpStatus.NOT_FOUND),
     NOT_MANAGER(6400,"Manager Değilsiniz",HttpStatus.BAD_REQUEST),
+    TOO_MUCH_ADVANCE(3500,"Avans talep toplamınız maaşınızı geçmektedir.",HttpStatus.BAD_REQUEST),
     PERSONNEL_NOT_FOUND(6500,"Personel bulunamadı",HttpStatus.NOT_FOUND);
     private int code;
     private String message;

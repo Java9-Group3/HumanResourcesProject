@@ -5,11 +5,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@AllArgsConstructor
 @Builder
 @Data
 @NoArgsConstructor
-public class ChangeAdvanceStatusRequestDto {
-    private Long advanceId;
-    private Boolean action;
+@AllArgsConstructor
+public class CreateAdvancePermissionRequestDto {
+    private String description;
+    private Double amount;
+    String currency;
+
 }
