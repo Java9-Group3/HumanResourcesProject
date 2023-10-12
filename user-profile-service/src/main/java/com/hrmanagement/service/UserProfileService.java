@@ -259,7 +259,7 @@ public class UserProfileService extends ServiceManager<UserProfile, Long> {
                         e.printStackTrace();
                     }
                 }
-                String companyName =companyManager.getCompanyNameWithCompanyId(x.getCompanyId()).getBody();
+                String companyName =companyManager.getCompanyNameWithCompanyId(Long.valueOf(x.getCompanyId())).getBody();
                 x.setCompanyName(companyName);
             });
             return inactiveManagerList;

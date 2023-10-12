@@ -62,7 +62,9 @@ public class JwtTokenProvider {
             return Optional.empty();
         }
     }
+
     public Optional<String> createAuthToken(Long authId, Long companyId, List<String> roles){
+
         String token = null;
         Date date = new Date(System.currentTimeMillis() + (1000*60*60*24*5));
         try {
