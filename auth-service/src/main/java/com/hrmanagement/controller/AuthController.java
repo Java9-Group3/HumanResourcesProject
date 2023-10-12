@@ -1,7 +1,6 @@
 package com.hrmanagement.controller;
 
 import com.hrmanagement.dto.request.*;
-
 import com.hrmanagement.dto.response.*;
 import com.hrmanagement.repository.entity.Auth;
 import com.hrmanagement.service.AuthService;
@@ -11,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-
 import java.util.List;
 
 import static com.hrmanagement.constant.ApiUrls.*;

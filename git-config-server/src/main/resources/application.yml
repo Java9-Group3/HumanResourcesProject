@@ -1,0 +1,15 @@
+server:
+  port: 8888
+
+spring:
+  application:
+    name: git-config-server
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/Java9-Group3/git-config-server.git
+          default-label: main
+          skip-ssl-validation: true
+          username: Java9-Group3
+          password: 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

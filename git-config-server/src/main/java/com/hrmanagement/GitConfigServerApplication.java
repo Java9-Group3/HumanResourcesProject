@@ -2,12 +2,12 @@ package com.hrmanagement;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.openfeign.EnableFeignClients;
+import org.springframework.cloud.config.server.EnableConfigServer;
 
 @SpringBootApplication
-@EnableFeignClients
-public class MailServiceApplication {
+@EnableConfigServer
+public class GitConfigServerApplication {
     public static void main(String[] args) {
-        SpringApplication.run(MailServiceApplication.class);
+        SpringApplication.run(GitConfigServerApplication.class);
     }
 }

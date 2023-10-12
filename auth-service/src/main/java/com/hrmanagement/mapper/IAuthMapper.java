@@ -8,7 +8,8 @@ import com.hrmanagement.dto.response.RegisterResponseDto;
 import com.hrmanagement.rabbitmq.model.RegisterMailHelloModel;
 import com.hrmanagement.rabbitmq.model.RegisterMailModel;
 import com.hrmanagement.repository.entity.Auth;
-import org.mapstruct.*;
+import org.mapstruct.Mapper;
+import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
