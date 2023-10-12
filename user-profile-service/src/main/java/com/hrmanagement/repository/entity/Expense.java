@@ -28,7 +28,8 @@ public class Expense extends Base {
     private EExpenseType expenseType;
     @Enumerated(EnumType.STRING)
     private ApprovalStatus approvalStatus;
-    private String currency;
+    @Builder.Default
+    private String currency = "TRY";
     @Builder.Default
     private LocalDate requestDate=LocalDate.now();
     private LocalDate replyDate;

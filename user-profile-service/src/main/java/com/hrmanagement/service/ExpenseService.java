@@ -37,7 +37,6 @@ public class ExpenseService extends ServiceManager<Expense, Long> {
         this.userProfileService = userProfileService;
     }
 
-    //kendime not authid unutma
     public CreateExpenseResponseDto createExpense(String token, CreateExpenseRequestDto dto) {
 
         Expense expense = IExpenseMapper.INSTANCE.toExpense(dto);
@@ -49,7 +48,6 @@ public class ExpenseService extends ServiceManager<Expense, Long> {
         return new CreateExpenseResponseDto("Harcama talebi başarıyla eklendi");
     }
 
-    //companyidsine göre pending talepleri getiriyor . koıntrol et ?
     public List<ListExpenseResponseDto> getAllPendingExpensesByCompanyId(String token) {
         Optional<List<Expense>> expenses = repository.findByCompanyId(jwtTokenProvider.getCompanyIdFromToken(token).get());
 
@@ -74,7 +72,6 @@ public class ExpenseService extends ServiceManager<Expense, Long> {
         return dtoExpenses;
     }
 
-    //tüm harcamaları getiriyor
     public List<ListExpenseResponseDto> getAllExpensesByCompanyId(String token) {
        Optional<List<Expense>> expenses = repository.findByCompanyId(jwtTokenProvider.getCompanyIdFromToken(token).get());
         List<ListExpenseResponseDto> dtoExpenses = new ArrayList<>();
@@ -86,7 +83,6 @@ public class ExpenseService extends ServiceManager<Expense, Long> {
         return dtoExpenses;
     }
 
-    //onaylama ve red durumu
     public Boolean changeExpenseStatus(String token, ChangeExpenseStatuesRequestDto dto) {
         List<String> roles = jwtTokenProvider.getRoleFromToken(token);
         if (roles.isEmpty())

@@ -598,8 +598,15 @@ public class UserProfileService extends ServiceManager<UserProfile, Long> {
     }
 
 
-    //personelListRequestDto listesi döndüren bir metot yaz. Bu metot içinde  ile personelleri dolduracak.
-    //Dışarıdan token alıcak ve bu token a ve personelin bulunduğu company e göre şirketler getirecek.
+
+
+
+
+
+
+
+
+
 }
 
 

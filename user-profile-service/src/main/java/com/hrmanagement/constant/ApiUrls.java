@@ -5,6 +5,7 @@ public class ApiUrls {
     public static final String VERSION = "api/v1";
     public static final String USER_PROFILE = VERSION + "/user-profile";
     public static final String EXPENSE =VERSION +"/expense";
+    public static final String ADVANCE =VERSION +"/advance";
     //UserProfile EndPoints
     public static final String CREATE = "/create";
     public static final String CREATE_PERSONAL = "/create-personal";
