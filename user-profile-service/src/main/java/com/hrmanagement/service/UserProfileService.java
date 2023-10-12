@@ -45,7 +45,7 @@ public class UserProfileService extends ServiceManager<UserProfile, Long> {
     }
 
     public Boolean adminChangeManagerStatus(String token, ChangeManagerStatusRequestDto dto) {
-        Long authId = jwtTokenProvider.getAuthIdFromToken(token).orElseThrow(() -> {throw new UserProfileManagerException(ErrorType.INVALID_TOKEN);});
+        Long authId = jwtTokenProvider.getAuthIdFromToken(token).orElseThrow(() -> new UserProfileManagerException(ErrorType.INVALID_TOKEN));
         Optional<UserProfile> optionalAdminProfile = userProfileRepository.findByAuthId(authId); //authId'ye göre arama-->front bağı burdan olmalı
         if (optionalAdminProfile.isEmpty())
             throw new UserProfileManagerException(ErrorType.USER_NOT_FOUND);
@@ -110,7 +110,20 @@ public class UserProfileService extends ServiceManager<UserProfile, Long> {
         throw new UserProfileManagerException(ErrorType.USERNAME_DUPLICATE);
     }
 
-
+    public UpdateUserProfileResponseDto findShiftBreakInfo(String token) {
+        Long authIdFromToken = jwtTokenProvider.getAuthIdFromToken(token).orElseThrow(() -> new UserProfileManagerException(ErrorType.INVALID_TOKEN));
+        Optional<UserProfile> optionalPersonelProfile = userProfileRepository.findByAuthId(authIdFromToken);
+        if (optionalPersonelProfile.isEmpty()){
+            throw new UserProfileManagerException(ErrorType.USER_NOT_FOUND);
+        }
+        UserProfile userProfile = optionalPersonelProfile.get();
+        UpdateUserProfileResponseDto shiftBreakInfo = new UpdateUserProfileResponseDto();
+        shiftBreakInfo.setName(userProfile.getName());
+        shiftBreakInfo.setSurname(userProfile.getSurname());
+        shiftBreakInfo.setJobShift(userProfile.getJobShift());
+        shiftBreakInfo.setJobBreak(userProfile.getJobBreak());
+        return shiftBreakInfo;
+    }
 
     public Boolean forgotPassword(ForgotPasswordUserResponseDto dto) {
         Optional<UserProfile> optionalUserProfile = userProfileRepository.findByAuthId(dto.getAuthId());
@@ -344,6 +357,8 @@ public class UserProfileService extends ServiceManager<UserProfile, Long> {
                 }
             else if(roles.contains(ERole.MANAGER.toString())){
                     profile.setWage(personelUpdateRequestDto.getWage());
+                    profile.setJobShift(personelUpdateRequestDto.getJobShift());
+                    profile.setJobBreak(personelUpdateRequestDto.getJobBreak());
                 }
                 PersonelUpdateUserProfileToAuthRequestDto dto = IUserProfileMapper.INSTANCE.toPersonelUpdateUserProfileToAuthRequestDto(profile);
                 dto.setToken(personelUpdateRequestDto.getToken());
@@ -581,6 +596,8 @@ public class UserProfileService extends ServiceManager<UserProfile, Long> {
         }
         return null;
     }
+
+
     //personelListRequestDto listesi döndüren bir metot yaz. Bu metot içinde  ile personelleri dolduracak.
     //Dışarıdan token alıcak ve bu token a ve personelin bulunduğu company e göre şirketler getirecek.
 }

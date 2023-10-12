@@ -10,11 +10,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UpdateUserProfileResponseDto {
-    Long id;
-    String name;
-    String surname;
-    String password;
-    String email;
-    String phone;
-    String wage;
+    private Long id;
+    private String name;
+    private String surname;
+    private String password;
+    private String email;
+    private String phone;
+    private String wage;
+    private String jobBreak;
+    private String jobShift;
 }

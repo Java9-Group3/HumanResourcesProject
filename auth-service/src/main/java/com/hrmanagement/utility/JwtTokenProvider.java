@@ -62,7 +62,7 @@ public class JwtTokenProvider {
             return Optional.empty();
         }
     }
-    public Optional<String> createAuthToken(Long authId, List<String> roles){
+    public Optional<String> createAuthToken(Long authId, Long companyId, List<String> roles){
         String token = null;
         Date date = new Date(System.currentTimeMillis() + (1000*60*60*24*5));
         try {
@@ -72,6 +72,7 @@ public class JwtTokenProvider {
                     .withIssuedAt(new Date())
                     .withExpiresAt(date)
                     .withClaim("authId", authId)
+                    .withClaim("companyId", companyId)
                     .withClaim("roles", roles)
                     .sign(Algorithm.HMAC512(secretKey));
             return Optional.of(token);
