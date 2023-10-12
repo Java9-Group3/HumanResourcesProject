@@ -37,16 +37,16 @@ public class PersonnelController {
         return ResponseEntity.ok(permissionService.findAllPendingDayOffPermission(token));
     }
 
-    @GetMapping("/get-permission/{personelId}")
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
-    public ResponseEntity<Permission> getBreakAndShiftInformation(@PathVariable Long personelId) {
-        Permission permission = permissionService.getBreakAndShiftInformation(personelId);
-        if (permission != null) {
-            return ResponseEntity.ok(permission);
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-    }
+//    @GetMapping("/get-permission/{personelId}")
+//    @CrossOrigin(origins = "*", allowedHeaders = "*")
+//    public ResponseEntity<Permission> getBreakAndShiftInformation(@PathVariable Long personelId) {
+//        Permission permission = permissionService.getBreakAndShiftInformation(personelId);
+//        if (permission != null) {
+//            return ResponseEntity.ok(permission);
+//        } else {
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+//        }
+//    }
 
 //    @GetMapping("/get-personnel-debt/{personelId}")
 //    @CrossOrigin(origins = "*", allowedHeaders = "*")

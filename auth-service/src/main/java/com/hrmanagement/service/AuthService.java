@@ -126,7 +126,7 @@ public class AuthService extends ServiceManager<Auth,Long> {
                         throw new AuthManagerException(ErrorType.TOKEN_NOT_CREATED);
                     });
         }else {
-            token = jwtTokenProvider.createAuthToken(auth.get().getAuthId(),roleList,auth.get().getCompanyId())
+            token = jwtTokenProvider.createAuthToken(auth.get().getAuthId(),auth.get().getCompanyId(),roleList)
                     .orElseThrow(()->{
                         throw new AuthManagerException(ErrorType.TOKEN_NOT_CREATED);
                     });
@@ -240,6 +240,9 @@ public class AuthService extends ServiceManager<Auth,Long> {
         auth.get().setSurname(dto.getSurname());
         auth.get().setEmail(dto.getEmail());
         auth.get().setPassword(dto.getPassword());
+        auth.get().setWage(dto.getWage());
+        auth.get().setJobShift(dto.getJobShift());
+        auth.get().setJobBreak(dto.getJobBreak());
         update(auth.get());
         return true;
     }

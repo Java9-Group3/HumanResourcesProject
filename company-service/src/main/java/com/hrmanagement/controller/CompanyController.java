@@ -33,9 +33,8 @@ public class CompanyController {
         return ResponseEntity.ok(companyService.updateCompany(dto));
     }
 
-    @GetMapping("/show-company-information")
-    @Operation(summary = "Id'si sorgulanan şirketin bilgilerini gösterir.")
-    public ResponseEntity<CompanyInformationResponseDto> showCompanyInformation(String token){
+    @GetMapping("/show-company-information/{token}")
+    public ResponseEntity<CompanyUpdateRequestDto> showCompanyInformation(@PathVariable String token){
         return ResponseEntity.ok(companyService.showCompanyInformation(token));
     }
     @GetMapping("/find-all-company-preview-information")

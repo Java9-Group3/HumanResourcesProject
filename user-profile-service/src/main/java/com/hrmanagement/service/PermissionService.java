@@ -145,14 +145,14 @@ public class PermissionService extends ServiceManager<Permission, Long> {
         throw new UserProfileManagerException(ErrorType.NOT_MANAGER);
     }
 
-    public Permission getBreakAndShiftInformation(Long personelId) {
-        Optional<Permission> permissionOptional = permissionRepository.findById(personelId);
-        if (permissionOptional.isPresent()) {
-            Permission permission = permissionOptional.get();
-            Permission permission1 = new Permission();
-            return permission1;
-        } else {
-            return null;
-        }
-    }
+//    public Permission getBreakAndShiftInformation(Long personelId) {
+//        Optional<Permission> permissionOptional = permissionRepository.findById(personelId);
+//        if (permissionOptional.isPresent()) {
+//            Permission permission = permissionOptional.get();
+//            Permission permission1 = new Permission();
+//            return permission1;
+//        } else {
+//            return null;
+//        }
+//    }
 }

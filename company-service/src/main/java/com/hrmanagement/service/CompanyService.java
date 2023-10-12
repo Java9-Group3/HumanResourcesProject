@@ -81,12 +81,27 @@ public class CompanyService extends ServiceManager<Company, Long> {
         }
     }
 
-    public CompanyInformationResponseDto showCompanyInformation(String token) {
-        Company company = findById(jwtTokenProvider.getCompanyIdFromToken(token).get()).orElseThrow(() -> {
-            throw new CompanyManagerException(ErrorType.COMPANY_NOT_FOUND);
-        });
-        return ICompanyMapper.INSTANCE.fromCompanyToCompanyInformationResponseDto(company);
+    public CompanyUpdateRequestDto showCompanyInformation(String token) {
+        Long companyId = jwtTokenProvider.getCompanyIdFromToken(token).orElseThrow(() -> new CompanyManagerException(ErrorType.INVALID_TOKEN));
+
+        Company company = companyRepository.findById(companyId)
+                .orElseThrow(() -> new CompanyManagerException(ErrorType.COMPANY_NOT_FOUND));
+        CompanyUpdateRequestDto companyInfo = new CompanyUpdateRequestDto();
+        companyInfo.setCompanyName(company.getCompanyName());
+        companyInfo.setCompanyPhone(company.getCompanyPhone());
+        companyInfo.setCompanyMail(company.getCompanyMail());
+        companyInfo.setTaxNumber(company.getTaxNumber());
+        companyInfo.setCompanyCountry(company.getCompanyCountry());
+        companyInfo.setCompanyProvince(company.getCompanyProvince());
+        companyInfo.setCompanyDistrict(company.getCompanyDistrict());
+        companyInfo.setCompanyNeighbourhood(company.getCompanyNeighbourhood());
+        companyInfo.setCompanyBuildingNumber(company.getCompanyBuildingNumber());
+        companyInfo.setCompanyApartmentNumber(company.getCompanyApartmentNumber());
+        companyInfo.setSector(company.getSector());
+
+        return companyInfo;
     }
+
 
     //Tüm companylerin preview bilgileri için metot
     public List<VisitorCompanyInformations> findAllCompanyPreviewInformation() {

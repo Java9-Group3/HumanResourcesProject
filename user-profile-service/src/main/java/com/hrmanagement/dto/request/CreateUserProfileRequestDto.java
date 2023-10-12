@@ -5,8 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @Builder
 @NoArgsConstructor
@@ -47,7 +45,7 @@ public class CreateUserProfileRequestDto {
 //    private String department;
 //
     private String jobShift;
-    private List<String> jobBreak;
+    private String jobBreak;
 //
 //    private int employeeLeaves;
 //    private String dateOfBirth;

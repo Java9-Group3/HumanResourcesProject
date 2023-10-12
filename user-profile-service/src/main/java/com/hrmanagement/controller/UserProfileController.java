@@ -42,6 +42,11 @@ public class UserProfileController {
         return ResponseEntity.ok(userProfileService.findUserInfoFromToken(token));
     }
 
+    @GetMapping("/get-shift-break-info/{token}")
+    public ResponseEntity<UpdateUserProfileResponseDto> getShiftBreakInfo(@PathVariable String token){
+        return ResponseEntity.ok(userProfileService.findShiftBreakInfo(token));
+    }
+
     @Hidden
     @PutMapping(FORGOT_PASSWORD)
     public ResponseEntity<Boolean> forgotPassword(@RequestBody ForgotPasswordUserResponseDto dto) {
