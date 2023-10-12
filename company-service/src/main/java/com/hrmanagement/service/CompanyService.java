@@ -135,7 +135,7 @@ public class CompanyService extends ServiceManager<Company, Long> {
         return companyInformationsList;
 
     }
-
+    //
     //Detaylı company sayfası için metot
     public VisitorDetailedCompanyInformationResponse findCompanyDetailedInformation(Long companyId) {
         Company company = findById(companyId).orElseThrow(() -> {
