@@ -16,5 +16,9 @@ public class PersonelUpdateRequestDto {
     private String email;
     private String password;
     private String token;
+    private String phone;
+    private Double wage;
+    private String jobBreak;
+    private String jobShift;
 
 }

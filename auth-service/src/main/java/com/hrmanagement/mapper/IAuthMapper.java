@@ -3,6 +3,7 @@ package com.hrmanagement.mapper;
 import com.hrmanagement.dto.request.*;
 import com.hrmanagement.dto.response.AuthCreatePersonnelProfileResponseDto;
 import com.hrmanagement.dto.response.PendingManagerResponseDtoList;
+import com.hrmanagement.dto.response.PersonelListResponseDto;
 import com.hrmanagement.dto.response.RegisterResponseDto;
 import com.hrmanagement.rabbitmq.model.RegisterMailHelloModel;
 import com.hrmanagement.rabbitmq.model.RegisterMailModel;
@@ -32,8 +33,8 @@ public interface IAuthMapper {
     RegisterMailHelloModel fromAuthToRegisterMailHelloModel(final Auth auth);
 
     Auth fromCreatePersonelProfileDtotoAuth(final AuthCreatePersonnelProfileResponseDto dto);
-
-
+    PersonelListResponseDto fromAuthToPersonelListResponseDto(final Auth auth);
+    AuthCreatePersonnelProfileResponseDto  fromAuthToCreatePersonelProfileResponseDto(final Auth auth);
     RegisterMailModel fromAuthToRegisterMailModel(final Auth auth);
 
     NewCreateVisitorUserRequestDto fromAuthNewCreateVisitorUserRequestDto(final Auth auth);

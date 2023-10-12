@@ -12,8 +12,9 @@ public enum ErrorType {
     BAD_REQUEST(4000, "Parametre Hatası", HttpStatus.BAD_REQUEST),
     USERNAME_DUPLICATE(4300, "Bu kullanıcı zaten kayıtlı", HttpStatus.BAD_REQUEST),
     USERNAME_NOT_CREATED(4100, "Kullanıcı oluşturulamadı", HttpStatus.BAD_REQUEST),
+    EXPENSE_NOT_FOUND(4100, "Harcama bulunamadı", HttpStatus.NOT_FOUND),
     AUTHORIZATION_ERROR(4200,"You're not authorized to do this.", HttpStatus.BAD_REQUEST),
-
+    PERMISSON_ERROR(9999,"Bu işlemi yapabilmek için gereken şartlara sahip değilsiniz",HttpStatus.BAD_REQUEST),
     USER_NOT_FOUND(4400, "Böyle bir kullanıcı bulunamadı", HttpStatus.NOT_FOUND),
     INVALID_TOKEN(4600,"Token hatası" ,  HttpStatus.BAD_REQUEST),
     FOLLOW_ALREADY_EXIST(4700, "Böyle bir takip isteği daha önce oluşturulmuştur.", HttpStatus.BAD_REQUEST),
@@ -33,6 +34,7 @@ public enum ErrorType {
     NOT_FOUND_DAY_OFF_PERMISSION(6200,"İzin bulunamadı",HttpStatus.NOT_FOUND),
     PERMISSION_STATUS_NOT_PENDING(6300,"İzin durumu Pending değil",HttpStatus.NOT_FOUND),
     NOT_MANAGER(6400,"Manager Değilsiniz",HttpStatus.BAD_REQUEST),
+    TOO_MUCH_ADVANCE(3500,"Avans talep toplamınız maaşınızı geçmektedir.",HttpStatus.BAD_REQUEST),
     PERSONNEL_NOT_FOUND(6500,"Personel bulunamadı",HttpStatus.NOT_FOUND);
     private int code;
     private String message;

@@ -9,14 +9,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UpdateUserProfileResponseDto {
-    private Long id;
+public class PersonelListResponseDto {
+    private String email;
     private String name;
     private String surname;
-    private String password;
-    private String email;
-    private String phone;
-    private String wage;
-    private String jobBreak;
-    private String jobShift;
+    private String token;
 }

@@ -25,9 +25,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -128,7 +126,7 @@ public class AuthService extends ServiceManager<Auth,Long> {
                         throw new AuthManagerException(ErrorType.TOKEN_NOT_CREATED);
                     });
         }else {
-            token = jwtTokenProvider.createToken(auth.get().getAuthId(),roleList)
+            token = jwtTokenProvider.createAuthToken(auth.get().getAuthId(),auth.get().getCompanyId(),roleList)
                     .orElseThrow(()->{
                         throw new AuthManagerException(ErrorType.TOKEN_NOT_CREATED);
                     });
@@ -231,7 +229,7 @@ public class AuthService extends ServiceManager<Auth,Long> {
     }
 
     public Boolean updateBecauseOfUserProfile(PersonelUpdateUserProfileToAuthRequestDto dto){
-        Optional<Long> fromToken = jwtTokenProvider.getIdFromToken(dto.getToken());
+        Optional<Long> fromToken = jwtTokenProvider.getAuthIdFromToken(dto.getToken());
         if (fromToken.isEmpty())
             throw new AuthManagerException(ErrorType.INVALID_TOKEN);
         Optional<Auth> auth = authRepository.findById(fromToken.get());
@@ -242,6 +240,9 @@ public class AuthService extends ServiceManager<Auth,Long> {
         auth.get().setSurname(dto.getSurname());
         auth.get().setEmail(dto.getEmail());
         auth.get().setPassword(dto.getPassword());
+        auth.get().setWage(dto.getWage());
+        auth.get().setJobShift(dto.getJobShift());
+        auth.get().setJobBreak(dto.getJobBreak());
         update(auth.get());
         return true;
     }
@@ -278,5 +279,40 @@ public class AuthService extends ServiceManager<Auth,Long> {
         return IAuthMapper.INSTANCE.fromAuthListToPendingManagerResponseDtoList(pendingManagers);
     }
 
+    public List<PersonelListResponseDto> getPersonelList(String token) {
+        Long companyId = jwtTokenProvider.getCompanyIdFromToken(token).get();
+        if (companyId == null) {
+            throw new AuthManagerException(ErrorType.INVALID_TOKEN);
+        }
+
+        List<Auth> authList = authRepository.findByCompanyId(companyId).get();
+        if (authList.isEmpty()) {
+            throw new AuthManagerException(ErrorType.USER_NOT_FOUND);
+        }
+
+        List<PersonelListResponseDto> personnelList = new ArrayList<>();
+        for (Auth auth : authList) {
+            PersonelListResponseDto dto = IAuthMapper.INSTANCE.fromAuthToPersonelListResponseDto(auth);
+            personnelList.add(dto);
+        }
+
+        return personnelList;
+    }
+    public List<PersonelListResponseDto> getPersonelList2() {
+        Long companyId = 3L;
+
+        List<Auth> authList = authRepository.findByCompanyId(companyId).get();
+        if (authList.isEmpty()) {
+            throw new AuthManagerException(ErrorType.USER_NOT_FOUND);
+        }
+
+        List<PersonelListResponseDto> personnelList = new ArrayList<>();
+        for (Auth auth : authList) {
+            PersonelListResponseDto dto = IAuthMapper.INSTANCE.fromAuthToPersonelListResponseDto(auth);
+            personnelList.add(dto);
+        }
+
+        return personnelList;
+    }
 
 }

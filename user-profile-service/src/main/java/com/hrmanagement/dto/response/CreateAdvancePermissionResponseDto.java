@@ -5,10 +5,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@AllArgsConstructor
 @Builder
 @Data
 @NoArgsConstructor
-public class PersonnelCompanyInformationResponseDto {
-    private String companyName;
+@AllArgsConstructor
+public class CreateAdvancePermissionResponseDto {
+    private String successMessage;
+
 }

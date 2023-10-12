@@ -1,5 +1,6 @@
 package com.hrmanagement.repository.entity;
 
+import com.hrmanagement.repository.entity.enums.ApprovalStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,13 +17,19 @@ import javax.persistence.Id;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Debt extends Base {
+public class AdvancePermission extends Base {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long debtId;
-    private Long userId;
-    private double debt;
+    private Long advanceId;
+    private String description;
+    private Double amount;
+    private Long authid;
+    private Long companyId;
+    private String name;
     @Builder.Default
-    private Long debtDate = System.currentTimeMillis();
-
+    private Long requestDate=System.currentTimeMillis();
+    @Builder.Default
+    private ApprovalStatus approvalStatus = ApprovalStatus.PENDING;
+    @Builder.Default
+    private String currency = "TRY";
 }

@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @Data
 @NoArgsConstructor
-public class ChangeAdvanceStatusRequestDto {
-    private Long advanceId;
+public class ChangeExpenseStatuesRequestDto {
+    private Long expenseId;
     private Boolean action;
 }

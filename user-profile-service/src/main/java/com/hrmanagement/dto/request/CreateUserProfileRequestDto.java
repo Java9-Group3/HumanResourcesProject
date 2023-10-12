@@ -23,10 +23,10 @@ public class CreateUserProfileRequestDto {
 //    private String identificationNumber;
 //    private EGender gender;
 //
-//    private String phone;
+    private String phone;
 //
-//    private Double wage;
-    private String base64Avatar;
+    private Double wage;
+//    private String base64Avatar;
 //
 //    private String neighbourhood;
 //
@@ -44,8 +44,8 @@ public class CreateUserProfileRequestDto {
 //
 //    private String department;
 //
-//    private String jobShift;
-//    private List<String> jobBreak;
+    private String jobShift;
+    private String jobBreak;
 //
 //    private int employeeLeaves;
 //    private String dateOfBirth;

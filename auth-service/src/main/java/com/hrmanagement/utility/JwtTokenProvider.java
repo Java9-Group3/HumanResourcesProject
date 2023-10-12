@@ -63,7 +63,8 @@ public class JwtTokenProvider {
         }
     }
 
-    public Optional<String> createManagerToken(Long id, Long companyId, List<String> roles){
+    public Optional<String> createAuthToken(Long authId, Long companyId, List<String> roles){
+
         String token = null;
         Date date = new Date(System.currentTimeMillis() + (1000*60*60*24*5));
         try {
@@ -72,7 +73,27 @@ public class JwtTokenProvider {
                     .withIssuer(issuer)
                     .withIssuedAt(new Date())
                     .withExpiresAt(date)
-                    .withClaim("id", id)
+                    .withClaim("authId", authId)
+                    .withClaim("companyId", companyId)
+                    .withClaim("roles", roles)
+                    .sign(Algorithm.HMAC512(secretKey));
+            return Optional.of(token);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return Optional.empty();
+        }
+    }
+
+    public Optional<String> createManagerToken(Long authId, Long companyId, List<String> roles){
+        String token = null;
+        Date date = new Date(System.currentTimeMillis() + (1000*60*60*24*5));
+        try {
+            token = JWT.create()
+                    .withAudience(audience)
+                    .withIssuer(issuer)
+                    .withIssuedAt(new Date())
+                    .withExpiresAt(date)
+                    .withClaim("authId", authId)
                     .withClaim("companyId", companyId)
                     .withClaim("roles", roles)
                     .sign(Algorithm.HMAC512(secretKey));
@@ -98,7 +119,7 @@ public class JwtTokenProvider {
             throw new AuthManagerException(ErrorType.INVALID_TOKEN);
         }
     }
-    public Optional<Long> getUserIdFromToken(String token){
+    public Optional<Long> getAuthIdFromToken(String token){
         try{
             Algorithm algorithm = Algorithm.HMAC512(secretKey);
             JWTVerifier verifier = JWT.require(algorithm).withAudience(audience).withIssuer(issuer).build();
@@ -106,7 +127,7 @@ public class JwtTokenProvider {
             if (decodedJWT == null){
                 throw new AuthManagerException(ErrorType.INVALID_TOKEN);
             }
-            Long id = decodedJWT.getClaim("userId").asLong();
+            Long id = decodedJWT.getClaim("authId").asLong();
             return Optional.of(id); // == Optional<Long>
         }catch (Exception e){
             System.out.println(e.getMessage());

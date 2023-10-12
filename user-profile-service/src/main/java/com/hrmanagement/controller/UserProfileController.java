@@ -42,6 +42,11 @@ public class UserProfileController {
         return ResponseEntity.ok(userProfileService.findUserInfoFromToken(token));
     }
 
+    @GetMapping("/get-shift-break-info/{token}")
+    public ResponseEntity<UpdateUserProfileResponseDto> getShiftBreakInfo(@PathVariable String token){
+        return ResponseEntity.ok(userProfileService.findShiftBreakInfo(token));
+    }
+
     @Hidden
     @PutMapping(FORGOT_PASSWORD)
     public ResponseEntity<Boolean> forgotPassword(@RequestBody ForgotPasswordUserResponseDto dto) {
@@ -180,12 +185,6 @@ public class UserProfileController {
         return ResponseEntity.ok(userProfileService.getWage(token));
     }
 
-    @Hidden
-    @PostMapping("/founder-create-manager/{token}")
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
-    public ResponseEntity<Boolean> founderCreateManagerUserProfile(@PathVariable String token, @RequestBody @Valid CreateUserProfileRequestDto dto){
-        return ResponseEntity.ok(userProfileService.founderCreateManagerUserProfile(token,dto));
-    }
 
     @Hidden
     @GetMapping("/find-user-companyId/{authId}")
@@ -226,6 +225,9 @@ public class UserProfileController {
     public ResponseEntity<UserProfile > getPersonnelInfo(@PathVariable String name) {
         return ResponseEntity.ok(userProfileService.getPersonnelInfo(name));
     }
+
+
+
 
 }
 

@@ -3,8 +3,8 @@ package com.hrmanagement.service;
 import com.hrmanagement.dto.request.CompanyNameAndWageDateRequestDto;
 import com.hrmanagement.dto.request.CompanyUpdateRequestDto;
 import com.hrmanagement.dto.request.FindPendingCommentWithCompanyName;
-import com.hrmanagement.dto.request.SaveCompanyRequestDto;
 import com.hrmanagement.dto.response.*;
+import com.hrmanagement.dto.request.SaveCompanyRequestDto;
 import com.hrmanagement.exception.CompanyManagerException;
 import com.hrmanagement.exception.ErrorType;
 import com.hrmanagement.manager.IUserManager;
@@ -84,11 +84,25 @@ public class CompanyService extends ServiceManager<Company, Long> {
         }
     }
 
-    public CompanyInformationResponseDto showCompanyInformation(String token) {
-        Company company = findById(jwtTokenProvider.getCompanyIdFromToken(token).get()).orElseThrow(() -> {
-            throw new CompanyManagerException(ErrorType.COMPANY_NOT_FOUND);
-        });
-        return ICompanyMapper.INSTANCE.fromCompanyToCompanyInformationResponseDto(company);
+    public CompanyUpdateRequestDto showCompanyInformation(String token) {
+        Long companyId = jwtTokenProvider.getCompanyIdFromToken(token).orElseThrow(() -> new CompanyManagerException(ErrorType.INVALID_TOKEN));
+
+        Company company = companyRepository.findById(companyId)
+                .orElseThrow(() -> new CompanyManagerException(ErrorType.COMPANY_NOT_FOUND));
+        CompanyUpdateRequestDto companyInfo = new CompanyUpdateRequestDto();
+        companyInfo.setCompanyName(company.getCompanyName());
+        companyInfo.setCompanyPhone(company.getCompanyPhone());
+        companyInfo.setCompanyMail(company.getCompanyMail());
+        companyInfo.setTaxNumber(company.getTaxNumber());
+        companyInfo.setCompanyCountry(company.getCompanyCountry());
+        companyInfo.setCompanyProvince(company.getCompanyProvince());
+        companyInfo.setCompanyDistrict(company.getCompanyDistrict());
+        companyInfo.setCompanyNeighbourhood(company.getCompanyNeighbourhood());
+        companyInfo.setCompanyBuildingNumber(company.getCompanyBuildingNumber());
+        companyInfo.setCompanyApartmentNumber(company.getCompanyApartmentNumber());
+        companyInfo.setSector(company.getSector());
+
+        return companyInfo;
     }
 
     //Tüm companylerin preview bilgileri için metot

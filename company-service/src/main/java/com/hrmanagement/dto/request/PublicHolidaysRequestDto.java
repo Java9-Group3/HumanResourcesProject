@@ -5,11 +5,14 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@AllArgsConstructor
 @Builder
 @Data
 @NoArgsConstructor
-public class ChangeAdvanceStatusRequestDto {
-    private Long advanceId;
-    private Boolean action;
+@AllArgsConstructor
+public class PublicHolidaysRequestDto {
+    private String date;
+    private String description;
+    private Long id;
+    private String name;
+    //push deneme
 }

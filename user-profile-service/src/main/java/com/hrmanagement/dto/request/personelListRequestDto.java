@@ -9,14 +9,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @Data
 @NoArgsConstructor
-public class PersonelUpdateUserProfileToAuthRequestDto {
-    private String name;
-    private String surname;
+public class personelListRequestDto {
     private String email;
-    private String password;
-    private String token;
-    private String phone;
-    private Double wage;
-    private String jobBreak;
-    private String jobShift;
+    private String name;
+    private String middleName;
+    private String surname;
+    //deneme
 }

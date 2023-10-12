@@ -54,8 +54,7 @@ public class UserProfile extends Base {
     private int employeeLeaves;
     private String department;
     private Long jobEndingDate;
-    @ElementCollection(targetClass = ERole.class)
-    private List<String> jobBreak;
+    private String jobBreak;
     private String jobShift;
     private String jobStartingDate;
     private String dateOfBirth;

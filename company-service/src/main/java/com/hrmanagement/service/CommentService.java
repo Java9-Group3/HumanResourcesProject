@@ -39,9 +39,7 @@ public class CommentService extends ServiceManager<Comment, Long> {
     }
 
     public Boolean personelMakeComment(String token, PersonelCommentRequestDto dto) {
-        Long authId = jwtTokenProvider.getIdFromToken(token).orElseThrow(() -> {
-            throw new CompanyManagerException(ErrorType.USER_NOT_FOUND);
-        });
+        Long authId = jwtTokenProvider.getAuthIdFromToken(token).orElseThrow(() -> new CompanyManagerException(ErrorType.USER_NOT_FOUND));
         List<String> roles = jwtTokenProvider.getRoleFromToken(token);
         if (roles.isEmpty())
             throw new CompanyManagerException(ErrorType.BAD_REQUEST);
