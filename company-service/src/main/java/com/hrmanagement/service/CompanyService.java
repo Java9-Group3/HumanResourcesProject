@@ -104,7 +104,7 @@ public class CompanyService extends ServiceManager<Company, Long> {
 
         return companyInfo;
     }
-
+    //
     //Tüm companylerin preview bilgileri için metot
     public List<VisitorCompanyInformations> findAllCompanyPreviewInformation() {
         List<Company> companyList = companyRepository.findAll();
