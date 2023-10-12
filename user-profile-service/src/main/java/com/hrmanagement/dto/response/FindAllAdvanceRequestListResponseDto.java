@@ -1,7 +1,6 @@
 package com.hrmanagement.dto.response;
 
 import com.hrmanagement.repository.entity.enums.EAdvanceStatus;
-import com.hrmanagement.repository.entity.enums.EStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

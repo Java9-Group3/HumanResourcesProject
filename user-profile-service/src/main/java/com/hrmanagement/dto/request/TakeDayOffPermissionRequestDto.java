@@ -1,13 +1,10 @@
 package com.hrmanagement.dto.request;
 
 import com.hrmanagement.repository.entity.enums.EPermissionTypes;
-import com.hrmanagement.repository.entity.enums.EStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
 
 @Data
 @Builder

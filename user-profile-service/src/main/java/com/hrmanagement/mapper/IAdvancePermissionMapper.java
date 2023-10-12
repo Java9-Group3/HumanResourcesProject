@@ -1,7 +1,5 @@
 package com.hrmanagement.mapper;
 
-import com.hrmanagement.dto.request.AdvancedRequestDto;
-import com.hrmanagement.dto.response.FindAllAdvanceRequestListResponseDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
