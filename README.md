@@ -1,6 +1,6 @@
 # HumanResourcesProject
 İnsan Kaynakları Yönetimi Projesi
-Bu proje, modern bir insan kaynakları yönetimi sistemi geliştirmek amacıyla Spring Boot, React ve microservis mimarisi kullanılarak oluşturulmuştur. Bu README belgesi, projenin genel yapısı, kullanılan teknolojiler ve projenin çalıştırılması hakkında temel bilgiler sunmaktadır.
+Bu proje, modern bir insan kaynakları yönetimi sistemi geliştirmek amacıyla Spring Boot, React ve microservis mimarisi kullanılarak oluşturulmuştur.
 
 Proje Amaçları
 Bu projenin ana hedefleri şunlardır:
